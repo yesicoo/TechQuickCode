@@ -1,0 +1,109 @@
+﻿@section Css{
+
+    <link href="~/Content/Css/editormd.preview.min.css" rel="stylesheet" />
+    <link href="~/Content/Css/jquery.raty.css" rel="stylesheet" />
+    <link href="~/Content/Css/ArticleDetails.css" rel="stylesheet" />
+}
+
+
+<div class="Details">
+
+    <div>
+        <div class="Article ">
+            <div class="Title">
+                <b>@ViewBag.Title</b>
+            </div>
+            <div class="Attribute">
+                <div class="ArticleTypeTag">
+                    <span><a>@ViewBag.ArticleItem.ArticlePlate</a> / </span>
+                    <span><a>@ViewBag.ArticleItem.ArticleType</a></span>
+                    <span>&nbsp;&nbsp;</span>
+                    @foreach (var item in @ViewBag.Tags)
+                    {
+                        <span class="btn btn-success TagBtn">@item</span>
+                    }
+                </div>
+                <div class="ArticleAuthorTime">
+                    <span>By:<a>teemo</a></span>
+                    <span>&nbsp;&nbsp;</span>
+                    <span>@ViewBag.ArticleItem.CreateTime</span>
+                </div>
+            </div>
+            <div class="ArticleContent markdown-body editormd-html-preview">
+                @(new HtmlString(@ViewBag.ArticleContentItem.ArticleHtml))
+            </div>
+            @if (@ViewBag.ArticleItem.ArticleAttachments != null)
+            {
+                <div class="Attachments">
+                    <div class="AttachmentTitle">
+                        <span><i class='iconfont'>&#xe60e;</i>附件列表</span>
+                    </div>
+                    <div id="AttachmentList" class="AttachmentContent">
+
+                    </div>
+                </div>
+            }
+        </div>
+        <div class="Comments">
+            <div>
+                <div class="StarTitle"><span>文档评分：</span><span>3.4 分</span></div>
+                <div id="Div_Star"><span>我要评分：</span><span id="Star"></span>&nbsp;&nbsp;</div>
+                <div id="Div_MyStar" hidden><span>我的评分：</span><span id="MyStar"></span>&nbsp;&nbsp;</div>
+            </div>
+            <div>en</div>
+            <div>en</div>
+            <div>en</div>
+            <div>en</div>
+        </div>
+    </div>
+    @section Scripts{
+
+        <script src="~/Content/Scripts/editormd.js"></script>
+        <script src="~/Content/Scripts/jquery.raty.js"></script>
+
+        <script>
+            $.ready();
+            var raty = $('#Star').raty({
+                path: '/Content/Images',
+                number: 10,
+                hints: ['★', '★★', '★★★', '★★★★', '★★★★★', '★★★★★★', '★★★★★★★', '★★★★★★★★', '★★★★★★★★', '★★★★★★★★★'],
+                score: 5,
+                target: '#MyStar',
+                targetKeep: true,
+                click: function (score, evt) {
+                    layer.confirm('确定为本篇文章评【' + score + '】分？', {
+                        btn: ['是的', '取消'], //按钮
+                        shade: false //不显示遮罩
+                    }, function () {
+                        $("#Div_Star").hide();
+                        $("#Div_MyStar").show("slow");
+                        layer.closeAll();
+                    });
+                }
+            });
+
+        </script>
+        @if (@ViewBag.ArticleItem.ArticleAttachments != null)
+        {
+            <script>
+                if ($.isReady) {
+                    // $.getJSON( url [, data ] [, success(data, textStatus, jqXHR) ] )
+                    $.post("/Article/GetAttachments", { AttachmentGuids: "@ViewBag.ArticleItem.ArticleAttachments" }, function (d, s, x) {
+                        if (s == "success") {
+                            var jd = JSON.parse(d);
+                            for (var i = 0; i < jd.length; i++) {
+                                var item = jd[i];
+                                var node = document.createElement("div");
+                                node.innerHTML = "<span class='A_Icon'><i class='iconfont'>" + item.FileFontCode + "</i></span><span class='A_Title'><a href='/DownLoad/Attachment/" + item.GUID + "' target='_blank'>" + item.FileName + "</a></span><span class='A_Length'>大小:" + item.FileLength + "</span><span class='A_DCount'>下载次数:" + item.DownLoadCount + "次</span>";
+                                $("#AttachmentList").append(node);
+                            }
+                        }
+                    });
+                }
+            </script>
+        }
+
+    }
+</div>
+
+

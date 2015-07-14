@@ -1,0 +1,400 @@
+﻿html ::-webkit-srollbar-track-piece {
+  background: none;
+  -webkit-border-radius: 0;
+}
+html ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+html ::-webkit-scrollbar-thumb:vertical {
+  height: 50px;
+  background-color: #bbbbbb;
+  -webkit-border-radius: 4px;
+  outline: 0px solid #ffffff;
+  ouline-offset: -2px;
+  border: 2px solid #ffffff;
+}
+html ::-webkit-scrollbar-thumb:hover {
+  height: 50px;
+  background-color: #999999;
+  -webkit-border-radius: 4px;
+}
+html ::-webkit-scrollbar-thumb:horizontal {
+  width: 50px;
+  background-color: #bbbbbb;
+  -webkit-border-radius: 4px;
+  outline: 0px solid #ffffff;
+  ouline-offset: -2px;
+  border: 2px solid #ffffff;
+}
+body {
+  font-family: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, 'Lantinghei SC', 'Hiragino Sans GB', 'Microsoft YaHei', "微软雅黑", STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
+  margin: 0px;
+  padding: 0px;
+  background-color: #E1EDF7;
+}
+#Head {
+  background-color: #64ba9d;
+}
+#Head .Wrapper {
+  width: 100%;
+  min-width: 1000px;
+  margin: 0 auto;
+  height: 30px;
+}
+#Head .Wrapper .Nav {
+  width: 90%;
+  margin-left: 5%;
+}
+#Head .Wrapper .Nav ul {
+  margin: 0px;
+  padding: 0px;
+}
+#Head .Wrapper .Nav ul li {
+  display: inline;
+  word-wrap: break-word;
+  overflow: hidden;
+  float: left;
+  line-height: 20px;
+  margin-top: 5px;
+  font-size: 14px;
+}
+#Head .Wrapper .Nav ul li a {
+  cursor: pointer;
+  color: white;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-decoration: none;
+}
+#Head .Wrapper .Nav ul li .input-group {
+  width: 200px;
+  height: 20px;
+}
+#Head .Wrapper .Nav ul li .input-group .form-control {
+  font-size: 12px;
+  line-height: 22px;
+  height: 22px;
+  padding: 1px;
+  border-bottom-left-radius: 10px;
+  border-top-left-radius: 10px;
+  border-right: dashed 0px;
+  padding-left: 10px;
+  z-index: 0;
+}
+#Head .Wrapper .Nav ul li .input-group .input-group-addon {
+  line-height: 18px;
+  height: 18px;
+  font-size: 12px;
+  padding: 1px;
+  padding-left: 5px;
+  padding-right: 5px;
+  background-color: white;
+  border-bottom-right-radius: 10px;
+  border-top-right-radius: 10px;
+  border-left: dashed 0px;
+}
+.Content {
+  margin-top: 10px;
+  height: auto;
+  width: 100%;
+  min-width: 1000px;
+}
+.Content .PageTitle {
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 16px;
+  border-bottom: solid 1px #D8D8D8;
+}
+.Content .PageTitle code {
+  cursor: pointer;
+  border-radius: 5px;
+}
+.Content .Overview {
+  background-color: white;
+  width: 90%;
+  margin-left: 5%;
+  border: solid 1px #D8D8D8;
+  border-radius: 5px;
+}
+.Content .Overview ul {
+  margin: 0px;
+  padding: 0px;
+}
+.Content .Overview ul li {
+  display: inline;
+  word-wrap: break-word;
+  overflow: hidden;
+  width: 25%;
+  background-color: white;
+  float: left;
+}
+.Content .Overview ul li .Title {
+  font-size: 14px;
+  text-align: center;
+  border-bottom: solid 1px #D8D8D8;
+  border-left: solid 1px #D8D8D8;
+}
+.Content .Overview ul li .Title-Left {
+  font-size: 14px;
+  text-align: center;
+  border-bottom: solid 1px #D8D8D8;
+}
+.Content .Overview ul li .Rom {
+  height: 160px;
+  border-bottom: solid 1px #D8D8D8;
+  border-left: solid 1px #D8D8D8;
+}
+.Content .Overview ul li .Rom-left {
+  height: 160px;
+  border-bottom: solid 1px #D8D8D8;
+}
+.Content .Overview ul li .Card .CountRom {
+  margin-left: 5px;
+  margin-top: 5px;
+}
+.Content .Overview ul li .Card .CountRom .CountData {
+  height: 55px;
+}
+.Content .Overview ul li .Card .BetterPeople {
+  width: 150px;
+  margin: 2px;
+}
+.Content .Overview ul li .Card .BetterPeople li {
+  display: inline;
+  word-wrap: break-word;
+  overflow: hidden;
+  text-align: center;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
+.Content .Overview ul li .Chart .Canvas {
+  height: 100px;
+  width: 100%;
+}
+.Content .HotCard {
+  margin-top: 5px;
+  width: 90%;
+  margin-left: 5%;
+  height: auto;
+  background-color: white;
+  border-radius: 5px;
+}
+.Content .HotCard .HotList {
+  width: calc(100% - 190px);
+  border: solid 1px #D8D8D8;
+  border-bottom-left-radius: 5px;
+  border-top-left-radius: 5px;
+  height: 100%;
+  background-color: white;
+}
+.Content .HotCard .HotList .article {
+  margin-top: 5px;
+  height: 120px;
+  padding-left: 5px;
+  margin-bottom: 5px;
+  border-bottom: solid 1px #D8D8D8;
+}
+.Content .HotCard .HotList .articleimg {
+  height: 118px;
+  width: 200px;
+}
+.Content .HotCard .HotList .articleTitle {
+  margin-left: 210px;
+  cursor: pointer;
+  font-size: x-large;
+}
+.Content .HotCard .HotList .articleAttributes {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  font-size: 12px;
+  color: #777777;
+  margin-left: 210px;
+}
+.Content .HotCard .HotList .articleAttributes code {
+  cursor: pointer;
+  border-radius: 5px;
+}
+.Content .HotCard .HotList .articleContent {
+  font-size: 14px;
+  margin-left: 210px;
+  padding-right: 10px;
+}
+.Content .HotPeople {
+  width: 190px;
+  border: solid 1px #D8D8D8;
+  border-left: 0px;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  background-color: white;
+  height: 100%;
+}
+.Content .HotPeople .BetterPeople img {
+  display: inlie;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+}
+.Content .HotPeople .HotType div {
+  padding: 3px 0px 0px 3px;
+}
+.Content .HotPeople .HotType div a {
+  cursor: pointer;
+}
+.Content .HotPeople .Tags {
+  height: calc(100% - 264px);
+  padding: 5px;
+}
+.Content .HotPeople .Tags ul {
+  margin: 0px;
+  padding: 0px;
+}
+.Content .HotPeople .Tags ul li {
+  display: inline;
+  word-wrap: break-word;
+  overflow: hidden;
+}
+.Content .HotPeople .Tags ul .tag {
+  border-radius: 5px;
+  color: white;
+  cursor: pointer;
+  font-size: 12px;
+  padding: 0px 5px 0px 5px;
+  margin-top: 20px;
+  white-space: nowrap;
+}
+.Content .HotPeople .Tags ul .tag-1 {
+  background-color: #000000;
+}
+.Content .HotPeople .Tags ul .tag-2 {
+  background-color: #333300;
+}
+.Content .HotPeople .Tags ul .tag-3 {
+  background-color: #663300;
+}
+.Content .HotPeople .Tags ul .tag-4 {
+  background-color: #666600;
+}
+.Content .HotPeople .Tags ul .tag-5 {
+  background-color: #336600;
+}
+.Content .HotPeople .Tags ul .tag-6 {
+  background-color: #996600;
+}
+.Content .HotPeople .Tags ul .tag-7 {
+  background-color: #999900;
+}
+.Content .HotPeople .Tags ul .tag-8 {
+  background-color: #FF9900;
+}
+.Content .HotPeople .Tags ul .tag-9 {
+  background-color: #66CC00;
+}
+.Content .HotPeople .Tags ul .tag-10 {
+  background-color: #66FF00;
+}
+.Content .Tools {
+  text-align: center;
+}
+.Content .Tools .Tool {
+  margin: 5px;
+  display: inline-block;
+  width: 150px;
+  height: 200px;
+  border: solid 1px #D8D8D8;
+  border-radius: 5px;
+}
+.Content .Tools .Tool img {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+}
+.Content .Tools .Tool .About {
+  text-align: left;
+  color: #666666;
+  height: 66px;
+  padding-left: 5px;
+}
+.Content .Tools .Tool .btn {
+  border-radius: 5px;
+  padding: 5px;
+  margin: 2px;
+}
+.Content .Tools .ToolTitle {
+  font-weight: 800;
+}
+.Content .Example .ExampleHead {
+  text-align: center;
+  font-size: 14px;
+  border-bottom: solid 1px #D8D8D8;
+}
+.Content .Example .ExampleNew {
+  width: 50%;
+  border-right: solid 1px #D8D8D8;
+  height: 160px;
+}
+.Content .Example .ExampleHot {
+  width: 50%;
+  height: 40px;
+}
+.Content .Example .ExampleTitle {
+  margin-top: 6px;
+  margin-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  font-size: 14px;
+}
+.Content .Example .ExampleTitle a {
+  cursor: pointer;
+}
+.Content .Example .ExampleTitle .author {
+  width: 130px;
+}
+.Content .Example .ExampleTitle .text {
+  width: calc(100% - 140px);
+}
+.Content .Example .ExampleTitle .text a {
+  padding-left: 5px;
+}
+.Content .Example .Index-1 {
+  background-color: #FD8C84;
+  color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.Content .Example .Index-2 {
+  background-color: #7FD75A;
+  color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.Content .Example .Index-3 {
+  background-color: #60C4FD;
+  color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.Content .Example .Index-4 {
+  background-color: #66CC99;
+  color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.Content .Example .Index-5 {
+  background-color: #66FFCC;
+  color: white;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+.Footer {
+  border: solid 1px #D8D8D8;
+  border-radius: 3px;
+  width: 90%;
+  margin-left: 5%;
+  margin-bottom: 10px;
+  height: 20px;
+  padding-right: 10px;
+  margin-top: 5px;
+  background-color: white;
+}

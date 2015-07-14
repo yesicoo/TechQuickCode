@@ -1,0 +1,111 @@
+.CreatePage {
+  background-color: white;
+  width: 90%;
+  margin-left: 5%;
+  border: solid 1px #D8D8D8;
+  border-radius: 5px;
+  height: auto;
+}
+.CreatePage .Titles .TitleGroup {
+  width: 70%;
+  float: left;
+}
+.CreatePage .Titles .TitleGroup .TitleText {
+  line-height: 12px;
+  font-size: large;
+}
+.CreatePage .Titles .TitleGroup .TitleInput {
+  width: 100%;
+  height: 32px;
+  font-size: large;
+}
+.CreatePage .Titles .PlateGroup {
+  width: 30%;
+  float: right;
+}
+.CreatePage .Titles .PlateGroup .PlateText {
+  line-height: 12px;
+  font-size: large;
+}
+.CreatePage .Titles .PlateGroup .PlateSelect {
+  padding: 1px;
+  width: 100%;
+  height: 32px;
+  font-size: 14px;
+}
+.CreatePage .Attribute .TagGroup .TagText {
+  padding: 2px;
+  line-height: 12px;
+  font-size: 12px;
+}
+.CreatePage .Attribute .TagGroup .TagInput {
+  width: 100%;
+}
+.CreatePage .MDEditor {
+  margin-top: 10px;
+}
+.CreatePage .Attachment fieldset {
+  border: 1px solid #c0c0c0;
+  margin: 5px;
+  padding: 0.35em 0.625em 0.75em;
+}
+.CreatePage .Attachment fieldset legend {
+  margin-bottom: 0px;
+}
+.CreatePage .Attachment .UpLoadTip {
+  font-size: x-small;
+}
+.CreatePage .Attachment .AddBtn {
+  padding: 2px;
+  border-radius: 5px;
+}
+.CreatePage .Attachment .AttachmentList {
+  font-size: 14px;
+}
+.CreatePage .Attachment .AttachmentList .Attachment {
+  border-bottom: solid 1px #D8D8D8;
+}
+.CreatePage .Attachment .AttachmentList a {
+  cursor: pointer;
+}
+.CreatePage .Attachment .AttachmentList span {
+  display: inline-block;
+}
+.CreatePage .Attachment .AttachmentList .SP_id {
+  width: 0px;
+  height: 0px;
+  visibility: hidden;
+}
+.CreatePage .Attachment .AttachmentList .SP_iconfont {
+  display: inline-block;
+  width: 20px;
+}
+.CreatePage .Attachment .AttachmentList .SP_fileName {
+  display: inline-block;
+  width: 50%;
+}
+.CreatePage .Attachment .AttachmentList .SP_fileType {
+  display: inline-block;
+  width: 33%;
+}
+.CreatePage .Attachment .AttachmentList .SP_fileLength {
+  display: inline-block;
+  width: 5%;
+  text-align: center;
+}
+.CreatePage .Attachment .AttachmentList .SP_DeleteBtn {
+  display: inline-block;
+  width: calc(10% - 20px);
+  text-align: right;
+}
+.CreatePage .SubBtn .Link {
+  display: inline-block;
+  width: 49%;
+}
+.CreatePage .SubBtn .Sub {
+  display: inline-block;
+  width: 49%;
+  text-align: right;
+  padding: 5px;
+}
+/*# sourceMappingURL=CreatePage.css.map */

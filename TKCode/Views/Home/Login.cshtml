@@ -1,0 +1,142 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>登录</title>
+    <link rel="stylesheet" href="~/Content/Css/bootstrap.min.css" />
+    @if (ViewBag.IsNav)
+    {
+        <style>
+            .LoginRom {
+                width: 200px;
+                height: 100px;
+                margin-top: 10%;
+                margin-left: calc(50% - 100px);
+                font-size: 14px;
+                border: solid 1px #D8D8D8;
+                border-radius: 5px;
+                padding-bottom: 5px;
+            }
+
+            .LoginTitle {
+                width: 0px;
+                height: 0px;
+                visibility: hidden;
+            }
+
+            .LoginRom .input-group {
+                margin: 5px;
+            }
+
+            .LoginRom .input-group-addon {
+                padding: 2px 2px 2px 5px;
+            }
+
+            .LoginRom .btn {
+                margin: 0px 5px 0px 5px;
+                padding: 2px 5px 2px 5px;
+                width: 80px;
+            }
+
+            .LoginRom input {
+                width: 100%;
+            }
+        </style>
+    }
+    else
+    {
+        <style>
+            body {
+            }
+
+            .LoginRom {
+                width: 300px;
+                height: 150px;
+                margin-top: 10%;
+                margin-left: calc(50% - 150px);
+                font-size: 16px;
+                border: solid 1px #D8D8D8;
+                border-radius: 5px;
+                padding-bottom: 5px;
+            }
+
+            .LoginTitle {
+                font-size: 16px;
+                padding-bottom: 5px;
+                border-bottom: dashed 1px #D8D8D8;
+                padding-left: 10px;
+                font-weight: 800;
+            }
+
+            .LoginRom .input-group {
+                margin: 10px;
+            }
+
+            .LoginRom .input-group-addon {
+                padding: 2px 2px 2px 5px;
+                font-size: 16px;
+            }
+
+            .LoginRom .btn {
+                margin: 0px 5px 0px 5px;
+                padding: 2px 5px 2px 5px;
+                width: 120px;
+                font-size: 16px;
+            }
+
+            .LoginRom input {
+                width: 100%;
+            }
+        </style>
+    }
+</head>
+<body>
+    <div class="LoginRom">
+        <div class="LoginTitle"><span>登录</span></div>
+        <div class="input-group">
+            <span class="input-group-addon">账号：</span>
+            <input type="text" id="Input_UserName" name="UserName" placeholder="在此输入用户名" />
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">密码：</span>
+            <input type="password" id="Input_UserPassword" name="UserPassword" placeholder="在此输入密码" />
+        </div>
+        <div><button id="Btn_Cancel" class="btn">取消</button><button id="Btn_Login" class="btn btn-danger pull-right">登录</button></div>
+    </div>
+    <script src="~/Content/Scripts/jquery-1.8.3.min.js"></script>
+    @if (ViewBag.IsNav)
+    {
+        <script>
+
+        $("#Btn_Cancel").click(function () {
+            parent.layer.closeAll();
+        });
+        $("#Btn_Login").click(function () {
+            var UserName = $("#Input_UserName").val();
+            var UserPassword = $("#Input_UserPassword").val();
+            $.post("/Home/Logining", { UserName: UserName, UserPassword: UserPassword }, function (data, textStatus, jqXHR) {
+                if (textStatus = "success") {
+                    if (data) {
+                        parent.window.history.go(0);
+                    }
+                } else {
+                    parent.layer.msg("服务器出错！");
+                }
+            })
+        });
+        </script>
+    }
+    else
+    {
+        <script>
+
+       // window.history.back();
+
+        </script>
+    }
+</body>
+</html>

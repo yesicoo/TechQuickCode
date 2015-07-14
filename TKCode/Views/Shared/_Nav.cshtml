@@ -1,0 +1,55 @@
+﻿<div id="Head">
+    <div class="Wrapper">
+        <div class="Nav">
+            <ul class="pull-left">
+                <li>
+                    <a href="~/"><i class="iconfont ">&#xe602;</i> 首页</a>
+                </li>
+                <li>
+                    <a href="~/Article/List/技术片段"><i class="iconfont ">&#xe606;</i> 技术片段</a>
+                </li>
+                <li>
+                    <a href="~/Article/List/项目框架"><i class="iconfont ">&#xe604;</i> 项目框架</a>
+                </li>
+                <li>
+                    <a href="~/Article/List/实用工具"><i class="iconfont ">&#xe603;</i> 实用工具</a>
+                </li>
+                <li>
+                    <a href="~/Article/List/案例库"><i class="iconfont ">&#xe605;</i> 案例库</a>
+                </li>
+                <li>
+                    <a href="~/Article/List/问答"><i class="iconfont ">&#xe60a;</i> 问答</a>
+                </li>
+
+            </ul>
+            <ul class="pull-right">
+                <li>
+                    <div class="input-group">
+                        <input type="text" class="form-control" placeholder="你想知道一些什么？">
+                        <div class="input-group-addon btn">搜索</div>
+                    </div>
+                </li>
+                @if (ViewBag.Login)
+                {
+                    <li>
+                        <a id="Nav_User" title="我的信息"><i class="iconfont ">&#xe608;</i>@ViewBag.UserName</a>
+                    </li>
+                    <li>
+                        <a href="~/Article/Create" title="我也来一篇"><i class="iconfont ">&#xe61c;</i></a>
+                    </li>
+                    <li>
+                        <a id="Nav_LoginOut" title="注销"><i class="iconfont ">&#xe61d;</i></a>
+                    </li>
+
+                }
+                else
+                {
+                    <li>
+                        <a id="Nav_Login"><i class="iconfont ">&#xe608;</i>登录</a>
+                    </li>
+
+                }
+            </ul>
+        </div>
+    </div>
+</div>

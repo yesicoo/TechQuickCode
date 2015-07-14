@@ -1,0 +1,50 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <link rel="stylesheet" href="~/Content/Css/bootstrap.min.css" />
+    <style>
+        ._Login {
+            font-size: 14px;
+            border: solid 1px #D8D8D8;
+            border-radius: 5px;
+            padding-bottom: 5px;
+        }
+
+            ._Login .input-group {
+                margin: 5px;
+            }
+
+            ._Login .input-group-addon {
+                padding: 2px 2px 2px 5px;
+            }
+
+            ._Login .btn {
+                margin: 0px 5px 0px 5px;
+                padding: 2px 5px 2px 5px;
+                width: 80px;
+            }
+
+            ._Login input {
+                width: 100%;
+            }
+    </style>
+</head>
+<body>
+    <div class="_Login">
+        <div class="input-group">
+            <span class="input-group-addon">账号：</span>
+            <input type="text" id="Input_UserName" name="UserName" placeholder="在此输入用户名" />
+        </div>
+        <div class="input-group">
+            <span class="input-group-addon">密码：</span>
+            <input type="password" id="Input_UserPassword" name="UserPassword" placeholder="在此输入密码" />
+        </div>
+        <div><button id="Btn_Cancel" class="btn">取消</button><button id="Btn_Login" class="btn btn-danger pull-right">登录</button></div>
+    </div>
+</body>
+</html>

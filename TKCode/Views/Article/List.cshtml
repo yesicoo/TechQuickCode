@@ -1,0 +1,82 @@
+﻿@section Css{
+    <link href="~/Content/Css/ArticleList.css" rel="stylesheet" />
+}
+
+<div class="ArticleList">
+    <div class="PlateName"><span>@ViewBag.PlateName</span><span>列表</span></div>
+    <div>
+        <ul class="nav nav-tabs" id="myTab">
+            <li ><a id="A_New" href="#ActiveList_New">最新</a></li>
+            <li><a id="A_Hot" href="#ActiveList_Hot">热门</a></li>
+            <li><a id="A_Best" href="#ActiveList_Best">精华</a></li>
+
+        </ul>
+    </div>
+    <div class="tab-content" id="TypePane">
+        <div class="tab-pane" page=1 id="ActiveList_New">
+          
+        </div>
+        <div class="tab-pane" page=1 id="ActiveList_Hot"></div>
+        <div class="tab-pane" page=1 id="ActiveList_Best"></div>
+    </div>
+
+
+
+</div>
+
+@section Scripts{
+    <script src="~/Content/Scripts/bootstrap.min.js"></script>
+    <script>
+        var TypeID = "@ViewBag.TypeID";
+        var PlateName = "@ViewBag.PlateName";
+        var ActiveID = "New";
+        var ActiveTitle = "最新";
+
+        $.post("/Article/GetType", { PlateName: PlateName }, function (d, s, x) {
+            if (s == "success") {
+                var jd = JSON.parse(d);
+                for (var i = 0; i < jd.length; i++) {
+                    var item = jd[i];
+                    var li_node = document.createElement("li");
+                    li_node.innerHTML = "<a id='A_" + item.ID + "' href='#ActiveList_" + item.ID + "'>" + item.TypeName + "</a>";
+                    $("#myTab").append(li_node);
+                    var div_node = document.createElement("div");
+                    div_node.className = "tab-pane";
+                    div_node.setAttribute("page", 1);
+                    div_node.id = "ActiveList_" + item.ID;
+                    $("#TypePane").append(div_node);
+                }
+            }
+          
+            $('#myTab a').click(function (e) {
+                e.preventDefault();
+                $(this).tab('show');
+                ActiveTitle = e.target.innerText;
+                ActiveID = e.target.hash.replace(/#ActiveList_/, "")
+                console.debug(ActiveID + "-" + ActiveTitle);
+                if (document.getElementById("ActiveList_" + ActiveID).children.length == 0) {
+                    LoadArticle();
+                }
+            })
+
+            if (TypeID != "") {
+                $('#A_' + TypeID).trigger("click");
+                ActiveID = TypeID;
+              //  LoadArticle();
+            } else {
+                $('#A_New').trigger("click");
+               // LoadArticle();
+            }
+        });
+        function LoadArticle() {
+            var Div_Article = $('#ActiveList_' + ActiveID);
+            var page = parseInt(Div_Article.attr("page"));
+            $.post("/Article/ArticleHTMLList", { PlateName: PlateName, TypeName: ActiveTitle, Page: page }, function (d, s, x) {
+                if (s == "success") {
+                    Div_Article.append(d);
+                }});
+            Div_Article.attr("page",page + 1);
+        }
+    </script>
+
+}

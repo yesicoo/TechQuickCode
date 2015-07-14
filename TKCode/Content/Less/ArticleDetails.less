@@ -1,0 +1,129 @@
+﻿.Details {
+    background-color: white;
+    width: 90%;
+    margin-left: 5%;
+    border: solid 1px #D8D8D8;
+    border-radius: 5px;
+    height: auto;
+    min-height: 560px;
+
+    .Article {
+        display: inline-block;
+        width: calc(~'100% - 260px');
+        padding: 2px 5px 2px 5px;
+        border-right: 1px solid #D8D8D8;
+
+        .Title {
+            width: 100%;
+            font-size: x-large;
+        }
+
+        .Attribute {
+            font-size: 14px;
+            border-bottom: 1px solid #D8D8D8;
+
+            a {
+                cursor: pointer;
+            }
+
+            .ArticleTypeTag {
+                display: inline-block;
+                width: 59%;
+                text-align: left;
+
+                .TagBtn {
+                    padding: 0px 2px 0px 2px;
+                    margin: 0px 3px 3px 3px;
+                    border-radius: 5px;
+                    background-color:#999933;
+                }
+            }
+
+            .ArticleAuthorTime {
+                display: inline-block;
+                width: 40%;
+                text-align: right;
+                font-size: 12px;
+                color: #009999;
+            }
+        }
+
+        .editormd-html-preview {
+            padding: 5px;
+        }
+
+        .ArticleContent {
+            .linenums code {
+                font-size: 9px;
+            }
+        }
+    }
+
+    .Comments {
+        display: inline-block;
+        width: 255px;
+        height: inherit;
+        vertical-align: top;
+
+        div {
+            max-width: 255px;
+        }
+        .StarTitle{
+            margin-top:5px;
+            font-size:large;
+        }
+        #MyStar{
+            font-size:large;
+
+        }
+    }
+
+    .Attachments {
+        margin: 10px 5px 10px 5px;
+        border: 1px solid #D8D8D8;
+        border-radius: 5px;
+        min-height: 100px;
+
+        .AttachmentTitle {
+            font-size: large;
+            padding-left: 5px;
+            border-bottom: 1px solid #D8D8D8;
+        }
+
+        .AttachmentContent {
+            padding: 5px;
+
+            div {
+                margin: 3px 0px 3px 0px;
+            }
+
+            a {
+                cursor: pointer;
+            }
+
+            .A_Icon {
+                display: inline-block;
+                width: 20px;
+                text-align: right;
+            }
+
+            .A_Title {
+                display: inline-block;
+                width:calc(~"60% - 20px") ;
+                padding-left:5px;
+            }
+
+            .A_Length {
+                display: inline-block;
+                width: 15%;
+                text-align: right;
+            }
+
+            .A_DCount {
+                display: inline-block;
+                width: 15%;
+                text-align: right;
+            }
+        }
+    }
+}

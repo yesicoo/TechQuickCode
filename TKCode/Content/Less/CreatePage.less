@@ -1,0 +1,145 @@
+﻿.CreatePage {
+    background-color: white;
+    width: 90%;
+    margin-left: 5%;
+    border: solid 1px #D8D8D8;
+    border-radius: 5px;
+    height: auto;
+
+    .Titles {
+        .TitleGroup {
+            width: 70%;
+            float: left;
+
+            .TitleText {
+                line-height: 12px;
+                font-size: large;
+            }
+
+            .TitleInput {
+                width: 100%;
+                height: 32px;
+                font-size: large;
+            }
+        }
+
+        .PlateGroup {
+            width: 30%;
+            float: right;
+
+            .PlateText {
+                line-height: 12px;
+                font-size: large;
+            }
+
+            .PlateSelect {
+                padding: 1px;
+                width: 100%;
+                height: 32px;
+                font-size: 14px;
+            }
+        }
+    }
+
+    .Attribute {
+        .TagGroup {
+            .TagText {
+                padding: 2px;
+                line-height: 12px;
+                font-size: 12px;
+            }
+
+            .TagInput {
+                width: 100%;
+            }
+        }
+    }
+
+    .MDEditor {
+        margin-top: 10px;
+    }
+
+    .Attachment {
+        fieldset {
+            border: 1px solid #c0c0c0;
+            margin: 5px;
+            padding: 0.35em 0.625em 0.75em;
+
+            legend {
+                margin-bottom: 0px;
+            }
+        }
+
+        .UpLoadTip {
+            font-size: x-small;
+        }
+
+        .AddBtn {
+            padding: 2px;
+            border-radius: 5px;
+        }
+
+        .AttachmentList {
+            .Attachment {
+                border-bottom: solid 1px #D8D8D8;
+            }
+
+            font-size: 14px;
+
+            a {
+                cursor: pointer;
+            }
+
+            span {
+                display: inline-block;
+            }
+
+            .SP_id {
+                width: 0px;
+                height: 0px;
+                visibility: hidden;
+            }
+
+            .SP_iconfont {
+                display: inline-block;
+                width: 20px;
+            }
+
+            .SP_fileName {
+                display: inline-block;
+                width: 50%;
+            }
+
+            .SP_fileType {
+                display: inline-block;
+                width: 33%;
+            }
+
+            .SP_fileLength {
+                display: inline-block;
+                width: 5%;
+                text-align: center;
+            }
+
+            .SP_DeleteBtn {
+                display: inline-block;
+                width: calc(~"10% - 20px");
+                text-align: right;
+            }
+        }
+    }
+
+    .SubBtn {
+        .Link {
+            display: inline-block;
+            width: 49%;
+        }
+
+        .Sub {
+            display: inline-block;
+            width: 49%;
+            text-align: right;
+            padding: 5px;
+        }
+    }
+}
