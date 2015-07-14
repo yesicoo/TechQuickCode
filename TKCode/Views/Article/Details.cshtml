@@ -15,8 +15,8 @@
             </div>
             <div class="Attribute">
                 <div class="ArticleTypeTag">
-                    <span><a>@ViewBag.ArticleItem.ArticlePlate</a> / </span>
-                    <span><a>@ViewBag.ArticleItem.ArticleType</a></span>
+                    <span><a href="/Article/List/@ViewBag.ArticleItem.ArticlePlate">@ViewBag.ArticleItem.ArticlePlate</a> / </span>
+                    <span><a href="/Article/List/@ViewBag.ArticleItem.ArticlePlate?Type=@ViewBag.TypeID">@ViewBag.ArticleItem.ArticleType</a></span>
                     <span>&nbsp;&nbsp;</span>
                     @foreach (var item in @ViewBag.Tags)
                     {

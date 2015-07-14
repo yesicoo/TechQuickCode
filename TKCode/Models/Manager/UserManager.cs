@@ -74,7 +74,10 @@ namespace TechQuickCode.Models.Manager
 
         }
 
-       
-
+        internal UserItem GetUserByToken(string token)
+        {
+            UserItem user = Users.Where(x => x.Token == token).FirstOrDefault();
+            return user;
+        }
     }
 }

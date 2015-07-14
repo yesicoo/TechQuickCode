@@ -73,7 +73,7 @@ namespace TechQuickCode.Models.Manager
             var conn = MySQLConnectionPool.GetConnection();
             try
             {
-                ai = conn.Query<ArticleItem>("select * from ArticleList where GUID='" + id + "';").SingleOrDefault();
+                ai = conn.Query<ArticleItem>("update ArticleList Set ReadCount=ReadCount+1 where  GUID='" + id + "'; select * from ArticleList where GUID='" + id + "';").SingleOrDefault();
             }
             catch (Exception ex)
             {
@@ -127,6 +127,22 @@ namespace TechQuickCode.Models.Manager
             List<TypeID> result = conn.Query<TypeID>(sql).ToList();
             conn.GiveBack();
             return result;
+        }
+
+        internal int GetTypeID(string plateName,string typeName)
+        {
+            var conn = MySQLConnectionPool.GetConnection();
+            string sql = string.Format("select * from `ArticlePlateType` where PlateName='{0}' and TypeName='{1}';", plateName, typeName);
+            var id = conn.ExecuteScalar(sql);
+            conn.GiveBack();
+            if (id == null)
+            {
+                return -1;
+            }
+            else
+            {
+                return Convert.ToInt32(id);
+            }
         }
 
         internal List<ArticleItem> GetArticleItems(string PlateName, string TypeName, int page)

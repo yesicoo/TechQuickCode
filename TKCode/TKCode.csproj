@@ -595,7 +595,9 @@
     <Content Include="Content\Scripts\jquery-1.8.3.min.js" />
     <Content Include="Content\Scripts\jquery-2.1.4.min.js" />
     <Content Include="Content\Scripts\jquery.form.js" />
+    <Content Include="Content\Scripts\jquery.pin.js" />
     <Content Include="Content\Scripts\jquery.raty.js" />
+    <Content Include="Content\Scripts\jquery.scrollUp.min.js" />
     <Content Include="Content\Scripts\layer.js" />
     <Content Include="Content\Scripts\less.min.js" />
     <Content Include="Content\Scripts\nprogress.js" />
@@ -623,7 +625,7 @@
     <Content Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Shared\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\fonts\editormd-logo.eot" />

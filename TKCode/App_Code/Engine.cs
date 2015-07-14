@@ -6,81 +6,60 @@ using System.Web.Mvc;
 
 namespace TechQuickCode.App_Code
 {
-   public class Engine : RazorViewEngine
+    public class Engine : RazorViewEngine
     {
-       public Engine()
-       {
+        public Engine()
+        {
 
-           base.AreaViewLocationFormats = new string[]
+            base.AreaViewLocationFormats = new string[]
 
             {
-
                 "~/Areas/{2}/Views/{1}/{0}.cshtml",
-
                 "~/Areas/{2}/Views/Shared/{0}.cshtml",
-
             };
 
-           base.AreaMasterLocationFormats = new string[]
+            base.AreaMasterLocationFormats = new string[]
 
             {
-
                 "~/Areas/{2}/Views/{1}/{0}.cshtml",
-
                 "~/Areas/{2}/Views/Shared/{0}.cshtml",
-
-                
-
             };
 
-           base.AreaPartialViewLocationFormats = new string[]
+            base.AreaPartialViewLocationFormats = new string[]
 
             {
-
                 "~/Areas/{2}/Views/{1}/{0}.cshtml",
-
                 "~/Areas/{2}/Views/Shared/{0}.cshtml",
-
             };
 
-           base.ViewLocationFormats = new string[]
+            base.ViewLocationFormats = new string[]
+
+            {  
+                "~/Views/Shared/{0}.cshtml",
+                "~/Views/{1}/{0}.cshtml",
+            };
+
+            base.MasterLocationFormats = new string[]
 
             {
+                  "~/Views/Shared/{0}.cshtml",
+                "~/Views/{1}/{0}.cshtml",
+            };
 
+            base.PartialViewLocationFormats = new string[]
+
+            {
+                 "~/Views/Shared/{0}.cshtml",
                 "~/Views/{1}/{0}.cshtml",
 
-                "~/Views/Shared/{0}.cshtml",
-
             };
 
-           base.MasterLocationFormats = new string[]
+            base.FileExtensions = new string[]
 
             {
-
-                "~/Views/{1}/{0}.cshtml",
-
-                "~/Views/Shared/{0}.cshtml",
-
-            };
-
-           base.PartialViewLocationFormats = new string[]
-
-            {
-
-                "~/Views/{1}/{0}.cshtml",
-
-                "~/Views/Shared/{0}.cshtml",
-
-            };
-
-           base.FileExtensions = new string[]
-
-            {
-
                 "cshtml",
-
             };
 
-       }
+        }
     }
 }

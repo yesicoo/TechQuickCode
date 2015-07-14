@@ -22,11 +22,13 @@
     <script src="~/Content/Scripts/less.min.js"></script>
     <script src="~/Content/Scripts/jquery-1.8.3.min.js"></script>
     <script src="~/Content/Scripts/layer.js"></script>
+    @*<script src="~/Content/Scripts/jquery.pin.js"></script>
+    <script src="~/Content/Scripts/jquery.scrollUp.min.js"></script>*@
     <script>
-        var Token = window.localStorage.getItem("Token");
-        var UserName = window.localStorage.getItem("UserName");
-        var UserID = window.localStorage.getItem("UserID");
-
+        //$("#Head").pin();
+        //$(function () {
+        //    $.scrollUp();
+        //});
     </script>
     @RenderSection("Scripts", required: false)
     @if (!ViewBag.Login)
