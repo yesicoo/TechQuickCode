@@ -1,5 +1,4 @@
 ﻿@section Css{
-
     <link href="~/Content/Css/editormd.preview.min.css" rel="stylesheet" />
     <link href="~/Content/Css/jquery.raty.css" rel="stylesheet" />
     <link href="~/Content/Css/ArticleDetails.css" rel="stylesheet" />
@@ -24,7 +23,7 @@
                     }
                 </div>
                 <div class="ArticleAuthorTime">
-                    <span>By:<a>teemo</a></span>
+                    <span>By:<a href="/User/Details/@ViewBag.ArticleItem.AuthorID">@ViewBag.ArticleItem.Author</a></span>
                     <span>&nbsp;&nbsp;</span>
                     <span>@ViewBag.ArticleItem.CreateTime</span>
                 </div>
@@ -50,10 +49,7 @@
                 <div id="Div_Star"><span>我要评分：</span><span id="Star"></span>&nbsp;&nbsp;</div>
                 <div id="Div_MyStar" hidden><span>我的评分：</span><span id="MyStar"></span>&nbsp;&nbsp;</div>
             </div>
-            <div>en</div>
-            <div>en</div>
-            <div>en</div>
-            <div>en</div>
+           
         </div>
     </div>
     @section Scripts{

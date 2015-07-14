@@ -69,7 +69,7 @@ namespace TechQuickCode.Controllers
             }
             else
             {
-                
+
                 ViewBag.Title = "页面找不到了....";
                 bool find = false;
                 ArticleContentItem aci = ArticleManager.Instance.GetArticleContentItem(NickName);
@@ -97,7 +97,7 @@ namespace TechQuickCode.Controllers
             }
         }
 
-     
+
 
         #endregion
 
@@ -135,18 +135,18 @@ namespace TechQuickCode.Controllers
             {
                 var acticleItem = new ArticleItem();
                 var user = UserManager.Instance.GetUserByToken(cookie.Value);
-                acticleItem.Author = user.UserName;
-                acticleItem.AuthorID = user.GUID;
                 var acticleContentItem = new ArticleContentItem();
                 TryUpdateModel<ArticleItem>(acticleItem, collection);
                 TryUpdateModel<ArticleContentItem>(acticleContentItem, collection);
+                acticleItem.Author = user.UserNickName;
+                acticleItem.AuthorID = user.GUID;
                 acticleContentItem.ArticleHtml = HttpUtility.UrlDecode(acticleContentItem.ArticleHtml);
                 acticleContentItem.ArticleMarkdown = HttpUtility.UrlDecode(acticleContentItem.ArticleMarkdown);
                 bool result = ArticleManager.Instance.Update(id, acticleItem, acticleContentItem);
                 re.success = result ? 1 : 0;
                 re.UpdateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             }
-           
+
             return JsonConvert.SerializeObject(re);
 
         }
@@ -168,7 +168,7 @@ namespace TechQuickCode.Controllers
                 QLog.SendLog_Exception(ex.ToString(), LogTag);
             }
             return JsonConvert.SerializeObject(jr);
-        } 
+        }
         #endregion
 
         #endregion
@@ -206,25 +206,10 @@ namespace TechQuickCode.Controllers
                 }
             }
         }
-        public string ArticleHTMLList(string PlateName, string TypeName, int Page)
+        public string ArticleHTMLList(string PlateName, string TypeName, int Page, int count = 10)
         {
-            List<ArticleItem> ArticleItems = ArticleManager.Instance.GetArticleItems(PlateName, TypeName, Page);
-            StringBuilder sb = new StringBuilder();
-            foreach (var item in ArticleItems)
-            {
-                sb.AppendFormat("<div class='ArticleItem'><div class='ArticleImg pull-left'><img src='{0}' width='100%' height='100%' /></div><div class='ArticleCard'><div class='ArticleTitle'><a href='/Article/Details/{1}' target='_blank'>{2}</a></div><div class='ArticleAttributes'><span><code>{3}</code></span><span>发布于:{4}</span><span>&nbsp;</span><span>分类：</span><span><a href='/Article/List/{5}'>{5}</a>&nbsp;/&nbsp;<a>{6}</a></span><span>&nbsp;</span><span>阅读：(</span><span>{7}</span><span>)</span><span>&nbsp;</span><span>评论：(</span><span>{8}</span><span>)</span><span>&nbsp;</span><span>评级：(</span><span>{9}分</span><span>)</span></div><div class='ArticleContent'><span>{10}</span></div><div class='ArticleTags'>",
-                     item.ArticleHeadImage, item.GUID, item.ArticleTitle, item.Author, item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"), item.ArticlePlate, item.ArticleType, item.ReadCount, item.CommentCount, item.Score, item.ArticleDescription);
-                if (!string.IsNullOrEmpty(item.ArticleTags))
-                {
-                    string[] Tags = item.ArticleTags.Split(new string[] { ",", "，", ";", "；" }, StringSplitOptions.RemoveEmptyEntries);
-                    foreach (var tag in Tags)
-                    {
-                        sb.AppendFormat("<span class='btn btn-success'>{0}</span>", tag);
-                    }
-                }
-                sb.Append("</div></div></div>");
-            }
-            return sb.ToString();
+             string HtmlStr=ArticleManager.Instance.GetHtmlList(PlateName, TypeName, Page, count);
+             return HtmlStr;
         }
         #endregion
 

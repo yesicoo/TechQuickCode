@@ -182,10 +182,12 @@
     <Content Include="Content\Images\404.jpg" />
     <Content Include="Content\Images\cancel-off.png" />
     <Content Include="Content\Images\cancel-on.png" />
+    <Content Include="Content\Images\code.jpg" />
+    <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\loading%402x.gif" />
     <Content Include="Content\Images\loading%403x.gif" />
     <Content Include="Content\Images\loading.gif" />
-    <Content Include="Content\Images\logo.png" />
+    <Content Include="Content\Images\logo_.png" />
     <Content Include="Content\Images\Snow_Mountain.jpg" />
     <Content Include="Content\Images\star-half.png" />
     <Content Include="Content\Images\star-off.png" />

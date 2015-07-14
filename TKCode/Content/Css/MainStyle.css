@@ -189,38 +189,49 @@ body {
   height: 100%;
   background-color: white;
 }
-.Content .HotCard .HotList .article {
-  margin-top: 5px;
-  height: 120px;
+
+.HotCard .ArticleItem {
+  margin-top: 10px;
   padding-left: 5px;
-  margin-bottom: 5px;
-  border-bottom: solid 1px #D8D8D8;
+  border-bottom: dashed 1px #D8D8D8;
+  height: 122px;
 }
-.Content .HotCard .HotList .articleimg {
+.HotCard .ArticleItem .ArticleImg {
   height: 118px;
   width: 200px;
 }
-.Content .HotCard .HotList .articleTitle {
+.HotCard .ArticleItem .ArticleCard .ArticleTitle {
   margin-left: 210px;
   cursor: pointer;
   font-size: x-large;
 }
-.Content .HotCard .HotList .articleAttributes {
+.HotCard .ArticleItem .ArticleCard .ArticleAttributes {
   padding-top: 5px;
   padding-bottom: 5px;
   font-size: 12px;
   color: #777777;
   margin-left: 210px;
 }
-.Content .HotCard .HotList .articleAttributes code {
+.HotCard .ArticleItem .ArticleCard .ArticleAttributes code {
   cursor: pointer;
   border-radius: 5px;
 }
-.Content .HotCard .HotList .articleContent {
+.HotCard .ArticleItem .ArticleCard .ArticleContent {
   font-size: 14px;
   margin-left: 210px;
   padding-right: 10px;
 }
+.HotCard .ArticleItem .ArticleCard .ArticleTags {
+  margin-left: 210px;
+}
+.HotCard .ArticleItem .ArticleCard .ArticleTags span {
+  font-size: 10px;
+  padding: 0px 2px 0px 2px;
+  margin: 0px 3px 3px 3px;
+  border-radius: 5px;
+}
+
+
 .Content .HotPeople {
   width: 190px;
   border: solid 1px #D8D8D8;
@@ -295,9 +306,10 @@ body {
   background-color: #66FF00;
 }
 .Content .Tools {
-  text-align: center;
+    padding-left:10px;
 }
 .Content .Tools .Tool {
+      text-align: center;
   margin: 5px;
   display: inline-block;
   width: 150px;

@@ -177,116 +177,17 @@
                 <i class="iconfont ">&#xe606;</i><span> 这里的代码最闪亮</span>
             </div>
             <div class="pull-right">
-                <span><code>最新</code></span>
-                <span><code>热门</code></span>
-                <span><code>精华</code></span>
-                <span><code title="更多">(→_→)</code></span>
+                <span><code onclick="LoadData('CodeList', '技术片段', '最新')">最新</code></span>
+                <span><code onclick="LoadData('CodeList', '技术片段', '热门')">热门</code></span>
+                <span><code onclick="LoadData('CodeList', '技术片段', '精华')">精华</code></span>
+                <span><code onclick="GoMore('技术片段')" title="更多">(→_→)</code></span>
             </div>
             <div style="clear: both;"></div>
         </div>
-        <div class="article">
-            <div class="articleimg pull-left">
-                <img src="~/Content/Image/Lazyr.js.jpg" width="100%" height="100%" />
-            </div>
-            <div class="articleCard">
-                <div class="articleTitle">
-                    <a>Lazyr.js – 延迟加载图片（Lazy Loading）</a>
-                </div>
-                <div class="articleAttributes">
-                    <span><code>原创</code></span>
-                    <span>&nbsp;</span>
-                    <span><code>teemo</code></span>
-                    <span>发布于6天前</span>
-                    <span>&nbsp;</span>
-                    <span>分类：</span>
-                    <span><code>前端开发</code></span>
-                    <span>&nbsp;</span>
-                    <span>阅读：(</span>
-                    <span>131</span>
-                    <span>)</span>
-                    <span>&nbsp;</span>
-                    <span>评论：(</span>
-                    <span>9</span>
-                    <span>)</span>
-                    <span>&nbsp;</span>
-                    <span>评级：(</span>
-                    <span>★★★★★</span>
-                    <span>)</span>
-                </div>
-                <div class="articleContent">
-                    <span>Lazyr.js是一个小的、快速的、现代的、相互间无依赖的图片延迟加载库。通过延迟加载图片，让图片出现在（或接近)）视窗才加载来提高页面打开速度。这个库通过保持最少选项并最大化速度...</span>
-                </div>
-            </div>
+        <div id="CodeList">
+
         </div>
-        <div class="article">
-            <div class="articleimg pull-left">
-                <img src="~/Content/Image/Slideout.js.png" width="100%" height="100%" />
-            </div>
-            <div class="articleCard">
-                <div class="articleTitle">
-                    <a>Slideout.js – 滑出式 Web App 导航菜单</a>
-                </div>
-                <div class="articleAttributes">
-                    <span><code>转载</code></span>
-                    <span>&nbsp;</span>
-                    <span><code>teemo</code></span>
-                    <span>发布于9天前</span>
-                    <span>&nbsp;</span>
-                    <span>分类：</span>
-                    <span><code>前端开发</code></span>
-                    <span>&nbsp;</span>
-                    <span>阅读：(</span>
-                    <span>211</span>
-                    <span>)</span>
-                    <span>&nbsp;</span>
-                    <span>评论：(</span>
-                    <span>11</span>
-                    <span>)</span>
-                    <span>&nbsp;</span>
-                    <span>评级：(</span>
-                    <span>★★★★★</span>
-                    <span>)</span>
-                </div>
-                <div class="articleContent">
-                    <span>Slideout.js 是为您的移动 Web 应用开发的触摸滑出式的导航菜单。它没有依赖，自由搭配简单的标记，支持原生的滚动，您可以轻松地定制它。它支持不同的 CSS3 转换和过渡。最重要的是，它只是4KB 。...</span>
-                </div>
-            </div>
-        </div>
-        <div class="article">
-            <div class="articleimg pull-left">
-                <img src="~/Content/Image/Reapp.jpg" width="100%" height="100%" />
-            </div>
-            <div class="articleCard">
-                <div class="articleTitle">
-                    <a>Reapp – 下一代的 Hybrid App 开发框架</a>
-                </div>
-                <div class="articleAttributes">
-                    <span><code>转载</code></span>
-                    <span>&nbsp;</span>
-                    <span><code>teemo</code></span>
-                    <span>发布于9天前</span>
-                    <span>&nbsp;</span>
-                    <span>分类：</span>
-                    <span><code>前端开发</code></span>
-                    <span>&nbsp;</span>
-                    <span>阅读：(</span>
-                    <span>211</span>
-                    <span>)</span>
-                    <span>&nbsp;</span>
-                    <span>评论：(</span>
-                    <span>11</span>
-                    <span>)</span>
-                    <span>&nbsp;</span>
-                    <span>评级：(</span>
-                    <span>★★★★★</span>
-                    <span>)</span>
-                </div>
-                <div class="articleContent">
-                    <span>Reapp与ReactNative有着惊人的相似之处，二者都使用React来创建应用程序用户界面的框架。然而，在底层机制上这两个框架之间却具有明显的哲学差异。ReactNative将React组件绑定到原生UI控件中，构建与设备操作系统匹配的界面。而Reapp却是将React组件...</span>
-                </div>
-            </div>
-        </div>
-    </div>
+         </div>
     <div class="HotPeople pull-right">
         <div class="PageTitle">
             <i class="iconfont ">&#xe606;</i><span> 活跃程序猿</span>
@@ -344,7 +245,7 @@
         <div class="PageTitle">
             <i class="iconfont ">&#xe605;</i><span> 这里的案列最经典</span>
             <div class="pull-right">
-                <span><code title="更多">(→_→)</code></span>
+                <span><code onclick="GoMore('案例库')" title="更多">(→_→)</code></span>
             </div>
         </div>
         <div class="Example">
@@ -352,104 +253,16 @@
                 <div class="ExampleHead">
                     <span> 最新案例</span>
                 </div>
-                <div class="ExampleContent">
-                    <div class="ExampleTitle">
-                        <div class="pull-left  text">
-                            <span class="Index-1">1</span><a>Linux应用环境实战系列阶段性总结</a>
-                        </div>
-                        <div class="pull-right author">
-                            <span class="pull-left"><a>teemo</a></span><span class="pull-right">2015-06-12</span>
-                        </div>
-                        <div style="clear: both;"></div>
-                    </div>
-                    <div class="ExampleTitle">
-                        <div class="pull-left text">
-                            <span class="Index-2">2</span><a>实战：上亿数据如何秒查</a>
-                        </div>
-                        <div class="pull-right author">
-                            <span class="pull-left"><a>teemo</a></span><span class="pull-right">2015-06-02</span>
-                        </div>
-                        <div style="clear: both;"></div>
-                    </div>
-                    <div class="ExampleTitle">
-                        <div class="pull-left text">
-                            <span class="Index-3">3</span><a>说说Golang的使用心得</a>
-                        </div>
-                        <div class="pull-right author">
-                            <span class="pull-left"><a>teemo</a></span><span class="pull-right">2015-05-21</span>
-                        </div>
-                        <div style="clear: both;"></div>
-                    </div>
-                    <div class="ExampleTitle">
-                        <div class="pull-left text">
-                            <span class="Index-4">4</span><a>借助LVS+Keepalived实现负载均衡</a>
-                        </div>
-                        <div class="pull-right author">
-                            <span class="pull-left"><a>teemo</a></span><span class="pull-right">2015-05-20</span>
-                        </div>
-                        <div style="clear: both;"></div>
-                    </div>
-                    <div class="ExampleTitle">
-                        <div class="pull-left text">
-                            <span class="Index-5">5</span><a>关于大型网站技术演进的思考（一）--存储的瓶颈（1）</a>
-                        </div>
-                        <div class="pull-right author">
-                            <span class="pull-left"><a>teemo</a></span><span class="pull-right">2015-05-11</span>
-                        </div>
-                        <div style="clear: both;"></div>
-                    </div>
+                <div id="NewExample" class="ExampleContent">
+                  
                 </div>
             </div>
             <div class="ExampleHot pull-right">
                 <div class="ExampleHead">
                     <span> 热门案例</span>
                 </div>
-                <div class="ExampleContent">
-                    <div class="ExampleTitle">
-                        <div class="pull-left  text">
-                            <span class="Index-1">1</span><a>Linux应用环境实战系列阶段性总结</a>
-                        </div>
-                        <div class="pull-right author">
-                            <span class="pull-left"><a>teemo</a></span><span class="pull-right">2015-06-12</span>
-                        </div>
-                        <div style="clear: both;"></div>
-                    </div>
-                    <div class="ExampleTitle">
-                        <div class="pull-left text">
-                            <span class="Index-2">2</span><a>实战：上亿数据如何秒查</a>
-                        </div>
-                        <div class="pull-right author">
-                            <span class="pull-left"><a>teemo</a></span><span class="pull-right">2015-06-02</span>
-                        </div>
-                        <div style="clear: both;"></div>
-                    </div>
-                    <div class="ExampleTitle">
-                        <div class="pull-left text">
-                            <span class="Index-3">3</span><a>说说Golang的使用心得</a>
-                        </div>
-                        <div class="pull-right author">
-                            <span class="pull-left"><a>teemo</a></span><span class="pull-right">2015-05-21</span>
-                        </div>
-                        <div style="clear: both;"></div>
-                    </div>
-                    <div class="ExampleTitle">
-                        <div class="pull-left text">
-                            <span class="Index-4">4</span><a>借助LVS+Keepalived实现负载均衡</a>
-                        </div>
-                        <div class="pull-right author">
-                            <span class="pull-left"><a>teemo</a></span><span class="pull-right">2015-05-20</span>
-                        </div>
-                        <div style="clear: both;"></div>
-                    </div>
-                    <div class="ExampleTitle">
-                        <div class="pull-left text">
-                            <span class="Index-5">5</span><a>关于大型网站技术演进的思考（一）--存储的瓶颈（1）</a>
-                        </div>
-                        <div class="pull-right author">
-                            <span class="pull-left"><a>teemo</a></span><span class="pull-right">2015-05-11</span>
-                        </div>
-                        <div style="clear: both;"></div>
-                    </div>
+                <div id="HotExample" class="ExampleContent">
+                  
                 </div>
             </div>
         </div>
@@ -489,113 +302,14 @@
         <div class="PageTitle">
             <i class="iconfont ">&#xe604;</i><span> 这里的框架最优秀</span>
             <div class="pull-right">
-                <span><code>最新</code></span>
-                <span><code>热门</code></span>
-                <span><code>精华</code></span>
-                <span><code title="更多">(→_→)</code></span>
+                <span><code onclick="LoadData('FrameList', '项目框架', '最新')">最新</code></span>
+                <span><code onclick="LoadData('FrameList', '项目框架', '热门')">热门</code></span>
+                <span><code onclick="LoadData('FrameList', '项目框架', '精华')">精华</code></span>
+                <span><code onclick="GoMore('项目框架')" title="更多">(→_→)</code></span>
             </div>
         </div>
-        <div class="article">
-            <div class="articleimg pull-left">
-                <img src="~/Content/Image/Lazyr.js.jpg" width="100%" height="100%" />
-            </div>
-            <div class="articleCard">
-                <div class="articleTitle">
-                    <a>Lazyr.js – 延迟加载图片（Lazy Loading）</a>
-                </div>
-                <div class="articleAttributes">
-                    <span><code>原创</code></span>
-                    <span>&nbsp;</span>
-                    <span><code>teemo</code></span>
-                    <span>发布于6天前</span>
-                    <span>&nbsp;</span>
-                    <span>分类：</span>
-                    <span><code>前端开发</code></span>
-                    <span>&nbsp;</span>
-                    <span>阅读：(</span>
-                    <span>131</span>
-                    <span>)</span>
-                    <span>&nbsp;</span>
-                    <span>评论：(</span>
-                    <span>9</span>
-                    <span>)</span>
-                    <span>&nbsp;</span>
-                    <span>评级：(</span>
-                    <span>★★★★★</span>
-                    <span>)</span>
-                </div>
-                <div class="articleContent">
-                    <span>Lazyr.js是一个小的、快速的、现代的、相互间无依赖的图片延迟加载库。通过延迟加载图片，让图片出现在（或接近)）视窗才加载来提高页面打开速度。这个库通过保持最少选项并最大化速度...</span>
-                </div>
-            </div>
-        </div>
-        <div class="article">
-            <div class="articleimg pull-left">
-                <img src="~/Content/Image/Slideout.js.png" width="100%" height="100%" />
-            </div>
-            <div class="articleCard">
-                <div class="articleTitle">
-                    <a>Slideout.js – 滑出式 Web App 导航菜单</a>
-                </div>
-                <div class="articleAttributes">
-                    <span><code>转载</code></span>
-                    <span>&nbsp;</span>
-                    <span><code>teemo</code></span>
-                    <span>发布于9天前</span>
-                    <span>&nbsp;</span>
-                    <span>分类：</span>
-                    <span><code>前端开发</code></span>
-                    <span>&nbsp;</span>
-                    <span>阅读：(</span>
-                    <span>211</span>
-                    <span>)</span>
-                    <span>&nbsp;</span>
-                    <span>评论：(</span>
-                    <span>11</span>
-                    <span>)</span>
-                    <span>&nbsp;</span>
-                    <span>评级：(</span>
-                    <span>★★★★★</span>
-                    <span>)</span>
-                </div>
-                <div class="articleContent">
-                    <span>Slideout.js 是为您的移动 Web 应用开发的触摸滑出式的导航菜单。它没有依赖，自由搭配简单的标记，支持原生的滚动，您可以轻松地定制它。它支持不同的 CSS3 转换和过渡。最重要的是，它只是4KB 。...</span>
-                </div>
-            </div>
-        </div>
-        <div class="article">
-            <div class="articleimg pull-left">
-                <img src="~/Content/Image/Reapp.jpg" width="100%" height="100%" />
-            </div>
-            <div class="articleCard">
-                <div class="articleTitle">
-                    <a>Reapp – 下一代的 Hybrid App 开发框架</a>
-                </div>
-                <div class="articleAttributes">
-                    <span><code>转载</code></span>
-                    <span>&nbsp;</span>
-                    <span><code>teemo</code></span>
-                    <span>发布于9天前</span>
-                    <span>&nbsp;</span>
-                    <span>分类：</span>
-                    <span><code>前端开发</code></span>
-                    <span>&nbsp;</span>
-                    <span>阅读：(</span>
-                    <span>211</span>
-                    <span>)</span>
-                    <span>&nbsp;</span>
-                    <span>评论：(</span>
-                    <span>11</span>
-                    <span>)</span>
-                    <span>&nbsp;</span>
-                    <span>评级：(</span>
-                    <span>★★★★★</span>
-                    <span>)</span>
-                </div>
-                <div class="articleContent">
-                    <span>Reapp与ReactNative有着惊人的相似之处，二者都使用React来创建应用程序用户界面的框架。然而，在底层机制上这两个框架之间却具有明显的哲学差异。ReactNative将React组件绑定到原生UI控件中，构建与设备操作系统匹配的界面。而Reapp却是将React组件...</span>
-                </div>
-            </div>
+        <div id="FrameList">
+           
         </div>
     </div>
     <div class="HotPeople pull-right">
@@ -655,12 +369,12 @@
         <div class="PageTitle">
             <i class="iconfont ">&#xe603;</i><span> 这里的工具最好用</span>
             <div class="pull-right">
-                <span><code>最新</code></span>
-                <span><code>热门</code></span>
-                <span><code title="更多">(→_→)</code></span>
+                <span><code onclick="LoadData('ToolList', '实用工具', '最新')">最新</code></span>
+                <span><code onclick="LoadData('ToolList', '实用工具', '热门')">热门</code></span>
+                <span><code onclick="GoMore('实用工具')" title="更多">(→_→)</code></span>
             </div>
         </div>
-        <div class="Tools">
+        <div id="ToolList" class="Tools">
             <div class="Tool">
                 <div>
                     <span class="ToolTitle">VS 2010</span>
@@ -728,10 +442,10 @@
             </div>
             <div class="Tool">
                 <div>
-                    <span class="toolTitle">远程桌面连接</span>
+                    <span class="ToolTitle">MD5加密</span>
                 </div>
                 <div>
-                    <img src="~/Content/Image/yuancheng.jpg" title="VS 2010">
+                    <img src="~/Content/Image/md5.jpg" title="VS 2010">
                 </div>
                 <div class="About">Visual Studio是微软公司推出的开发环境，是目前最流行的Windows平台应用程序开发环境。</div>
                 <div>
@@ -776,9 +490,42 @@
     </div>
     <div style="clear: both;"></div>
 </div>
+
+
 @section Scripts{
     <script src="~/Content/Scripts/Chart.min.js"></script>
     <script>
+       
+        LoadHtml($("#CodeList"), "技术片段", "最新");
+        LoadHtml($("#FrameList"), "项目框架", "最新");
+        LoadHtml($("#NewExample"), "案例库", "最新");
+        LoadHtml($("#HotExample"), "案例库", "热门");
+
+        function LoadHtml(divRom, plateName, typeName) {
+            divRom.fadeToggle(0);
+            $.post("/Article/ArticleHTMLList", { PlateName: plateName, TypeName: typeName, Page: 1 ,count:5}, function (d, s, x) {
+                if (s == "success") {
+                    divRom.append(d);
+                }
+                divRom.fadeToggle(1000);
+            });
+        }
+
+        function LoadData(divTag, plateName, typeName) {
+            var divRom = $("#" + divTag);
+            divRom.empty();
+            divRom.fadeToggle(0);
+            $.post("/Article/ArticleHTMLList", { PlateName: plateName, TypeName: typeName, Page: 1, count: 5 }, function (d, s, x) {
+                if (s == "success") {
+                    divRom.append(d);
+                }
+                divRom.fadeToggle(1000);
+            });
+        }
+        function GoMore(plateName) {
+            location.href = '/Article/List/' + plateName;
+        }
+
 
     var randomScalingFactor = function () {
         return Math.round(Math.random() * 100)
