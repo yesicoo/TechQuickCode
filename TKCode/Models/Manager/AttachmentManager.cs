@@ -54,15 +54,6 @@ namespace TechQuickCode.Models.Manager
             return result != null ? result.ToString() : "";
         }
 
-        internal void AddPlateType(string PlateName, string TypeName)
-        {
-            var conn = MySQLConnectionPool.GetConnection();
-            var id = conn.ExecuteScalar(string.Format("select id from `ArticlePlateType` where `PlateName`='{0}' and TypeName= '{1}';", PlateName, TypeName));
-            if (id == null)
-            {
-                var result = conn.Execute(string.Format("INSERT INTO `ArticlePlateType` (`PlateName`, `TypeName`) VALUES ('{0}', '{1}');", PlateName, TypeName));
-            }
-            conn.GiveBack();
-        }
+       
     }
 }

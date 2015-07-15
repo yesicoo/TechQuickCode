@@ -39,7 +39,6 @@ namespace TechQuickCode.Controllers
                     ArticleItem ai = ArticleManager.Instance.GetArticleItem(id);
                     ViewBag.Title = ai.ArticleTitle;
                     ViewBag.ArticleItem = ai;
-                    ViewBag.TypeID = ArticleManager.Instance.GetTypeID(ai.ArticlePlate, ai.ArticleType);
                     if (!string.IsNullOrEmpty(ai.ArticleTags))
                     {
                         ViewBag.Tags = ai.ArticleTags.Split(new string[] { ",", "，", ";", "；" }, StringSplitOptions.RemoveEmptyEntries).ToList();
@@ -142,7 +141,7 @@ namespace TechQuickCode.Controllers
                 acticleItem.AuthorID = user.GUID;
                 acticleContentItem.ArticleHtml = HttpUtility.UrlDecode(acticleContentItem.ArticleHtml);
                 acticleContentItem.ArticleMarkdown = HttpUtility.UrlDecode(acticleContentItem.ArticleMarkdown);
-                bool result = ArticleManager.Instance.Update(id, acticleItem, acticleContentItem);
+                bool result = ArticleManager.Instance.UpdateArticle(id, acticleItem, acticleContentItem);
                 re.success = result ? 1 : 0;
                 re.UpdateTime = DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss");
             }
@@ -196,20 +195,13 @@ namespace TechQuickCode.Controllers
                 {
                     ViewBag.TypeID = Request["Type"];
                 }
-                if (id != "实用工具")
-                {
-                    return View();
-                }
-                else
-                {
-                    return View("FileList");
-                }
+                return View();
             }
         }
         public string ArticleHTMLList(string PlateName, string TypeName, int Page, int count = 10)
         {
-             string HtmlStr=ArticleManager.Instance.GetHtmlList(PlateName, TypeName, Page, count);
-             return HtmlStr;
+            string HtmlStr = ArticleManager.Instance.GetHtmlList(PlateName, TypeName, Page, count);
+            return HtmlStr;
         }
         #endregion
 
@@ -224,13 +216,9 @@ namespace TechQuickCode.Controllers
 
         #region 添加板块和分类
         [HttpPost]
-        public bool AddPlateType(string PlateName, string TypeName)
+        public void AddPlateType(string PlateName, string TypeName)
         {
-            new System.Threading.Thread(() =>
-            {
-                AttachmentManager.Instance.AddPlateType(PlateName, TypeName);
-            }).Start();
-            return true;
+            ArticleManager.Instance.AddPlateType(PlateName, TypeName);
         }
         #endregion
 
@@ -245,7 +233,7 @@ namespace TechQuickCode.Controllers
                 sb.AppendFormat("<optgroup label='{0}'>", item.Key);
                 foreach (var option in item.Value)
                 {
-                    sb.AppendFormat("<option>{0}</option>", option);
+                    sb.AppendFormat("<option>{0}</option>", option.TypeName);
                 }
                 sb.Append("<option>--新增--</option>");
                 sb.Append("</optgroup>");
@@ -257,8 +245,8 @@ namespace TechQuickCode.Controllers
         public string GetType(string PlateName)
         {
             QLog.SendLog(PlateName);
-            List<TypeID> types = ArticleManager.Instance.GetArticleType(PlateName);
-            return JsonConvert.SerializeObject(types);
+            var result = ArticleManager.Instance.GetArticleTypesByPlateName(PlateName);
+            return JsonConvert.SerializeObject(result);
         }
         #endregion
 

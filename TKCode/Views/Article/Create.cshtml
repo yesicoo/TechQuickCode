@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Create";
+    ViewBag.Title = "新建文档";
 }
 @section Css{
 
@@ -58,11 +58,8 @@
 
 
 @section Scripts{
-
-
     <script src="~/Content/Scripts/jquery.form.js"></script>
     <script src="~/Content/Scripts/editormd.js"></script>
-
     <script>
     var GUID = '@ViewBag.GUID';
     var testEditor;
@@ -89,16 +86,14 @@
             $("#ArticleType").append(e);
         });
 
-
-
         $("#ArticleType").change(function (e) {
             var option = e.target.selectedOptions[0];
             var nodeText = option.value;
             articType = nodeText;
+            var optionParent = option.parentElement;
+            var fa_nodeText = optionParent.label;
+            articPlate = fa_nodeText;
             if (nodeText == "--新增--") {
-                var optionParent = option.parentElement;
-                var fa_nodeText = optionParent.label;
-                articPlate = fa_nodeText;
                 var isAdd = false;
                 layer.prompt({
                     title: '为板块【' + fa_nodeText + '】 添加新分类',
@@ -161,45 +156,58 @@
         $("#btn_Publish").click(function () {
             var articleTitle = $("#ArticleTitle").val();
             var htmlstr = encodeURIComponent(testEditor.getPreviewedHTML());
-            if (articleTitle != "" && htmlstr != "") {
-                var attachments = "";
-                var acs = $("#AttachmentList .SP_id")
-                for (var i = 0; i < acs.length; i++) {
-                    attachments += acs[i].innerHTML + ",";
+            var isOK = false;
+            var acs = $("#AttachmentList .SP_id");
+            if (articPlate == "实用工具") {
+                if (acs.length != 1) {
+                    layer.msg("[实用工具]板块必须有且只有一个附件才可发布!");
+                } else {
+                    isOK = true;
                 }
-                var articleData = {};
-                articleData.ArticleTitle = articleTitle;
-                articleData.ArticlePlate = articPlate;
-                articleData.ArticleType = articType;
-                articleData.ArticleTags = $("#ArticTypeTags").val();
-                articleData.ArticleAttachments = attachments;
-                articleData.ArticleHtml = htmlstr;
-                articleData.ArticleMarkdown = encodeURIComponent(testEditor.getMarkdown());
-                $.post("/Article/Edit/" + "@ViewBag.GUID", articleData, function (e, s) {
-                    var d = JSON.parse(e);
-                    if (d.success == 1) {
-                        $.post("/Article/Publish", { ArticleID: "@ViewBag.GUID" }, function (e, s) {
-                            var d = JSON.parse(e);
-                            if (d.Success) {
-                                layer.confirm('发布成功！', {
-                                    btn: ['回到首页', '去看看'], //按钮
-                                    shade: false //不显示遮罩
-                                }, function () {
-                                    window.location.href = "/";
-                                }, function () {
-                                    window.location.href = '/Article/Details/@ViewBag.GUID';
-                                });
-                            } else {
-                                layer.msg(d.ErrorMsg);
-                            }
-                        });
-                    }
-                });
             } else {
-                layer.msg("文档无标题或者无内容，无法保存！");
+                isOK = true;
+            }
+            if (isOK) {
+                if (articleTitle != "" && htmlstr != "") {
+                    var attachments = "";
+
+                    for (var i = 0; i < acs.length; i++) {
+                        attachments += acs[i].innerHTML + ",";
+                    }
+
+                    var articleData = {};
+                    articleData.ArticleTitle = articleTitle;
+                    articleData.ArticlePlate = articPlate;
+                    articleData.ArticleType = articType;
+                    articleData.ArticleTags = $("#ArticTypeTags").val();
+                    articleData.ArticleAttachments = attachments;
+                    articleData.ArticleHtml = htmlstr;
+                    articleData.ArticleMarkdown = encodeURIComponent(testEditor.getMarkdown());
+                    $.post("/Article/Edit/" + "@ViewBag.GUID", articleData, function (e, s) {
+                        var d = JSON.parse(e);
+                        if (d.success == 1) {
+                            $.post("/Article/Publish", { ArticleID: "@ViewBag.GUID" }, function (e, s) {
+                                var d = JSON.parse(e);
+                                if (d.Success) {
+                                    layer.confirm('发布成功！', {
+                                        btn: ['回到首页', '去看看'], //按钮
+                                        shade: false //不显示遮罩
+                                    }, function () {
+                                        window.location.href = "/";
+                                    }, function () {
+                                        window.location.href = '/Article/Details/@ViewBag.GUID';
+                                    });
+                                } else {
+                                    layer.msg(d.ErrorMsg);
+                                }
+                            });
+                        }
+                    });
+                } else {
+                    layer.msg("文档无标题或者无内容，无法保存！");
+                }
             }
             });
-
         });
         function UpLoadFileChange(e) {
             layer.load(2);
@@ -226,6 +234,7 @@
                 }
             });
         }
+        //删除附件
         function btn_DeleteAttachment(e) {
             var fileName = e.parentElement.children[2].innerHTML;
             layer.confirm("确定删除附件[" + fileName + "]?", function (index) {
@@ -234,7 +243,7 @@
             });
 
         }
-
+        //自动保存
         setInterval(function () {
             var articleTitle = $("#ArticleTitle").val();
             var htmlstr = encodeURIComponent(testEditor.getPreviewedHTML());

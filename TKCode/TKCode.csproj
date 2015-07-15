@@ -148,7 +148,6 @@
     <Compile Include="Models\Entity\AttachmentItem.cs" />
     <Compile Include="Models\Entity\JResult.cs" />
     <Compile Include="Models\Entity\StarItem.cs" />
-    <Compile Include="Models\Entity\TypeID.cs" />
     <Compile Include="Models\Entity\UserItem.cs" />
     <Compile Include="Models\Manager\ArticleManager.cs" />
     <Compile Include="Models\Manager\AttachmentManager.cs" />
@@ -667,7 +666,6 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Article\Create.cshtml" />
     <Content Include="Views\Article\Details.cshtml" />
-    <Content Include="Views\Article\FileList.cshtml" />
     <Content Include="Views\Article\List.cshtml" />
   </ItemGroup>
   <PropertyGroup>

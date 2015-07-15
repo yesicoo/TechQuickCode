@@ -177,9 +177,9 @@
                 <i class="iconfont ">&#xe606;</i><span> 这里的代码最闪亮</span>
             </div>
             <div class="pull-right">
-                <span><code onclick="LoadData('CodeList', '技术片段', '最新')">最新</code></span>
-                <span><code onclick="LoadData('CodeList', '技术片段', '热门')">热门</code></span>
-                <span><code onclick="LoadData('CodeList', '技术片段', '精华')">精华</code></span>
+                <span><code onclick="LoadData('CodeList', '技术片段', '最新',5)">最新</code></span>
+                <span><code onclick="LoadData('CodeList', '技术片段', '热门',5)">热门</code></span>
+                <span><code onclick="LoadData('CodeList', '技术片段', '精华',5)">精华</code></span>
                 <span><code onclick="GoMore('技术片段')" title="更多">(→_→)</code></span>
             </div>
             <div style="clear: both;"></div>
@@ -187,7 +187,7 @@
         <div id="CodeList">
 
         </div>
-         </div>
+    </div>
     <div class="HotPeople pull-right">
         <div class="PageTitle">
             <i class="iconfont ">&#xe606;</i><span> 活跃程序猿</span>
@@ -254,7 +254,7 @@
                     <span> 最新案例</span>
                 </div>
                 <div id="NewExample" class="ExampleContent">
-                  
+
                 </div>
             </div>
             <div class="ExampleHot pull-right">
@@ -262,7 +262,7 @@
                     <span> 热门案例</span>
                 </div>
                 <div id="HotExample" class="ExampleContent">
-                  
+
                 </div>
             </div>
         </div>
@@ -302,14 +302,14 @@
         <div class="PageTitle">
             <i class="iconfont ">&#xe604;</i><span> 这里的框架最优秀</span>
             <div class="pull-right">
-                <span><code onclick="LoadData('FrameList', '项目框架', '最新')">最新</code></span>
-                <span><code onclick="LoadData('FrameList', '项目框架', '热门')">热门</code></span>
-                <span><code onclick="LoadData('FrameList', '项目框架', '精华')">精华</code></span>
+                <span><code onclick="LoadData('FrameList', '项目框架', '最新',5)">最新</code></span>
+                <span><code onclick="LoadData('FrameList', '项目框架', '热门',5)">热门</code></span>
+                <span><code onclick="LoadData('FrameList', '项目框架', '精华',5)">精华</code></span>
                 <span><code onclick="GoMore('项目框架')" title="更多">(→_→)</code></span>
             </div>
         </div>
         <div id="FrameList">
-           
+
         </div>
     </div>
     <div class="HotPeople pull-right">
@@ -369,90 +369,13 @@
         <div class="PageTitle">
             <i class="iconfont ">&#xe603;</i><span> 这里的工具最好用</span>
             <div class="pull-right">
-                <span><code onclick="LoadData('ToolList', '实用工具', '最新')">最新</code></span>
-                <span><code onclick="LoadData('ToolList', '实用工具', '热门')">热门</code></span>
+                <span><code onclick="LoadData('ToolList', '实用工具', '最新',6)">最新</code></span>
+                <span><code onclick="LoadData('ToolList', '实用工具', '热门',6)">热门</code></span>
                 <span><code onclick="GoMore('实用工具')" title="更多">(→_→)</code></span>
             </div>
         </div>
         <div id="ToolList" class="Tools">
-            <div class="Tool">
-                <div>
-                    <span class="ToolTitle">VS 2010</span>
-                </div>
-                <div>
-                    <img src="~/Content/Image/vs2010.jpg" title="VS 2010">
-                </div>
-                <div class="About">Visual Studio是微软公司推出的开发环境，是目前最流行的Windows平台应用程序开发环境。</div>
-                <div>
-                    <button class="btn">详细介绍</button>
-                    <button class="btn btn-warning">立即下载</button>
-                </div>
-            </div>
-            <div class="Tool">
-                <div>
-                    <span class="ToolTitle">SQLServer 2008</span>
-                </div>
-                <div>
-                    <img src="~/Content/Image/sqlserver2008.jpg" title="VS 2010">
-                </div>
-                <div class="About">sql server 2008是在Microsoft的数据平台上发布的最新数据库</div>
-                <div>
-                    <button class="btn">详细介绍</button>
-                    <button class="btn btn-warning">立即下载</button>
-                </div>
-            </div>
-            <div class="Tool">
-                <div>
-                    <span class="ToolTitle">VS 2012</span>
-                </div>
-                <div>
-                    <img src="~/Content/Image/vs2012.jpg" title="VS 2010">
-                </div>
-                <div class="About">Visual Studio是微软公司推出的开发环境，是目前最流行的Windows平台应用程序开发环境。</div>
-                <div>
-                    <button class="btn">详细介绍</button>
-                    <button class="btn btn-warning">立即下载</button>
-                </div>
-            </div>
-            <div class="Tool">
-                <div>
-                    <span class="Tools">VS 2013</span>
-                </div>
-                <div>
-                    <img src="~/Content/Image/vs2013.jpg" title="VS 2010">
-                </div>
-                <div class="About">sql server 2008是在Microsoft的数据平台上发布的最新数据库</div>
-                <div>
-                    <button class="btn">详细介绍</button>
-                    <button class="btn btn-warning">立即下载</button>
-                </div>
-            </div>
-            <div class="Tool">
-                <div>
-                    <span class="ToolTitle">MD5加密</span>
-                </div>
-                <div>
-                    <img src="~/Content/Image/md5.jpg" title="VS 2010">
-                </div>
-                <div class="About">Visual Studio是微软公司推出的开发环境，是目前最流行的Windows平台应用程序开发环境。</div>
-                <div>
-                    <button class="btn">详细介绍</button>
-                    <button class="btn btn-warning">立即下载</button>
-                </div>
-            </div>
-            <div class="Tool">
-                <div>
-                    <span class="ToolTitle">MD5加密</span>
-                </div>
-                <div>
-                    <img src="~/Content/Image/md5.jpg" title="VS 2010">
-                </div>
-                <div class="About">Visual Studio是微软公司推出的开发环境，是目前最流行的Windows平台应用程序开发环境。</div>
-                <div>
-                    <button class="btn">详细介绍</button>
-                    <button class="btn btn-warning">立即下载</button>
-                </div>
-            </div>
+         
         </div>
     </div>
     <div class="HotPeople pull-right">
@@ -495,15 +418,15 @@
 @section Scripts{
     <script src="~/Content/Scripts/Chart.min.js"></script>
     <script>
-       
-        LoadHtml($("#CodeList"), "技术片段", "最新");
-        LoadHtml($("#FrameList"), "项目框架", "最新");
-        LoadHtml($("#NewExample"), "案例库", "最新");
-        LoadHtml($("#HotExample"), "案例库", "热门");
 
-        function LoadHtml(divRom, plateName, typeName) {
+        LoadHtml($("#CodeList"), "技术片段", "最新", 5);
+        LoadHtml($("#FrameList"), "项目框架", "最新", 5);
+        LoadHtml($("#NewExample"), "案例库", "最新", 5);
+        LoadHtml($("#HotExample"), "案例库", "热门", 5);
+        LoadHtml($("#ToolList"), "实用工具", "最新", 6);
+        function LoadHtml(divRom, plateName, typeName, c) {
             divRom.fadeToggle(0);
-            $.post("/Article/ArticleHTMLList", { PlateName: plateName, TypeName: typeName, Page: 1 ,count:5}, function (d, s, x) {
+            $.post("/Article/ArticleHTMLList", { PlateName: plateName, TypeName: typeName, Page: 1, count: c }, function (d, s, x) {
                 if (s == "success") {
                     divRom.append(d);
                 }
@@ -511,11 +434,11 @@
             });
         }
 
-        function LoadData(divTag, plateName, typeName) {
+        function LoadData(divTag, plateName, typeName,c) {
             var divRom = $("#" + divTag);
             divRom.empty();
             divRom.fadeToggle(0);
-            $.post("/Article/ArticleHTMLList", { PlateName: plateName, TypeName: typeName, Page: 1, count: 5 }, function (d, s, x) {
+            $.post("/Article/ArticleHTMLList", { PlateName: plateName, TypeName: typeName, Page: 1, count: c }, function (d, s, x) {
                 if (s == "success") {
                     divRom.append(d);
                 }
@@ -525,68 +448,73 @@
         function GoMore(plateName) {
             location.href = '/Article/List/' + plateName;
         }
+        function ToDetaDetails(id) {
+            location.href = "/Article/Details/" + id;
+        }
+        function ToDownLoad(id) {
+            window.open("/DownLoad/Attachment/" + id);
+        }
 
-
-    var randomScalingFactor = function () {
-        return Math.round(Math.random() * 100)
-    };
-    var CodeChartData = {
-        labels: ["1", "2", "3", "4", "5", "6", "7"],
-        datasets: [{
-            fillColor: "rgba(220,220,220,0.5)",
-            strokeColor: "rgba(220,220,220,0.8)",
-            highlightFill: "rgba(220,220,220,0.75)",
-            highlightStroke: "rgba(220,220,220,1)",
-            data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-        }]
-    }
-    var FrameChartData = {
-        labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
-        datasets: [{
-            fillColor: "rgba(220,220,220,0.5)",
-            strokeColor: "rgba(220,220,220,0.8)",
-            highlightFill: "rgba(220,220,220,0.75)",
-            highlightStroke: "rgba(220,220,220,1)",
-            data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-        }]
-    }
-    var ToolsChartData = {
-        labels: ["1", "2", "3", "4", "5", "6", "7"],
-        datasets: [{
-            fillColor: "rgba(220,220,220,0.5)",
-            strokeColor: "rgba(220,220,220,0.8)",
-            highlightFill: "rgba(220,220,220,0.75)",
-            highlightStroke: "rgba(220,220,220,1)",
-            data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-        }]
-    }
-    var ExampleChartData = {
-        labels: ["1", "2", "3", "4", "5", "6", "7"],
-        datasets: [{
-            fillColor: "rgba(220,220,220,0.5)",
-            strokeColor: "rgba(220,220,220,0.8)",
-            highlightFill: "rgba(220,220,220,0.75)",
-            highlightStroke: "rgba(220,220,220,1)",
-            data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
-        }]
-    }
-    window.onload = function () {
-        var ctx = document.getElementById("CodeCanvas").getContext("2d");
-        window.myBar = new Chart(ctx).Bar(CodeChartData, {
-            responsive: true
-        });
-        var ctx = document.getElementById("FrameCanvas").getContext("2d");
-        window.myBar = new Chart(ctx).Line(FrameChartData, {
-            responsive: true
-        });
-        var ctx = document.getElementById("ToolsCanvas").getContext("2d");
-        window.myBar = new Chart(ctx).Bar(ToolsChartData, {
-            responsive: true
-        });
-        var ctx = document.getElementById("ExampleCanvas").getContext("2d");
-        window.myBar = new Chart(ctx).Line(ExampleChartData, {
-            responsive: true
-        });
-    }
+        var randomScalingFactor = function () {
+            return Math.round(Math.random() * 100)
+        };
+        var CodeChartData = {
+            labels: ["1", "2", "3", "4", "5", "6", "7"],
+            datasets: [{
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,0.8)",
+                highlightFill: "rgba(220,220,220,0.75)",
+                highlightStroke: "rgba(220,220,220,1)",
+                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+            }]
+        }
+        var FrameChartData = {
+            labels: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11", "12"],
+            datasets: [{
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,0.8)",
+                highlightFill: "rgba(220,220,220,0.75)",
+                highlightStroke: "rgba(220,220,220,1)",
+                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+            }]
+        }
+        var ToolsChartData = {
+            labels: ["1", "2", "3", "4", "5", "6", "7"],
+            datasets: [{
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,0.8)",
+                highlightFill: "rgba(220,220,220,0.75)",
+                highlightStroke: "rgba(220,220,220,1)",
+                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+            }]
+        }
+        var ExampleChartData = {
+            labels: ["1", "2", "3", "4", "5", "6", "7"],
+            datasets: [{
+                fillColor: "rgba(220,220,220,0.5)",
+                strokeColor: "rgba(220,220,220,0.8)",
+                highlightFill: "rgba(220,220,220,0.75)",
+                highlightStroke: "rgba(220,220,220,1)",
+                data: [randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor(), randomScalingFactor()]
+            }]
+        }
+        window.onload = function () {
+            var ctx = document.getElementById("CodeCanvas").getContext("2d");
+            window.myBar = new Chart(ctx).Bar(CodeChartData, {
+                responsive: true
+            });
+            var ctx = document.getElementById("FrameCanvas").getContext("2d");
+            window.myBar = new Chart(ctx).Line(FrameChartData, {
+                responsive: true
+            });
+            var ctx = document.getElementById("ToolsCanvas").getContext("2d");
+            window.myBar = new Chart(ctx).Bar(ToolsChartData, {
+                responsive: true
+            });
+            var ctx = document.getElementById("ExampleCanvas").getContext("2d");
+            window.myBar = new Chart(ctx).Line(ExampleChartData, {
+                responsive: true
+            });
+        }
     </script>
 }

@@ -15,18 +15,31 @@ namespace TechQuickCode.Models.Manager
         public static readonly ArticleManager Instance = new ArticleManager();
         private IStorageEngine _SE = STSdb.FromFile(Config.ArticleDataPath);
         private ITable<string, ArticleContentItem> _Table = null;
+        List<ArticlePlateTypeItem> PlateTypeItems = new List<ArticlePlateTypeItem>();
         List<string> guids = new List<string>();
+
+        #region 初始化
         ArticleManager()
         {
             _Table = _SE.OpenXTable<string, ArticleContentItem>("Articles");
+            var conn = MySQLConnectionPool.GetConnection();
+            PlateTypeItems = conn.Query<ArticlePlateTypeItem>("select * from ArticlePlateType").ToList();
+            conn.GiveBack();
+
         }
+        #endregion
+
+        #region 获取唯一标识
         public string GetArticleGUID()
         {
             string guid = Guid.NewGuid().ToString().Replace("-", "");
             guids.Add(guid);
             return guid;
         }
-        public bool Update(string guid, ArticleItem ai, ArticleContentItem aci)
+        #endregion
+
+        #region 更新文章
+        public bool UpdateArticle(string guid, ArticleItem ai, ArticleContentItem aci)
         {
             bool result = false;
 
@@ -39,7 +52,7 @@ namespace TechQuickCode.Models.Manager
             }
             else
             {
-                ai.ArticleHeadImage = "/content/images/logo.png";
+                ai.ArticleHeadImage = "/Content/Images/logo.png";
             }
             ai.ArticleDescription = Utils.ReplaceHtmlTag(aci.ArticleHtml);
 
@@ -52,6 +65,7 @@ namespace TechQuickCode.Models.Manager
                     conn.Execute(insertSQL);
                     guids.Remove(guid);
                 }
+                ai.ArticleTypeID = GetTypeID(ai.ArticlePlate, ai.ArticleType);
                 string UpdateSql = ai.GetUpdateSQL("GUID", "ArticleList", "CreateTime");
                 QLog.SendLog_Debug(UpdateSql, "ArticleManager");
                 conn.Execute(UpdateSql);
@@ -66,14 +80,16 @@ namespace TechQuickCode.Models.Manager
             }
             return result;
         }
+        #endregion
 
+        #region 读取文章列表信息
         internal ArticleItem GetArticleItem(string id)
         {
             ArticleItem ai = null;
             var conn = MySQLConnectionPool.GetConnection();
             try
             {
-                ai = conn.Query<ArticleItem>("update ArticleList Set ReadCount=ReadCount+1 where  GUID='" + id + "'; select * from ArticleList where GUID='" + id + "';").SingleOrDefault();
+                ai = conn.Query<ArticleItem>(string.Format("update ArticleList Set ReadCount=ReadCount+1 where  GUID='{0}'; select * from ArticleList where GUID='{0}';", id)).SingleOrDefault();
             }
             catch (Exception ex)
             {
@@ -83,7 +99,9 @@ namespace TechQuickCode.Models.Manager
 
             return ai;
         }
+        #endregion
 
+        #region 获取文章正文内容
         internal ArticleContentItem GetArticleContentItem(string id)
         {
             ArticleContentItem aci = null;
@@ -91,20 +109,9 @@ namespace TechQuickCode.Models.Manager
             return aci;
         }
 
-        internal Dictionary<string, List<string>> GetArticlePlateType()
-        {
-            var conn = MySQLConnectionPool.GetConnection();
-            List<ArticlePlateTypeItem> aptis = conn.Query<ArticlePlateTypeItem>("select * from ArticlePlateType").ToList();
-            var result = aptis.GroupBy(x => x.PlateName).ToDictionary(k => k.Key, v => v.Select(vv => vv.TypeName).ToList());
-            conn.GiveBack();
-            return result;
-        }
+        #endregion
 
-        internal object GetStar(string ArticleID, string UserID)
-        {
-            return null;
-        }
-
+        #region 发布文章
         /// <summary>
         /// 发布文章
         /// </summary>
@@ -113,39 +120,15 @@ namespace TechQuickCode.Models.Manager
         internal bool Publish(string articleID)
         {
             var conn = MySQLConnectionPool.GetConnection();
-            string sql = string.Format("update `ArticleList` Set  Publish=1 where  GUID='{0}';", articleID);
-           var result= conn.Execute(sql);
+            string sql = string.Format("update `ArticleList` Set  Publish=1,CreateTime='{1}' where  GUID='{0}';", articleID, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            var result = conn.Execute(sql);
             conn.GiveBack();
             return result == 1 ? true : false;
         }
+        #endregion
 
-
-        internal List<TypeID> GetArticleType(string plateName)
-        {
-            var conn = MySQLConnectionPool.GetConnection();
-            string sql = string.Format("select * from `ArticlePlateType` where PlateName='{0}';", plateName);
-            List<TypeID> result = conn.Query<TypeID>(sql).ToList();
-            conn.GiveBack();
-            return result;
-        }
-
-        internal int GetTypeID(string plateName,string typeName)
-        {
-            var conn = MySQLConnectionPool.GetConnection();
-            string sql = string.Format("select * from `ArticlePlateType` where PlateName='{0}' and TypeName='{1}';", plateName, typeName);
-            var id = conn.ExecuteScalar(sql);
-            conn.GiveBack();
-            if (id == null)
-            {
-                return -1;
-            }
-            else
-            {
-                return Convert.ToInt32(id);
-            }
-        }
-
-        internal List<ArticleItem> GetArticleItems(string PlateName, string TypeName, int page,int count=10)
+        #region 分页获取文章数据
+        internal List<ArticleItem> GetArticleItems(string PlateName, string TypeName, int page, int count = 10)
         {
             StringBuilder sb_sql = new StringBuilder("select * from ArticleList where Publish=1 and ArticlePlate='").Append(PlateName).Append("'");
             switch (TypeName)
@@ -154,7 +137,7 @@ namespace TechQuickCode.Models.Manager
                     sb_sql.Append(" order by CreateTime desc ");
                     break;
                 case "热门":
-                    sb_sql.Append(" order by readCount desc ");
+                    sb_sql.Append(" order by ReadCount desc ");
                     break;
                 case "精华":
                     sb_sql.Append(" order by Score desc ");
@@ -169,9 +152,9 @@ namespace TechQuickCode.Models.Manager
             conn.GiveBack();
             return result;
         }
+        #endregion
 
-       
-
+        #region 转HTML格式输出文章列表
         internal string GetHtmlList(string PlateName, string TypeName, int Page, int count)
         {
             string result = "";
@@ -185,8 +168,8 @@ namespace TechQuickCode.Models.Manager
                         StringBuilder sb = new StringBuilder();
                         foreach (var item in ArticleItems)
                         {
-                            sb.AppendFormat("<div class='ArticleItem'><div class='ArticleImg pull-left'><img src='{0}' width='100%' height='100%' /></div><div class='ArticleCard'><div class='ArticleTitle'><a href='/Article/Details/{1}' target='_blank'>{2}</a></div><div class='ArticleAttributes'><span><code>{3}</code></span><span>发布于:{4}</span><span>&nbsp;</span><span>分类：</span><span><a href='/Article/List/{5}'>{5}</a>&nbsp;/&nbsp;<a>{6}</a></span><span>&nbsp;</span><span>阅读：(</span><span>{7}</span><span>)</span><span>&nbsp;</span><span>评论：(</span><span>{8}</span><span>)</span><span>&nbsp;</span><span>评级：(</span><span>{9}分</span><span>)</span></div><div class='ArticleContent'><span>{10}</span></div><div class='ArticleTags'>",
-                                 item.ArticleHeadImage, item.GUID, item.ArticleTitle, item.Author, item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"), item.ArticlePlate, item.ArticleType, item.ReadCount, item.CommentCount, item.Score, item.ArticleDescription);
+                            sb.AppendFormat("<div class='ArticleItem'><div class='ArticleImg pull-left'><img src='{0}' width='100%' height='100%' /></div><div class='ArticleCard'><div class='ArticleTitle'><a href='/Article/Details/{1}' target='_blank'>{2}</a></div><div class='ArticleAttributes'><span><code>{3}</code></span><span>发布于:{4}</span><span>&nbsp;</span><span>分类：</span><span><a href='/Article/List/{5}'>{5}</a>&nbsp;/&nbsp;<a  href='/Article/List/{5}?Type={11}'>{6}</a></span><span>&nbsp;</span><span>阅读：(</span><span>{7}</span><span>)</span><span>&nbsp;</span><span>评论：(</span><span>{8}</span><span>)</span><span>&nbsp;</span><span>评级：(</span><span>{9}分</span><span>)</span></div><div class='ArticleContent'><span>{10}</span></div><div class='ArticleTags'>",
+                                 item.ArticleHeadImage, item.GUID, item.ArticleTitle, item.Author, item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"), item.ArticlePlate, item.ArticleType, item.ReadCount, item.CommentCount, item.Score, item.ArticleDescription, item.ArticleTypeID);
                             if (!string.IsNullOrEmpty(item.ArticleTags))
                             {
                                 string[] Tags = item.ArticleTags.Split(new string[] { ",", "，", ";", "；" }, StringSplitOptions.RemoveEmptyEntries);
@@ -197,11 +180,11 @@ namespace TechQuickCode.Models.Manager
                             }
                             sb.Append("</div></div></div>");
                         }
-                        result= sb.ToString();
+                        result = sb.ToString();
                     }
                     else
                     {
-                        result= " <div style='height:280px;text-align:center;padding-top:80px;'> 凸(艹皿艹 ) &nbsp;&nbsp;&nbsp;&nbsp;在数据库翻了翻，一篇文章都没有......</div>";
+                        result = " <div style='height:280px;text-align:center;padding-top:80px;'> 凸(艹皿艹 ) &nbsp;&nbsp;&nbsp;&nbsp;在数据库翻了翻，一篇文章都没有......</div>";
                     }
                     break;
                 case "案例库":
@@ -211,7 +194,7 @@ namespace TechQuickCode.Models.Manager
                         for (int i = 0; i < ArticleItems.Count; i++)
                         {
                             var ai = ArticleItems[i];
-                            sb.AppendFormat("<div class='ExampleTitle'><div class='pull-left  text'><span class='Index-{0}'>{0}</span><a href='/Article/Details/{1}' target='_blank'>{2}</a></div><div class='pull-right author'> <span class='pull-left'><a href='/User/Details/{3}' target='_blank'>{4}</a></span><span class='pull-right'>{5}</span></div><div style='clear: both;'></div></div>", i+1, ai.GUID, ai.ArticleTitle, ai.AuthorID, ai.Author, ai.CreateTime.ToString("yyyy-MM-dd"));
+                            sb.AppendFormat("<div class='ExampleTitle'><div class='pull-left  text'><span class='Index-{0}'>{0}</span><a href='/Article/Details/{1}' target='_blank'>{2}</a></div><div class='pull-right author'> <span class='pull-left'><a href='/User/Details/{3}' target='_blank'>{4}</a></span><span class='pull-right'>{5}</span></div><div style='clear: both;'></div></div>", i + 1, ai.GUID, ai.ArticleTitle, ai.AuthorID, ai.Author, ai.CreateTime.ToString("yyyy-MM-dd"));
                         }
                         result = sb.ToString();
                     }
@@ -221,11 +204,86 @@ namespace TechQuickCode.Models.Manager
                     }
                     break;
                 case "实用工具":
+                     if (ArticleItems.Count > 0)
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        for (int i = 0; i < ArticleItems.Count; i++)
+                        {
+                            var ai = ArticleItems[i];
+                            sb.AppendFormat("<div class='Tool'><div> <span class='ToolTitle'>{0}</span></div> <div><img src='{1}' title='VS 2010'></div> <div class='About'>{2}</div> <div> <button class='btn' onclick=\"ToDetaDetails('{3}')\">详细介绍</button> <button class='btn btn-warning'onclick=\"ToDownLoad('{4}')\">立即下载</button> </div> </div>"
+                                ,ai.ArticleTitle,ai.ArticleHeadImage,ai.ArticleDescription,ai.GUID,ai.ArticleAttachments.TrimEnd(','));
+                        }
+                        result = sb.ToString();
+                    }
+                    else
+                    {
+                        result = " <div style='height:140px;text-align:center;padding-top:40px;'> 凸(艹皿艹 ) &nbsp;&nbsp;&nbsp;&nbsp;在数据库翻了翻，一篇文章都没有......</div>";
+                    }
+
                     break;
                 default:
                     break;
             }
             return result;
         }
+        #endregion
+
+        #region 评论
+        internal object GetStar(string ArticleID, string UserID)
+        {
+            return null;
+        } 
+        #endregion
+
+        #region 分类与类型
+        internal Dictionary<string, List<ArticlePlateTypeItem>> GetArticlePlateType()
+        {
+            var result = PlateTypeItems.GroupBy(x => x.PlateName).ToDictionary(k => k.Key, v => v.ToList());
+            return result;
+        }
+
+        internal string AddPlateType(string PlateName, string TypeName)
+        {
+            string id = "";
+            var item = PlateTypeItems.Where(x => x.PlateName == PlateName && x.TypeName == TypeName).FirstOrDefault();
+            if (item == null)
+            {
+                var conn = MySQLConnectionPool.GetConnection();
+                var result = conn.ExecuteScalar(string.Format("INSERT INTO `ArticlePlateType` (`PlateName`, `TypeName`) VALUES ('{0}', '{1}');SELECT LAST_INSERT_ID();", PlateName, TypeName));
+                conn.GiveBack();
+                ArticlePlateTypeItem apit = new ArticlePlateTypeItem();
+                apit.ID = result.ToString();
+                apit.PlateName = PlateName;
+                apit.TypeName = TypeName;
+                apit.Count = 0;
+                PlateTypeItems.Add(apit);
+                id = apit.ID;
+            }
+            else
+            {
+                id = item.ID;
+            }
+            return id;
+        }
+        internal dynamic GetArticleTypesByPlateName(string plateName)
+        {
+
+            var result = PlateTypeItems.Where(x => x.PlateName == plateName).Select(x => new { x.ID, x.TypeName });
+            return result;
+        }
+
+        internal int GetTypeID(string plateName, string typeName)
+        {
+            var item = PlateTypeItems.Where(x => x.PlateName == plateName && x.TypeName == typeName).FirstOrDefault();
+            if (item == null)
+            {
+                return -1;
+            }
+            else
+            {
+                return Convert.ToInt32(item.ID);
+            }
+        }
+        #endregion
     }
 }
