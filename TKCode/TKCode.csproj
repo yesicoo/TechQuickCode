@@ -139,6 +139,7 @@
     <Compile Include="Controllers\DownLoadController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\UpLoadController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -596,6 +597,7 @@
     <Content Include="Content\Scripts\jquery-1.8.3.min.js" />
     <Content Include="Content\Scripts\jquery-2.1.4.min.js" />
     <Content Include="Content\Scripts\jquery.form.js" />
+    <Content Include="Content\Scripts\jquery.particleground.min.js" />
     <Content Include="Content\Scripts\jquery.pin.js" />
     <Content Include="Content\Scripts\jquery.raty.js" />
     <Content Include="Content\Scripts\jquery.scrollUp.min.js" />
@@ -667,6 +669,8 @@
     <Content Include="Views\Article\Create.cshtml" />
     <Content Include="Views\Article\Details.cshtml" />
     <Content Include="Views\Article\List.cshtml" />
+    <Content Include="Views\User\Details.cshtml" />
+    <Content Include="Views\Article\Edit.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

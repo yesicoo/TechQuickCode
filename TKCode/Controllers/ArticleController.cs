@@ -119,6 +119,23 @@ namespace TechQuickCode.Controllers
         #endregion
 
         #region 编辑文章
+        public ActionResult Edit(string id)
+        {
+            UserManager.Instance.CheckLogin(Request, ViewBag);
+            if (ViewBag.Login)
+            {
+                string guid = ArticleManager.Instance.GetArticleGUID();
+                ViewBag.GUID = guid;
+                ViewBag.Title = "创建新的文章";
+                return View();
+            }
+            else
+            {
+                return Redirect("/Home/Login");
+            }
+        }
+
+
         [HttpPost]
         public string Edit(string id, FormCollection collection)
         {
