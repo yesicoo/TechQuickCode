@@ -1,100 +1,40 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using TechQuickCode.Models.Entity;
 using TechQuickCode.Models.Manager;
 
 namespace TKCode.Controllers
 {
     public class UserController : Controller
     {
-      
-
         // GET: /User/Details/5
 
-        public ActionResult Details(int id)
+        public ActionResult Details(string id)
         {
             UserManager.Instance.CheckLogin(Request, ViewBag);
+            if (id == null)
+            {
+                return View("Index");
+            }
+            UserItem user = UserManager.Instance.GetUserByGUID(id);
+            if (user == null)
+            {
+                return View("404");
+            }
+            ViewBag.IsOwn = user.GUID == ViewBag.User.GUID;
+            ViewBag.WacthUser = user;
             return View();
         }
 
-        //
-        // GET: /User/Create
-
-        public ActionResult Create()
+        public string GetTypes(string id)
         {
-            return View();
+            dynamic data = ArticleManager.Instance.GetTypesByUserID(id);
+            return JsonConvert.SerializeObject(data);
         }
 
-        //
-        // POST: /User/Create
-
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add insert logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /User/Edit/5
-
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /User/Edit/5
-
-        [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        //
-        // GET: /User/Delete/5
-
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        //
-        // POST: /User/Delete/5
-
-        [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
-        {
-            try
-            {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
-            }
-            catch
-            {
-                return View();
-            }
-        }
     }
 }

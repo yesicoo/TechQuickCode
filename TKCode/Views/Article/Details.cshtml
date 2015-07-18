@@ -2,6 +2,10 @@
     <link href="~/Content/Css/editormd.preview.min.css" rel="stylesheet" />
     <link href="~/Content/Css/jquery.raty.css" rel="stylesheet" />
     <link href="~/Content/Css/ArticleDetails.css" rel="stylesheet" />
+    <link href="~/Content/Css/zTreeStyle.css" rel="stylesheet" />
+    <style>
+    
+    </style>
 }
 
 
@@ -23,7 +27,7 @@
                     }
                 </div>
                 <div class="ArticleAuthorTime">
-                    <span>By:<a href="/User/Details/@ViewBag.ArticleItem.AuthorID">@ViewBag.ArticleItem.Author</a></span>
+                    <span>By:<a href="/User/Details/@ViewBag.ArticleItem.AuthorID" target='_blank'>@ViewBag.ArticleItem.Author</a></span>
                     <span>&nbsp;&nbsp;</span>
                     <span>@ViewBag.ArticleItem.CreateTime</span>
                 </div>
@@ -49,16 +53,45 @@
                 <div id="Div_Star"><span>我要评分：</span><span id="Star"></span>&nbsp;&nbsp;</div>
                 <div id="Div_MyStar" hidden><span>我的评分：</span><span id="MyStar"></span>&nbsp;&nbsp;</div>
             </div>
-           
+            <div class="Evaluate">
+                <div></div>
+                <div id="EvaluateList" class="ztree"></div>
+            </div>
         </div>
     </div>
     @section Scripts{
 
         <script src="~/Content/Scripts/editormd.js"></script>
         <script src="~/Content/Scripts/jquery.raty.js"></script>
-
+        <script src="~/Content/Scripts/jquery.ztree.core-3.5.min.js"></script>
         <script>
             $.ready();
+            var setting = {
+                data: {
+                    simpleData: {
+                        enable: true
+                    }
+                },
+                view: {
+            nameIsHTML: true
+            }
+            };
+            var zNodes = [
+              { id: 1, pId: 0, open: true, name: "<div>1</div><div>2</div>",  icon: "/Content/Image/teemo.jpg" },
+              { id: 11, pId: 1, open: true, name: "叶子节点1", icon: "/Content/Image/teemo.jpg" },
+              { id: 12, pId: 1, open: true, name: "叶子节点2",  icon: "/Content/Image/teemo.jpg" },
+              { id: 13, pId: 1, open: true, name: "叶子节点3", icon: "/Content/Image/teemo.jpg" },
+              { id: 2, pId: 0, open: true, name: "展开、折叠 自定义图标相同",  icon: "/Content/Image/teemo.jpg" },
+              { id: 21, pId: 2, open: true, name: "叶子节点1", icon: "/Content/Image/teemo.jpg" },
+              { id: 22, pId: 2, open: true, name: "叶子节点2", icon: "/Content/Image/teemo.jpg" },
+              { id: 23, pId: 2, open: true, name: "叶子节点3", icon: "/Content/Image/teemo.jpg" },
+              { id: 3, pId: 0, open: true, name: "不使用自定义图标", icon: "/Content/Image/teemo.jpg" },
+              { id: 31, pId: 3, open: true, name: "叶子节点1", icon: "/Content/Image/teemo.jpg" },
+              { id: 32, pId: 3, open: true, name: "叶子节点2", icon: "/Content/Image/teemo.jpg" },
+              { id: 33, pId: 3, open: true, name: "叶子节点3", icon: "/Content/Image/teemo.jpg" }
+
+            ];
+
             var raty = $('#Star').raty({
                 path: '/Content/Images',
                 number: 10,
@@ -77,6 +110,15 @@
                     });
                 }
             });
+
+
+          
+
+          
+
+                $.fn.zTree.init($("#EvaluateList"), setting, zNodes);
+ 
+
 
         </script>
         @if (@ViewBag.ArticleItem.ArticleAttachments != null)

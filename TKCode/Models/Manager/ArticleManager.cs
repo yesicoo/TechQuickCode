@@ -161,32 +161,7 @@ namespace TechQuickCode.Models.Manager
             List<ArticleItem> ArticleItems = GetArticleItems(PlateName, TypeName, Page, count);
             switch (PlateName)
             {
-                case "技术片段":
-                case "项目框架":
-                    if (ArticleItems.Count > 0)
-                    {
-                        StringBuilder sb = new StringBuilder();
-                        foreach (var item in ArticleItems)
-                        {
-                            sb.AppendFormat("<div class='ArticleItem'><div class='ArticleImg pull-left'><img src='{0}' width='100%' height='100%' /></div><div class='ArticleCard'><div class='ArticleTitle'><a href='/Article/Details/{1}' target='_blank'>{2}</a></div><div class='ArticleAttributes'><span><code>{3}</code></span><span>发布于:{4}</span><span>&nbsp;</span><span>分类：</span><span><a href='/Article/List/{5}'>{5}</a>&nbsp;/&nbsp;<a  href='/Article/List/{5}?Type={11}'>{6}</a></span><span>&nbsp;</span><span>阅读：(</span><span>{7}</span><span>)</span><span>&nbsp;</span><span>评论：(</span><span>{8}</span><span>)</span><span>&nbsp;</span><span>评级：(</span><span>{9}分</span><span>)</span></div><div class='ArticleContent'><span>{10}</span></div><div class='ArticleTags'>",
-                                 item.ArticleHeadImage, item.GUID, item.ArticleTitle, item.Author, item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"), item.ArticlePlate, item.ArticleType, item.ReadCount, item.CommentCount, item.Score, item.ArticleDescription, item.ArticleTypeID);
-                            if (!string.IsNullOrEmpty(item.ArticleTags))
-                            {
-                                string[] Tags = item.ArticleTags.Split(new string[] { ",", "，", ";", "；" }, StringSplitOptions.RemoveEmptyEntries);
-                                foreach (var tag in Tags)
-                                {
-                                    sb.AppendFormat("<span class='btn btn-success'>{0}</span>", tag);
-                                }
-                            }
-                            sb.Append("</div></div></div>");
-                        }
-                        result = sb.ToString();
-                    }
-                    else
-                    {
-                        result = " <div style='height:280px;text-align:center;padding-top:80px;'> 凸(艹皿艹 ) &nbsp;&nbsp;&nbsp;&nbsp;在数据库翻了翻，一篇文章都没有......</div>";
-                    }
-                    break;
+
                 case "案例库":
                     if (ArticleItems.Count > 0)
                     {
@@ -204,14 +179,14 @@ namespace TechQuickCode.Models.Manager
                     }
                     break;
                 case "实用工具":
-                     if (ArticleItems.Count > 0)
+                    if (ArticleItems.Count > 0)
                     {
                         StringBuilder sb = new StringBuilder();
                         for (int i = 0; i < ArticleItems.Count; i++)
                         {
                             var ai = ArticleItems[i];
                             sb.AppendFormat("<div class='Tool'><div> <span class='ToolTitle'>{0}</span></div> <div><img src='{1}' title='VS 2010'></div> <div class='About'>{2}</div> <div> <button class='btn' onclick=\"ToDetaDetails('{3}')\">详细介绍</button> <button class='btn btn-warning'onclick=\"ToDownLoad('{4}')\">立即下载</button> </div> </div>"
-                                ,ai.ArticleTitle,ai.ArticleHeadImage,ai.ArticleDescription,ai.GUID,ai.ArticleAttachments.TrimEnd(','));
+                                , ai.ArticleTitle, ai.ArticleHeadImage, ai.ArticleDescription, ai.GUID, ai.ArticleAttachments.TrimEnd(','));
                         }
                         result = sb.ToString();
                     }
@@ -222,6 +197,29 @@ namespace TechQuickCode.Models.Manager
 
                     break;
                 default:
+                    if (ArticleItems.Count > 0)
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        foreach (var item in ArticleItems)
+                        {
+                            sb.AppendFormat("<div class='ArticleItem'><div class='ArticleImg pull-left'><img src='{0}' width='100%' height='100%' /></div><div class='ArticleCard'><div class='ArticleTitle'><a href='/Article/Details/{1}' target='_blank'>{2}</a></div><div class='ArticleAttributes'><span><a  href='/User/Details/{12}' target='_blank'>{3}</a></span><span>发布于:{4}</span><span>&nbsp;</span><span>分类：</span><span><a href='/Article/List/{5}'>{5}</a>&nbsp;/&nbsp;<a  href='/Article/List/{5}?Type={11}'>{6}</a></span><span>&nbsp;</span><span>阅读：(</span><span>{7}</span><span>)</span><span>&nbsp;</span><span>评论：(</span><span>{8}</span><span>)</span><span>&nbsp;</span><span>评级：(</span><span>{9}分</span><span>)</span></div><div class='ArticleContent'><span>{10}</span></div><div class='ArticleTags'>",
+                                 item.ArticleHeadImage, item.GUID, item.ArticleTitle, item.Author, item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"), item.ArticlePlate, item.ArticleType, item.ReadCount, item.CommentCount, item.Score, item.ArticleDescription, item.ArticleTypeID, item.AuthorID);
+                            if (!string.IsNullOrEmpty(item.ArticleTags))
+                            {
+                                string[] Tags = item.ArticleTags.Split(new string[] { ",", "，", ";", "；" }, StringSplitOptions.RemoveEmptyEntries);
+                                foreach (var tag in Tags)
+                                {
+                                    sb.AppendFormat("<span class='btn btn-success'>{0}</span>", tag);
+                                }
+                            }
+                            sb.Append("</div></div></div>");
+                        }
+                        result = sb.ToString();
+                    }
+                    else
+                    {
+                        result = " <div style='height:280px;text-align:center;padding-top:80px;'> 凸(艹皿艹 ) &nbsp;&nbsp;&nbsp;&nbsp;在数据库翻了翻，一篇文章都没有......</div>";
+                    }
                     break;
             }
             return result;
@@ -232,7 +230,7 @@ namespace TechQuickCode.Models.Manager
         internal object GetStar(string ArticleID, string UserID)
         {
             return null;
-        } 
+        }
         #endregion
 
         #region 分类与类型
@@ -284,6 +282,16 @@ namespace TechQuickCode.Models.Manager
                 return Convert.ToInt32(item.ID);
             }
         }
+
+        internal dynamic GetTypesByUserID(string uid)
+        {
+            var conn = MySQLConnectionPool.GetConnection();
+            dynamic result = conn.Query<dynamic>("SELECT ArticlePlate,COUNT(*) As Count  FROM articlelist where AuthorID='" + uid + "' GROUP BY ArticlePlate;");
+            conn.GiveBack();
+            return result;
+        }
         #endregion
+
+
     }
 }

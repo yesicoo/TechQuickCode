@@ -32,7 +32,7 @@
                 @if (ViewBag.Login)
                 {
                     <li>
-                        <a id="Nav_User" title="我的信息"><i class="iconfont ">&#xe608;</i>@ViewBag.UserName</a>
+                        <a id="Nav_User" title="我的信息" href="/User/Details/@ViewBag.User.GUID" target='_blank'><i class="iconfont ">&#xe608;</i>@ViewBag.UserName</a>
                     </li>
                     <li>
                         <a href="~/Article/Create" title="我也来一篇"><i class="iconfont ">&#xe61c;</i></a>

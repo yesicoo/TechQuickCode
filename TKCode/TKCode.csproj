@@ -131,6 +131,7 @@
     <Compile Include="App_Code\Engine.cs" />
     <Compile Include="App_Code\EntityUtils.cs" />
     <Compile Include="App_Code\MySQLConnectionPool.cs" />
+    <Compile Include="App_Code\PictureAnalysis.cs" />
     <Compile Include="App_Code\QEInterface.cs" />
     <Compile Include="App_Code\QLog.cs" />
     <Compile Include="App_Code\SqlMapper.cs" />
@@ -148,6 +149,7 @@
     <Compile Include="Models\Entity\ArticlePlateTypeItem.cs" />
     <Compile Include="Models\Entity\AttachmentItem.cs" />
     <Compile Include="Models\Entity\JResult.cs" />
+    <Compile Include="Models\Entity\LoginItem.cs" />
     <Compile Include="Models\Entity\StarItem.cs" />
     <Compile Include="Models\Entity\UserItem.cs" />
     <Compile Include="Models\Manager\ArticleManager.cs" />
@@ -173,6 +175,7 @@
     <Content Include="Content\Css\font-awesome.css" />
     <Content Include="Content\Css\font-awesome.min.css" />
     <Content Include="Content\Css\Index.css" />
+    <Content Include="Content\Css\jquery.dtGrid.min.css" />
     <Content Include="Content\Css\jquery.raty.css" />
     <Content Include="Content\Css\MainStyle.css" />
     <Content Include="Content\fonts\editormd-logo.svg" />
@@ -183,6 +186,7 @@
     <Content Include="Content\Images\cancel-off.png" />
     <Content Include="Content\Images\cancel-on.png" />
     <Content Include="Content\Images\code.jpg" />
+    <Content Include="Content\Images\head.jpg" />
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\loading%402x.gif" />
     <Content Include="Content\Images\loading%403x.gif" />
@@ -559,6 +563,7 @@
     <Content Include="Content\Scripts\i18n\cs.js" />
     <Content Include="Content\Scripts\i18n\da.js" />
     <Content Include="Content\Scripts\i18n\de.js" />
+    <Content Include="Content\Scripts\i18n\dtGrid_zh-cn.js" />
     <Content Include="Content\Scripts\i18n\en.js" />
     <Content Include="Content\Scripts\i18n\es.js" />
     <Content Include="Content\Scripts\i18n\et.js" />
@@ -596,6 +601,7 @@
     <Content Include="Content\Scripts\i18n\zh-TW.js" />
     <Content Include="Content\Scripts\jquery-1.8.3.min.js" />
     <Content Include="Content\Scripts\jquery-2.1.4.min.js" />
+    <Content Include="Content\Scripts\jquery.dtGrid.min.js" />
     <Content Include="Content\Scripts\jquery.form.js" />
     <Content Include="Content\Scripts\jquery.particleground.min.js" />
     <Content Include="Content\Scripts\jquery.pin.js" />

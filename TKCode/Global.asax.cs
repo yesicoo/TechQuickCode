@@ -21,6 +21,8 @@ namespace TKCode
 
             System.IO.DirectoryInfo di_ImageUpload = new System.IO.DirectoryInfo(Server.MapPath("~/") + "ImageUpload/");
             di_ImageUpload.Create();
+            System.IO.DirectoryInfo di_HeadImg = new System.IO.DirectoryInfo(Server.MapPath("~/") + "HeadImg/");
+            di_HeadImg.Create();
             System.IO.DirectoryInfo di_Attribute = new System.IO.DirectoryInfo(Server.MapPath("~/") + "Attribute/");
             di_Attribute.Create();
             Config.ArticleDataPath = Server.MapPath("~/") + "Article.db";

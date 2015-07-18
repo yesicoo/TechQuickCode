@@ -13,11 +13,11 @@
         </ul>
     </div>
     <div class="tab-content" id="TypePane">
-        <div class="tab-pane" page=1 id="ActiveList_New">
-          
+        <div class="tab-pane fade" page=1 id="ActiveList_New">
+
         </div>
-        <div class="tab-pane" page=1 id="ActiveList_Hot"></div>
-        <div class="tab-pane" page=1 id="ActiveList_Best"></div>
+        <div class="tab-pane  fade" page=1 id="ActiveList_Hot"></div>
+        <div class="tab-pane  fade" page=1 id="ActiveList_Best"></div>
     </div>
 
 
@@ -41,7 +41,7 @@
                     li_node.innerHTML = "<a id='A_" + item.ID + "' href='#ActiveList_" + item.ID + "'>" + item.TypeName + "</a>";
                     $("#myTab").append(li_node);
                     var div_node = document.createElement("div");
-                    div_node.className = "tab-pane";
+                    div_node.className = "tab-pane fade";
                     div_node.setAttribute("page", 1);
                     div_node.id = "ActiveList_" + item.ID;
                     $("#TypePane").append(div_node);
