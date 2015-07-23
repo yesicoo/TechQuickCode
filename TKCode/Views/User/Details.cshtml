@@ -8,6 +8,35 @@
     <title>@ViewBag.WacthUser.UserNickName</title>
     <link href="~/Content/Css/bootstrap.min.css" type="text/css" rel="stylesheet" />
     <style>
+        html ::-webkit-srollbar-track-piece {
+  background: none;
+  -webkit-border-radius: 0;
+}
+html ::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+html ::-webkit-scrollbar-thumb:vertical {
+  height: 50px;
+  background-color: #bbbbbb;
+  -webkit-border-radius: 4px;
+  outline: 0px solid #ffffff;
+  ouline-offset: -2px;
+  border: 2px solid #ffffff;
+}
+html ::-webkit-scrollbar-thumb:hover {
+  height: 50px;
+  background-color: #999999;
+  -webkit-border-radius: 4px;
+}
+html ::-webkit-scrollbar-thumb:horizontal {
+  width: 50px;
+  background-color: #bbbbbb;
+  -webkit-border-radius: 4px;
+  outline: 0px solid #ffffff;
+  ouline-offset: -2px;
+  border: 2px solid #ffffff;
+}
         body {
             font-family: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, 'Lantinghei SC', 'Hiragino Sans GB', 'Microsoft YaHei', "微软雅黑", STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
             margin: 0px;
@@ -156,48 +185,7 @@
             </div>
             <div class="tab-content" id="TypePane">
                 <div class="tab-pane fade in active" page=1 id="ActiveList_All">
-                    <div class="TabItem">
-                        <div>
-                            <div class="pull-left">
-                                <a class="ItemTitle" href="#">MySQL数据库高级查询</a>
-                            </div>
-                            <div class="pull-right Message">
-                                <a href="#">技术片段</a>&nbsp;/&nbsp;<a href="#">数据库</a> &nbsp;&nbsp;<span>2012-12-12 12:12:12</span>
-                            </div>
-                            <div style="clear:both"></div>
-                        </div>
-                        <div class="Description">
-                            <span>在项目中由于一开始数据库设计的时候没有照顾到功能的实现，所以后期的功能逻辑出现了很大的难度，不过倒也锻炼了自己的数据库查询技巧，这里总结一下数据查询的一些知识..</span>
-                        </div>
-                    </div>
-                    <div class="TabItem">
-                        <div>
-                            <div class="pull-left">
-                                <a class="ItemTitle" href="#">MySQL数据库高级查询</a>
-                            </div>
-                            <div class="pull-right Message">
-                                <a href="#">技术片段</a>&nbsp;/&nbsp;<a href="#">数据库</a> &nbsp;&nbsp;<span>2012-12-12 12:12:12</span>
-                            </div>
-                            <div style="clear:both"></div>
-                        </div>
-                        <div class="Description">
-                            <span>在项目中由于一开始数据库设计的时候没有照顾到功能的实现，所以后期的功能逻辑出现了很大的难度，不过倒也锻炼了自己的数据库查询技巧，这里总结一下数据查询的一些知识..</span>
-                        </div>
-                    </div>
-                    <div class="TabItem">
-                        <div>
-                            <div class="pull-left">
-                                <a class="ItemTitle" href="#">MySQL数据库高级查询</a>
-                            </div>
-                            <div class="pull-right Message">
-                                <a href="#">技术片段</a>&nbsp;/&nbsp;<a href="#">数据库</a> &nbsp;&nbsp;<span>2012-12-12 12:12:12</span>
-                            </div>
-                            <div style="clear:both"></div>
-                        </div>
-                        <div class="Description">
-                            <span>在项目中由于一开始数据库设计的时候没有照顾到功能的实现，所以后期的功能逻辑出现了很大的难度，不过倒也锻炼了自己的数据库查询技巧，这里总结一下数据查询的一些知识..</span>
-                        </div>
-                    </div>
+                    
 
                 </div>
             </div>
@@ -249,13 +237,13 @@
     <script src="~/Content/Scripts/bootstrap.min.js"></script>
     <script src="~/Content/Scripts/jquery.particleground.min.js"></script>
     <script>
-        $('#Head').particleground({
-            dotColor: '#ffffff',
-            lineColor: '#ffffff'
-        });
-        var PlateName = "All";
-        var DataID = "All";
-        $.get("/User/GetTypes/@ViewBag.WacthUser.GUID", function (d, s, x) {
+    $('#Head').particleground({
+        dotColor: '#ffffff',
+        lineColor: '#ffffff'
+    });
+    var PlateName = "All";
+    var DataID = "All";
+    $.get("/User/GetTypes/@ViewBag.WacthUser.GUID", function (d, s, x) {
             if (s == "success") {
                 var jd = JSON.parse(d);
                 for (var i = 0; i < jd.length; i++) {
@@ -269,17 +257,37 @@
                     div_node.id = "ActiveList_" + i;
                     $("#TypePane").append(div_node);
                 }
+                $('#myTab a').click(function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                    PlateName = e.target.attributes["PlateName"].value;
+                    DataID = e.target.attributes["DataID"].value;
+                    if ($("#ActiveList_" + DataID).children("div").length == 0) {
+                        LoadArticle();
+                    }
+                });
+                $('#myTab a:first').trigger("click");
             }
-            $('#myTab a').click(function (e) {
-                e.preventDefault();
-                $(this).tab('show');
-                PlateName = e.target.attributes["PlateName"].value;
-                DataID = e.target.attributes["DataID"].value;
 
-            })
-            $('#myTab a:first').trigger("click");
         });
 
+        function LoadArticle() {
+            var Div_Article = $('#ActiveList_' + DataID);
+            var page = parseInt(Div_Article.attr("page"));
+
+            $.post("/Article/ArticleItemListByPlateForUser", { PlateName: PlateName, Page: page,Token:"@ViewBag.WacthUser.GUID" }, function (d, s, x) {
+                if (s == "success") {
+                    var jds = JSON.parse(d);
+                    var html="";
+                    for (var i = 0; i < jds.length; i++) {
+                        var jd = jds[i];
+                        html = html + '<div class="TabItem"> <div> <div class="pull-left"> <a class="ItemTitle" href="/Article/Details/' + jd.GUID+ '" target="_blank">' + jd.ArticleTitle + '</a> </div><div class="pull-right Message"> <a >' + jd.ArticlePlate + '</a>&nbsp;/&nbsp;<a >' + jd.ArticleType + '</a> &nbsp;&nbsp;<span>' + jd.CreateTime + '</span> </div> <div style="clear:both"></div></div> <div class="Description"> <span>' + jd.ArticleDescription + '</span> </div></div>';
+                    }
+                    Div_Article.append(html);
+                }
+            });
+            Div_Article.attr("page", page + 1);
+        }
     </script>
 </body>
 </html>

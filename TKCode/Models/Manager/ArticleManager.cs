@@ -127,6 +127,24 @@ namespace TechQuickCode.Models.Manager
         }
         #endregion
 
+        #region 分类获取板块文章数据
+        internal List<ArticleItem> GetArticleItemsByPlate(string PlateName,int page, int count = 10)
+        {
+            StringBuilder sb_sql = new StringBuilder("select * from ArticleList where Publish=1");
+            if (PlateName != "All")
+            {
+                sb_sql.Append(" and ArticlePlate='").Append(PlateName).Append("'");
+            }
+            sb_sql.AppendFormat(" order by CreateTime desc  limit {0},{1}", (page - 1) * count, count);
+            var conn = MySQLConnectionPool.GetConnection();
+            var result = conn.Query<ArticleItem>(sb_sql.ToString()).ToList();
+            conn.GiveBack();
+            return result;
+        }
+
+        #endregion
+
+
         #region 分页获取文章数据
         internal List<ArticleItem> GetArticleItems(string PlateName, string TypeName, int page, int count = 10)
         {
@@ -286,12 +304,25 @@ namespace TechQuickCode.Models.Manager
         internal dynamic GetTypesByUserID(string uid)
         {
             var conn = MySQLConnectionPool.GetConnection();
-            dynamic result = conn.Query<dynamic>("SELECT ArticlePlate,COUNT(*) As Count  FROM articlelist where AuthorID='" + uid + "' GROUP BY ArticlePlate;");
+            dynamic result = conn.Query<dynamic>("SELECT ArticlePlate,COUNT(*) As Count  FROM ArticleList where Publish=1 and AuthorID='" + uid + "' GROUP BY ArticlePlate;");
             conn.GiveBack();
             return result;
         }
         #endregion
 
 
+        internal List<ArticleItem> GetArticleItemsByPlateForUser(string PlateName, int page, string uid, int count)
+        {
+            StringBuilder sb_sql = new StringBuilder("select * from ArticleList where  AuthorID='" + uid + "'");
+            if (PlateName != "All")
+            {
+                sb_sql.Append(" and ArticlePlate='").Append(PlateName).Append("'");
+            }
+            sb_sql.AppendFormat(" order by CreateTime desc  limit {0},{1}", (page - 1) * count, count);
+            var conn = MySQLConnectionPool.GetConnection();
+            var result = conn.Query<ArticleItem>(sb_sql.ToString()).ToList();
+            conn.GiveBack();
+            return result;
+        }
     }
 }

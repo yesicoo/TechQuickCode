@@ -220,6 +220,21 @@ namespace TechQuickCode.Controllers
             string HtmlStr = ArticleManager.Instance.GetHtmlList(PlateName, TypeName, Page, count);
             return HtmlStr;
         }
+
+        public string ArticleItemListByPlate(string PlateName, int Page, int count = 10)
+        {
+            var listItem = ArticleManager.Instance.GetArticleItemsByPlate(PlateName, Page, count);
+            var newItmes = listItem.Select(x => new {x.GUID,x.ArticleTitle, x.ArticleDescription, x.ArticlePlate, x.ArticleType, x.ArticleTypeID, CreateTime = x.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") });
+            return JsonConvert.SerializeObject(newItmes);
+        }
+
+        public string ArticleItemListByPlateForUser(string PlateName, int Page,string Token,int count = 10)
+        {
+
+            var listItem = ArticleManager.Instance.GetArticleItemsByPlateForUser(PlateName, Page,Token, count);
+            var newItmes = listItem.Select(x => new { x.GUID, x.ArticleTitle, x.ArticleDescription, x.ArticlePlate, x.ArticleType, x.ArticleTypeID, CreateTime = x.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") });
+            return JsonConvert.SerializeObject(newItmes);
+        }
         #endregion
 
         #region 获取附件列表

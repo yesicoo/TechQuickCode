@@ -25,7 +25,7 @@ namespace TKCode.Controllers
             {
                 return View("404");
             }
-            ViewBag.IsOwn = user.GUID == ViewBag.User.GUID;
+            ViewBag.IsOwn =ViewBag.Login?user.GUID == ViewBag.User.GUID:false;
             ViewBag.WacthUser = user;
             return View();
         }
