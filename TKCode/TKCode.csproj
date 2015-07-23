@@ -178,6 +178,7 @@
     <Content Include="Content\Css\jquery.dtGrid.min.css" />
     <Content Include="Content\Css\jquery.raty.css" />
     <Content Include="Content\Css\MainStyle.css" />
+    <Content Include="Content\Css\simditor.css" />
     <Content Include="Content\fonts\editormd-logo.svg" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
     <Content Include="Content\fonts\icomoon.svg" />
@@ -187,6 +188,7 @@
     <Content Include="Content\Images\cancel-on.png" />
     <Content Include="Content\Images\code.jpg" />
     <Content Include="Content\Images\head.jpg" />
+    <Content Include="Content\Images\image.png" />
     <Content Include="Content\Images\logo.png" />
     <Content Include="Content\Images\loading%402x.gif" />
     <Content Include="Content\Images\loading%403x.gif" />
@@ -557,6 +559,8 @@
     <Content Include="Content\Scripts\editormd.min.js" />
     <Content Include="Content\Scripts\extend\layer.ext.js" />
     <Content Include="Content\Scripts\flavr.min.js" />
+    <Content Include="Content\Scripts\hotkeys.js" />
+    <Content Include="Content\Scripts\hotkeys.min.js" />
     <Content Include="Content\Scripts\i18n\az.js" />
     <Content Include="Content\Scripts\i18n\bg.js" />
     <Content Include="Content\Scripts\i18n\ca.js" />
@@ -603,13 +607,18 @@
     <Content Include="Content\Scripts\jquery-2.1.4.min.js" />
     <Content Include="Content\Scripts\jquery.dtGrid.min.js" />
     <Content Include="Content\Scripts\jquery.form.js" />
+    <Content Include="Content\Scripts\jquery.min.js" />
     <Content Include="Content\Scripts\jquery.particleground.min.js" />
     <Content Include="Content\Scripts\jquery.pin.js" />
     <Content Include="Content\Scripts\jquery.raty.js" />
     <Content Include="Content\Scripts\jquery.scrollUp.min.js" />
     <Content Include="Content\Scripts\layer.js" />
     <Content Include="Content\Scripts\less.min.js" />
+    <Content Include="Content\Scripts\module.js" />
+    <Content Include="Content\Scripts\module.min.js" />
     <Content Include="Content\Scripts\nprogress.js" />
+    <Content Include="Content\Scripts\simditor.js" />
+    <Content Include="Content\Scripts\simditor.min.js" />
     <Content Include="Content\Scripts\skin\default\icon-ext.png" />
     <Content Include="Content\Scripts\skin\default\icon.png" />
     <Content Include="Content\Scripts\skin\default\loading-0.gif" />
@@ -617,6 +626,8 @@
     <Content Include="Content\Scripts\skin\default\loading-2.gif" />
     <Content Include="Content\Scripts\skin\layer.css" />
     <Content Include="Content\Scripts\skin\layer.ext.css" />
+    <Content Include="Content\Scripts\uploader.js" />
+    <Content Include="Content\Scripts\uploader.min.js" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
@@ -663,6 +674,9 @@
     <Content Include="Content\plugins\emoji-dialog\emoji.json" />
     <Content Include="Content\plugins\help-dialog\help.md" />
     <Content Include="Content\plugins\html-entities-dialog\html-entities.json" />
+    <Content Include="Content\Css\editor.scss" />
+    <Content Include="Content\Css\fonticon.scss" />
+    <Content Include="Content\Css\simditor.scss" />
     <None Include="Properties\PublishProfiles\Code.pubxml" />
     <Content Include="Views\Shared\_Footer.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
@@ -672,11 +686,12 @@
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Login.cshtml" />
-    <Content Include="Views\Article\Create.cshtml" />
+    <Content Include="Views\Article\CreateByMD.cshtml" />
     <Content Include="Views\Article\Details.cshtml" />
     <Content Include="Views\Article\List.cshtml" />
     <Content Include="Views\User\Details.cshtml" />
     <Content Include="Views\Article\Edit.cshtml" />
+    <Content Include="Views\Article\Create.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

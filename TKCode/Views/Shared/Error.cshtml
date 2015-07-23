@@ -1,18 +1,34 @@
 ﻿@{
-    Layout = null;
+    ViewBag.Title = ViewBag.Error;
 }
 
 <!DOCTYPE html>
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <meta name="viewport" content="width=device-width" />
     <title>错误</title>
+    <style>
+        .ErrorRom {
+            background-color: white;
+            width: 90%;
+            margin-left: 5%;
+            border: solid 1px #D8D8D8;
+            border-radius: 5px;
+            height: auto;
+            min-height: 560px;
+            padding-top: 12%;
+            text-align: center;
+        }
+            .ErrorRom span {
+                font-size: xx-large;
+            }
+    </style>
 </head>
 <body>
-    <hgroup>
-        <h1>错误。</h1>
-        <h2>处理你的请求时出错。</h2>
-    </hgroup>
+    <div class="ErrorRom">
+        <span>@ViewBag.Error</span>
+        <div><a href="/">返回首页</a></div>
+    </div>
 </body>
 </html>

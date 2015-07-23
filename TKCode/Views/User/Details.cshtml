@@ -7,36 +7,42 @@
 <head>
     <title>@ViewBag.WacthUser.UserNickName</title>
     <link href="~/Content/Css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+    <link rel="stylesheet" href="~/Content/Css/font-awesome.css" />
     <style>
         html ::-webkit-srollbar-track-piece {
-  background: none;
-  -webkit-border-radius: 0;
-}
-html ::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
-}
-html ::-webkit-scrollbar-thumb:vertical {
-  height: 50px;
-  background-color: #bbbbbb;
-  -webkit-border-radius: 4px;
-  outline: 0px solid #ffffff;
-  ouline-offset: -2px;
-  border: 2px solid #ffffff;
-}
-html ::-webkit-scrollbar-thumb:hover {
-  height: 50px;
-  background-color: #999999;
-  -webkit-border-radius: 4px;
-}
-html ::-webkit-scrollbar-thumb:horizontal {
-  width: 50px;
-  background-color: #bbbbbb;
-  -webkit-border-radius: 4px;
-  outline: 0px solid #ffffff;
-  ouline-offset: -2px;
-  border: 2px solid #ffffff;
-}
+            background: none;
+            -webkit-border-radius: 0;
+        }
+
+        html ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        html ::-webkit-scrollbar-thumb:vertical {
+            height: 50px;
+            background-color: #bbbbbb;
+            -webkit-border-radius: 4px;
+            outline: 0px solid #ffffff;
+            ouline-offset: -2px;
+            border: 2px solid #ffffff;
+        }
+
+        html ::-webkit-scrollbar-thumb:hover {
+            height: 50px;
+            background-color: #999999;
+            -webkit-border-radius: 4px;
+        }
+
+        html ::-webkit-scrollbar-thumb:horizontal {
+            width: 50px;
+            background-color: #bbbbbb;
+            -webkit-border-radius: 4px;
+            outline: 0px solid #ffffff;
+            ouline-offset: -2px;
+            border: 2px solid #ffffff;
+        }
+
         body {
             font-family: 'Avenir Next', Avenir, 'Helvetica Neue', Helvetica, 'Lantinghei SC', 'Hiragino Sans GB', 'Microsoft YaHei', "微软雅黑", STHeiti, 'WenQuanYi Micro Hei', SimSun, sans-serif;
             margin: 0px;
@@ -162,6 +168,15 @@ html ::-webkit-scrollbar-thumb:horizontal {
             .TabItem .Message {
                 margin-top: 8px;
             }
+             .TabItem .Tools {
+                 visibility:hidden
+            }
+
+            .TabItem .TitleRom:hover .Tools{
+                 visibility:visible
+              
+            }
+
     </style>
 </head>
 <body>
@@ -185,8 +200,7 @@ html ::-webkit-scrollbar-thumb:horizontal {
             </div>
             <div class="tab-content" id="TypePane">
                 <div class="tab-pane fade in active" page=1 id="ActiveList_All">
-                    
-
+                 
                 </div>
             </div>
         </div>
@@ -237,19 +251,19 @@ html ::-webkit-scrollbar-thumb:horizontal {
     <script src="~/Content/Scripts/bootstrap.min.js"></script>
     <script src="~/Content/Scripts/jquery.particleground.min.js"></script>
     <script>
-    $('#Head').particleground({
-        dotColor: '#ffffff',
-        lineColor: '#ffffff'
-    });
-    var PlateName = "All";
-    var DataID = "All";
-    $.get("/User/GetTypes/@ViewBag.WacthUser.GUID", function (d, s, x) {
+        $('#Head').particleground({
+            dotColor: '#ffffff',
+            lineColor: '#ffffff'
+        });
+        var PlateName = "All";
+        var DataID = "All";
+        $.get("/User/GetTypes/@ViewBag.WacthUser.GUID", function (d, s, x) {
             if (s == "success") {
                 var jd = JSON.parse(d);
                 for (var i = 0; i < jd.length; i++) {
                     var item = jd[i];
                     var li_node = document.createElement("li");
-                    li_node.innerHTML = "<a id='A_" + i + "' href='#ActiveList_" + i + "' DataID='"+i+"' PlateName='" + item.ArticlePlate + "' >" + item.ArticlePlate + "(" + item.Count + ")</a>";
+                    li_node.innerHTML = "<a id='A_" + i + "' href='#ActiveList_" + i + "' DataID='" + i + "' PlateName='" + item.ArticlePlate + "' >" + item.ArticlePlate + "(" + item.Count + ")</a>";
                     $("#myTab").append(li_node);
                     var div_node = document.createElement("div");
                     div_node.className = "tab-pane fade";
@@ -271,23 +285,60 @@ html ::-webkit-scrollbar-thumb:horizontal {
 
         });
 
-        function LoadArticle() {
-            var Div_Article = $('#ActiveList_' + DataID);
-            var page = parseInt(Div_Article.attr("page"));
 
-            $.post("/Article/ArticleItemListByPlateForUser", { PlateName: PlateName, Page: page,Token:"@ViewBag.WacthUser.GUID" }, function (d, s, x) {
-                if (s == "success") {
-                    var jds = JSON.parse(d);
-                    var html="";
-                    for (var i = 0; i < jds.length; i++) {
-                        var jd = jds[i];
-                        html = html + '<div class="TabItem"> <div> <div class="pull-left"> <a class="ItemTitle" href="/Article/Details/' + jd.GUID+ '" target="_blank">' + jd.ArticleTitle + '</a> </div><div class="pull-right Message"> <a >' + jd.ArticlePlate + '</a>&nbsp;/&nbsp;<a >' + jd.ArticleType + '</a> &nbsp;&nbsp;<span>' + jd.CreateTime + '</span> </div> <div style="clear:both"></div></div> <div class="Description"> <span>' + jd.ArticleDescription + '</span> </div></div>';
-                    }
-                    Div_Article.append(html);
-                }
-            });
-            Div_Article.attr("page", page + 1);
-        }
+
     </script>
+    @{if (ViewBag.IsOwn)
+    {
+        <script>
+            function LoadArticle() {
+                var Div_Article = $('#ActiveList_' + DataID);
+                var page = parseInt(Div_Article.attr("page"));
+
+                $.post("/Article/ArticleItemListByPlateForUser", { PlateName: PlateName, Page: page, Token: "@ViewBag.WacthUser.GUID" }, function (d, s, x) {
+                    if (s == "success") {
+                        var jds = JSON.parse(d);
+                        var html = "";
+                        for (var i = 0; i < jds.length; i++) {
+                            var jd = jds[i];
+                            html = html + '<div class="TabItem"> <div  class="TitleRom"> <div class="pull-left"><a class="ItemTitle" href="/Article/Details/' + jd.GUID + '" target="_blank">' + jd.ArticleTitle + '</a> <span class="Tools"> &nbsp; <a onclick="EditArticle(\'' + jd.GUID + '\')"><i class="fa fa-edit"></i></a> &nbsp; <a onclick="DeleteArticle(\'' + jd.GUID + '\')"><i class="fa fa-trash-o"></i></a> </span></div><div class="pull-right Message"> <a >' + jd.ArticlePlate + '</a>&nbsp;/&nbsp;<a >' + jd.ArticleType + '</a> &nbsp;&nbsp;<span>' + jd.CreateTime + '</span> </div> <div style="clear:both"></div></div> <div class="Description"> <span>' + jd.ArticleDescription + '</span> </div></div>';
+                        }
+                        Div_Article.append(html);
+                    }
+                });
+                Div_Article.attr("page", page + 1);
+            }
+            function EditArticle(id) {
+              
+                location.href = "/Article/Edit/" + id;
+            }
+            function DeleteArticle(e) {
+                alert(e);
+            }
+        </script>
+        
+    }
+    else
+    {
+        <script>
+            function LoadArticle() {
+                var Div_Article = $('#ActiveList_' + DataID);
+                var page = parseInt(Div_Article.attr("page"));
+
+                $.post("/Article/ArticleItemListByPlateForUser", { PlateName: PlateName, Page: page, Token: "@ViewBag.WacthUser.GUID" }, function (d, s, x) {
+                    if (s == "success") {
+                        var jds = JSON.parse(d);
+                        var html = "";
+                        for (var i = 0; i < jds.length; i++) {
+                            var jd = jds[i];
+                            html = html + '<div class="TabItem"> <div> <div class="pull-left"> <a class="ItemTitle" href="/Article/Details/' + jd.GUID + '" target="_blank">' + jd.ArticleTitle + '</a> </div><div class="pull-right Message"> <a >' + jd.ArticlePlate + '</a>&nbsp;/&nbsp;<a >' + jd.ArticleType + '</a> &nbsp;&nbsp;<span>' + jd.CreateTime + '</span> </div> <div style="clear:both"></div></div> <div class="Description"> <span>' + jd.ArticleDescription + '</span> </div></div>';
+                        }
+                        Div_Article.append(html);
+                    }
+                });
+                Div_Article.attr("page", page + 1);
+            }
+        </script>
+    }}
 </body>
 </html>

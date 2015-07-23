@@ -41,7 +41,7 @@ namespace TechQuickCode.Models.Manager
         {
             string acs = HttpUtility.UrlDecode(GUIDs).TrimEnd(',').Replace(",", "','");
             var conn = MySQLConnectionPool.GetConnection();
-            var result = conn.Query<AttachmentItem>("select GUID,FileName,FileFontCode,FileLength,DownLoadCount from AttachmentList where GUID in ('" + acs + "')").ToList();
+            var result = conn.Query<AttachmentItem>("select GUID,FileName,FileFontCode,FileType,FileLength,DownLoadCount from AttachmentList where GUID in ('" + acs + "')").ToList();
             conn.GiveBack();
             return result;
         }

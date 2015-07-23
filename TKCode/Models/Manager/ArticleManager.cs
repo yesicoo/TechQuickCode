@@ -66,7 +66,7 @@ namespace TechQuickCode.Models.Manager
                     guids.Remove(guid);
                 }
                 ai.ArticleTypeID = GetTypeID(ai.ArticlePlate, ai.ArticleType);
-                string UpdateSql = ai.GetUpdateSQL("GUID", "ArticleList", "CreateTime");
+                string UpdateSql = ai.GetUpdateSQL("GUID", "ArticleList", "CreateTime,ReadCount,CommentCount,Score");
                 QLog.SendLog_Debug(UpdateSql, "ArticleManager");
                 conn.Execute(UpdateSql);
                 conn.GiveBack();

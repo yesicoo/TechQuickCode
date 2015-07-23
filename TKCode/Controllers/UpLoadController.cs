@@ -15,6 +15,35 @@ namespace TechQuickCode.Controllers
     public class UpLoadController : Controller
     {
 
+
+        public string SimditorImges(HttpPostedFileBase ImageFileName)
+        {
+
+            bool uploadOK = false;
+            string error = string.Empty;
+            string Extension = System.IO.Path.GetExtension(ImageFileName.FileName);
+            string fileName = Guid.NewGuid().ToString().Replace("-", "") + (string.IsNullOrEmpty(Extension) ? ".png" : Extension);
+            string filePhysicalPath = Server.MapPath("~/ImageUpload/" + fileName);
+            string pic = "";
+            try
+            {
+                ImageFileName.SaveAs(filePhysicalPath);
+                pic = "/ImageUpload/" + fileName;
+                uploadOK = true;
+            }
+            catch (Exception ex)
+            {
+                error = ex.Message;
+            }
+
+            dynamic jr = new ExpandoObject();
+            jr.success = uploadOK ? 1 : 0;
+            jr.file_path = pic;
+            jr.message = error;
+            return JsonConvert.SerializeObject(jr);
+        }
+
+
         [HttpPost]
         public string Imges(HttpPostedFileBase imagefile)
         {

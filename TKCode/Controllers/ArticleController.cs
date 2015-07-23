@@ -124,10 +124,24 @@ namespace TechQuickCode.Controllers
             UserManager.Instance.CheckLogin(Request, ViewBag);
             if (ViewBag.Login)
             {
-                string guid = ArticleManager.Instance.GetArticleGUID();
-                ViewBag.GUID = guid;
-                ViewBag.Title = "创建新的文章";
-                return View();
+                var articleItem = ArticleManager.Instance.GetArticleItem(id);
+                if (articleItem == null)
+                {
+                    ViewBag.Error = "不可编辑不存在的文档！";
+                    return View("Error");
+                }
+                if (ViewBag.User.GUID == articleItem.AuthorID)
+                {
+                    ViewBag.Article = articleItem;
+                    ViewBag.ArticleContent = ArticleManager.Instance.GetArticleContentItem(articleItem.GUID).ArticleHtml;
+                    ViewBag.Title = "编辑-" + articleItem.ArticleTitle;
+                    return View();
+                }
+                else
+                {
+                    ViewBag.Error = "不可编辑非本人发布的文档！";
+                    return View("Error");
+                }
             }
             else
             {
@@ -224,14 +238,14 @@ namespace TechQuickCode.Controllers
         public string ArticleItemListByPlate(string PlateName, int Page, int count = 10)
         {
             var listItem = ArticleManager.Instance.GetArticleItemsByPlate(PlateName, Page, count);
-            var newItmes = listItem.Select(x => new {x.GUID,x.ArticleTitle, x.ArticleDescription, x.ArticlePlate, x.ArticleType, x.ArticleTypeID, CreateTime = x.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") });
+            var newItmes = listItem.Select(x => new { x.GUID, x.ArticleTitle, x.ArticleDescription, x.ArticlePlate, x.ArticleType, x.ArticleTypeID, CreateTime = x.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") });
             return JsonConvert.SerializeObject(newItmes);
         }
 
-        public string ArticleItemListByPlateForUser(string PlateName, int Page,string Token,int count = 10)
+        public string ArticleItemListByPlateForUser(string PlateName, int Page, string Token, int count = 10)
         {
 
-            var listItem = ArticleManager.Instance.GetArticleItemsByPlateForUser(PlateName, Page,Token, count);
+            var listItem = ArticleManager.Instance.GetArticleItemsByPlateForUser(PlateName, Page, Token, count);
             var newItmes = listItem.Select(x => new { x.GUID, x.ArticleTitle, x.ArticleDescription, x.ArticlePlate, x.ArticleType, x.ArticleTypeID, CreateTime = x.CreateTime.ToString("yyyy-MM-dd HH:mm:ss") });
             return JsonConvert.SerializeObject(newItmes);
         }

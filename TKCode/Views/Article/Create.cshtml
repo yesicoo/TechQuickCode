@@ -1,13 +1,13 @@
 ﻿@{
-    ViewBag.Title = "新建文档";
+
 }
+
 @section Css{
 
-    <link href="~/Content/Css/editormd.min.css" rel="stylesheet" />
+
     <link href="~/Content/Css/CreatePage.css" rel="stylesheet" />
+    <link rel="stylesheet" type="text/css" href="~/Content/Css/simditor.css" />
 }
-
-
 <div class="CreatePage">
     <div class="Titles">
         <div class="input-group TitleGroup">
@@ -16,13 +16,12 @@
         </div>
         <div class="input-group PlateGroup">
             <span class="input-group-addon PlateText">板块&分类：</span>
-            <select id="ArticleType" class="form-control PlateSelect">
-            </select>
+            <select id="ArticleType" class="form-control PlateSelect"></select>
         </div>
     </div>
-    <div id="test-editormd" class="MDEditor">
-        <textarea style="display:none;"></textarea>
-    </div>
+    <div style="clear:both"></div>
+    <textarea id="editor" placeholder="这里输入内容" autofocus></textarea>
+
     <div class="Attribute">
         <div class="input-group TagGroup">
             <span class="input-group-addon TagText">标签：</span>
@@ -51,35 +50,38 @@
             <button id="btn_Publish" class="btn btn-success">立即发布</button>
         </div>
     </div>
-    <p></p>
-    <p></p>
 </div>
-
-
-
 @section Scripts{
-    <script src="~/Content/Scripts/jquery.form.js"></script>
-    <script src="~/Content/Scripts/editormd.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/jquery.min.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/jquery.form.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/module.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/hotkeys.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/uploader.js"></script>
+    <script type="text/javascript" src="~/Content/Scripts/simditor.js"></script>
     <script>
-    var GUID = '@ViewBag.GUID';
-    var testEditor;
-    var articPlate = "技术片段";
-    var articType = "Asp.Net";
-    var DraftStatus = document.getElementById("DraftStatus");
-    $(document).ready(function () {
+        var GUID = '@ViewBag.GUID';
+        var articPlate = "技术片段";
+        var articType = "Asp.Net";
+        var DraftStatus = document.getElementById("DraftStatus");
+
+        //------------Simditor---------------
+        var toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'];
+        var editor = new Simditor({
+            toolbar: toolbar,
+            textarea: $('#editor'),
+            defaultImage: '/Content/images/image.png', //编辑器插入图片时使用的默认图片
+            upload: {
+                url: '/UpLoad/SimditorImges', //文件上传的接口地址
+                params: null, //键值对,指定文件上传接口的额外参数,上传的时候随文件一起提交
+                fileKey: 'ImageFileName', //服务器端获取文件数据的参数名
+                connectionCount: 1,
+                leaveConfirm: '正在上传文件'
+            },
+            pasteImage:true
+        });
 
         layer.config({
             extend: 'extend/layer.ext.js'
-        });
-        testEditor = editormd("test-editormd", {
-            width: "100%",
-            height: 600,
-            syncScrolling: "single",
-            path: "../Content/lib/",
-            emoji: true,
-            imageUpload: true,
-            imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
-            imageUploadURL: "/Upload/Imges",
         });
 
         $.post("/Article/GetPlateType", function (e, s) {
@@ -127,7 +129,7 @@
         });
         $("#btn_Save").click(function () {
             var articleTitle = $("#ArticleTitle").val();
-            var htmlstr = encodeURIComponent(testEditor.getPreviewedHTML());
+            var htmlstr = encodeURIComponent(editor.getValue());
             if (articleTitle != "" && htmlstr != "") {
                 var attachments = "";
                 var acs = $("#AttachmentList .SP_id")
@@ -141,7 +143,7 @@
                 articleData.ArticleTags = $("#ArticTypeTags").val();
                 articleData.ArticleAttachments = attachments;
                 articleData.ArticleHtml = htmlstr;
-                articleData.ArticleMarkdown = encodeURIComponent(testEditor.getMarkdown());
+                articleData.ArticleMarkdown = encodeURIComponent("");
                 $.post("/Article/Edit/" + "@ViewBag.GUID", articleData, function (e, s) {
                     var d = JSON.parse(e);
                     if (d.success == 1) {
@@ -155,7 +157,7 @@
         });
         $("#btn_Publish").click(function () {
             var articleTitle = $("#ArticleTitle").val();
-            var htmlstr = encodeURIComponent(testEditor.getPreviewedHTML());
+            var htmlstr = encodeURIComponent(editor.getValue());
             var isOK = false;
             var acs = $("#AttachmentList .SP_id");
             if (articPlate == "实用工具") {
@@ -182,7 +184,7 @@
                     articleData.ArticleTags = $("#ArticTypeTags").val();
                     articleData.ArticleAttachments = attachments;
                     articleData.ArticleHtml = htmlstr;
-                    articleData.ArticleMarkdown = encodeURIComponent(testEditor.getMarkdown());
+                    articleData.ArticleMarkdown = encodeURIComponent("");
                     $.post("/Article/Edit/" + "@ViewBag.GUID", articleData, function (e, s) {
                         var d = JSON.parse(e);
                         if (d.success == 1) {
@@ -207,7 +209,6 @@
                     layer.msg("文档无标题或者无内容，无法保存！");
                 }
             }
-            });
         });
         function UpLoadFileChange(e) {
             layer.load(2);
@@ -246,7 +247,7 @@
         //自动保存
         setInterval(function () {
             var articleTitle = $("#ArticleTitle").val();
-            var htmlstr = encodeURIComponent(testEditor.getPreviewedHTML());
+            var htmlstr = encodeURIComponent(editor.getValue());
             if (articleTitle != "" && htmlstr != "") {
                 var attachments = "";
                 var acs = $("#AttachmentList .SP_id")
@@ -260,15 +261,15 @@
                 articleData.ArticleTags = $("#ArticTypeTags").val();
                 articleData.ArticleAttachments = attachments;
                 articleData.ArticleHtml = htmlstr;
-                articleData.ArticleMarkdown = encodeURIComponent(testEditor.getMarkdown());
+                articleData.ArticleMarkdown = encodeURIComponent("");
                 $.post("/Article/Edit/" + "@ViewBag.GUID", articleData, function (e, s) {
-                var d = JSON.parse(e);
-                if (d.success == 1) {
-                    DraftStatus.innerHTML = "<span>文档于：" + d.UpdateTime + " 自动保存为草稿</span><a href='/Article/Details/@ViewBag.GUID' target='_blank'> 新页面预览 </a> ";
-                }
-            });
-        }
-    }, 30000);
+                    var d = JSON.parse(e);
+                    if (d.success == 1) {
+                        DraftStatus.innerHTML = "<span>文档于：" + d.UpdateTime + " 自动保存为草稿</span><a href='/Article/Details/@ViewBag.GUID' target='_blank'> 新页面预览 </a> ";
+                    }
+                });
+            }
+        }, 30000);
+
     </script>
 }
-
