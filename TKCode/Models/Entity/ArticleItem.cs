@@ -23,6 +23,7 @@ namespace TechQuickCode.Models.Entity
         public int CommentCount { set; get; }
         public double Score { set; get; }
 
+        public int Publish { set; get; }
       //  public int Publish { set; get; }
         public DateTime CreateTime { set; get; }
         public DateTime UpdateTime { set; get; }

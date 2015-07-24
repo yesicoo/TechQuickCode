@@ -66,7 +66,7 @@ namespace TechQuickCode.Models.Manager
                     guids.Remove(guid);
                 }
                 ai.ArticleTypeID = GetTypeID(ai.ArticlePlate, ai.ArticleType);
-                string UpdateSql = ai.GetUpdateSQL("GUID", "ArticleList", "CreateTime,ReadCount,CommentCount,Score");
+                string UpdateSql = ai.GetUpdateSQL("GUID", "ArticleList", "CreateTime,ReadCount,CommentCount,Score,Publish");
                 QLog.SendLog_Debug(UpdateSql, "ArticleManager");
                 conn.Execute(UpdateSql);
                 conn.GiveBack();
@@ -227,7 +227,7 @@ namespace TechQuickCode.Models.Manager
                                 string[] Tags = item.ArticleTags.Split(new string[] { ",", "，", ";", "；" }, StringSplitOptions.RemoveEmptyEntries);
                                 foreach (var tag in Tags)
                                 {
-                                    sb.AppendFormat("<span class='btn btn-success'>{0}</span>", tag);
+                                    sb.AppendFormat("<span class='btn btn-success' onclick=\"location.href='/Article/Tag/{0}'\" >{0}</span>", tag);
                                 }
                             }
                             sb.Append("</div></div></div>");
@@ -314,15 +314,66 @@ namespace TechQuickCode.Models.Manager
         internal List<ArticleItem> GetArticleItemsByPlateForUser(string PlateName, int page, string uid, int count)
         {
             StringBuilder sb_sql = new StringBuilder("select * from ArticleList where  AuthorID='" + uid + "'");
-            if (PlateName != "All")
+
+            switch (PlateName)
             {
-                sb_sql.Append(" and ArticlePlate='").Append(PlateName).Append("'");
+                case"All":
+                    sb_sql.Append(" and Publish=1");
+                    break;
+                case"NoPublish":
+                    sb_sql.Append(" and Publish=0");
+                    break;
+                default:
+                    sb_sql.Append(" and Publish=1 and ArticlePlate='").Append(PlateName).Append("'");
+                    break;
             }
+
             sb_sql.AppendFormat(" order by CreateTime desc  limit {0},{1}", (page - 1) * count, count);
             var conn = MySQLConnectionPool.GetConnection();
             var result = conn.Query<ArticleItem>(sb_sql.ToString()).ToList();
             conn.GiveBack();
             return result;
+        }
+
+        internal List<ArticleItem> GetArticleItemsByTag(string tag, int page, int count)
+        {
+            var result = new List<ArticleItem>();
+            var conn = MySQLConnectionPool.GetConnection();
+            try
+            {
+                result = conn.Query<ArticleItem>( string.Format("select * from ArticleList where Publish=1 and ArticleTags like '%{0}%' order by CreateTime desc  limit {1},{2};",tag,(page - 1) * count, count)).ToList();
+            }
+            catch (Exception ex)
+            {
+
+                QLog.SendLog_Exception(ex.Message, tag);
+            }
+            finally
+            {
+                conn.GiveBack();
+            }
+            return result;
+        }
+
+        internal string GetArticleItemsHTMLByTag(string Tag, int Page, int count)
+        {
+            var ArticleItems = GetArticleItemsByTag(Tag, Page, count);
+            StringBuilder sb = new StringBuilder();
+            foreach (var item in ArticleItems)
+            {
+                sb.AppendFormat("<div class='ArticleItem'><div class='ArticleImg pull-left'><img src='{0}' width='100%' height='100%' /></div><div class='ArticleCard'><div class='ArticleTitle'><a href='/Article/Details/{1}' target='_blank'>{2}</a></div><div class='ArticleAttributes'><span><a  href='/User/Details/{12}' target='_blank'>{3}</a></span><span>发布于:{4}</span><span>&nbsp;</span><span>分类：</span><span><a href='/Article/List/{5}'>{5}</a>&nbsp;/&nbsp;<a  href='/Article/List/{5}?Type={11}'>{6}</a></span><span>&nbsp;</span><span>阅读：(</span><span>{7}</span><span>)</span><span>&nbsp;</span><span>评论：(</span><span>{8}</span><span>)</span><span>&nbsp;</span><span>评级：(</span><span>{9}分</span><span>)</span></div><div class='ArticleContent'><span>{10}</span></div><div class='ArticleTags'>",
+                     item.ArticleHeadImage, item.GUID, item.ArticleTitle, item.Author, item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"), item.ArticlePlate, item.ArticleType, item.ReadCount, item.CommentCount, item.Score, item.ArticleDescription, item.ArticleTypeID, item.AuthorID);
+                if (!string.IsNullOrEmpty(item.ArticleTags))
+                {
+                    string[] Tags = item.ArticleTags.Split(new string[] { ",", "，", ";", "；" }, StringSplitOptions.RemoveEmptyEntries);
+                    foreach (var tag in Tags)
+                    {
+                        sb.AppendFormat("<span class='btn btn-success' onclick=\"location.href='/Article/Tag/{0}'\">{0}</span>", tag);
+                    }
+                }
+                sb.Append("</div></div></div>");
+            }
+            return sb.ToString();
         }
     }
 }

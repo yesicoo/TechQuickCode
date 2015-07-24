@@ -205,6 +205,33 @@ namespace TechQuickCode.Controllers
 
         #region 列表
         [HttpGet]
+        public ActionResult Tag(string id)
+        {
+            UserManager.Instance.CheckLogin(Request, ViewBag);
+            if (string.IsNullOrEmpty(id))
+            {
+                return View("404");
+            }
+            else
+            {
+                ViewBag.Tag = id;
+                ViewBag.Title = id + "-TechQuick'Code";
+                return View();
+            }
+        }
+
+        [HttpPost]
+        public string GetTagHTML(string Tag, int Page, int count = 10)
+        {
+
+            string result = ArticleManager.Instance.GetArticleItemsHTMLByTag(Tag, Page, count);
+            return result;
+
+           
+        }
+
+
+        [HttpGet]
         public ActionResult List(string id)
         {
             UserManager.Instance.CheckLogin(Request, ViewBag);

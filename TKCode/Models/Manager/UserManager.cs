@@ -109,5 +109,16 @@ namespace TechQuickCode.Models.Manager
             UserItem user = Users.Where(x => x.GUID == id).FirstOrDefault();
             return user;
         }
+
+        internal bool UpdateUserHeadImg(string id,string headimg)
+        {
+            UserItem user = Users.Where(x => x.GUID == id).FirstOrDefault();
+            user.UserHeadImg = headimg;
+            string sql = user.GetUpdateSQL("GUID", "UserList", "UserHeadImg", true);
+            var conn = MySQLConnectionPool.GetConnection();
+            conn.Execute(sql);
+            conn.GiveBack();
+            return true;
+        }
     }
 }

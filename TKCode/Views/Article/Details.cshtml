@@ -24,7 +24,7 @@
                     <span>&nbsp;&nbsp;</span>
                     @foreach (var item in @ViewBag.Tags)
                     {
-                        <span class="btn btn-success TagBtn">@item</span>
+                        <span class="btn btn-success TagBtn" onclick="location.href='/Article/Tag/@item'">@item</span>
                     }
                 </div>
                 <div class="ArticleAuthorTime">

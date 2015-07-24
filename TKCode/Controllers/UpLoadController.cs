@@ -70,8 +70,8 @@ namespace TechQuickCode.Controllers
             jr.message = error;
             return JsonConvert.SerializeObject(jr);
         }
-
-        public string Heads(HttpPostedFileBase headfile)
+         [HttpPost]
+        public string Heads(HttpPostedFileBase headfile,string uid)
         {
 
             bool uploadOK = false;
@@ -85,7 +85,8 @@ namespace TechQuickCode.Controllers
                 headfile.SaveAs(filePhysicalPath);
                 pic = "/HeadImg/" + fileName;
                 uploadOK = true;
-                color = PictureAnalysis.GetMostUsedColor(pic);
+                UserManager.Instance.UpdateUserHeadImg(uid, pic);
+              //  color = PictureAnalysis.GetMostUsedColor(filePhysicalPath);
             }
             catch (Exception ex)
             {
@@ -95,7 +96,7 @@ namespace TechQuickCode.Controllers
             dynamic jr = new ExpandoObject();
             jr.success = uploadOK ? 1 : 0;
             jr.url = pic;
-            jr.color = pic;
+            jr.color = color;
             jr.message = error;
             return JsonConvert.SerializeObject(jr);
         }

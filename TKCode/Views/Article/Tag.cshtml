@@ -1,0 +1,24 @@
+﻿@section Css{
+    <link href="~/Content/Css/ArticleList.css" rel="stylesheet" />
+}
+<div class="ArticleList">
+    <div class="PlateName"><span>[@ViewBag.Tag]</span><span>标签的文档</span></div>
+    <div id="TypePane">
+        <div class=" active  fade in" page=1 id="ActiveList_List"></div>
+    </div>
+    </div>
+@section Scripts{
+    <script>
+     function LoadArticle() {
+         var Div_Article = $('#ActiveList_List');
+            var page = parseInt(Div_Article.attr("page"));
+            $.post("/Article/GetTagHTML", { Tag: "@ViewBag.Tag",  Page: page }, function (d, s, x) {
+                if (s == "success") {
+                    Div_Article.append(d);
+                }});
+            Div_Article.attr("page",page + 1);
+     }
+
+        LoadArticle();
+     </script>
+    }
