@@ -82,7 +82,7 @@ namespace TechQuickCode.Models.Manager
         }
         #endregion
 
-        #region 读取文章列表信息
+        #region 读取文章信息
         internal ArticleItem GetArticleItem(string id)
         {
             ArticleItem ai = null;
@@ -90,6 +90,23 @@ namespace TechQuickCode.Models.Manager
             try
             {
                 ai = conn.Query<ArticleItem>(string.Format("update ArticleList Set ReadCount=ReadCount+1 where  GUID='{0}'; select * from ArticleList where GUID='{0}' and Publish>-1;", id)).SingleOrDefault();
+            }
+            catch (Exception ex)
+            {
+                QLog.SendLog(ex.ToString());
+            }
+            conn.GiveBack();
+
+            return ai;
+        }
+
+        internal ArticleItem GetArticleItemByNickName(string nickName)
+        {
+            ArticleItem ai = null;
+            var conn = MySQLConnectionPool.GetConnection();
+            try
+            {
+                ai = conn.Query<ArticleItem>(string.Format("update ArticleList Set ReadCount=ReadCount+1 where  NickName='{0}'; select * from ArticleList where NickName='{0}' and Publish>-1;", nickName)).SingleOrDefault();
             }
             catch (Exception ex)
             {
@@ -300,6 +317,18 @@ namespace TechQuickCode.Models.Manager
                 return Convert.ToInt32(item.ID);
             }
         }
+        internal int GetOrCreateTypeID(string plateName, string typeName)
+        {
+            var item = PlateTypeItems.Where(x => x.PlateName == plateName && x.TypeName == typeName).FirstOrDefault();
+            if (item == null)
+            {
+               return int.Parse(AddPlateType(plateName, typeName));
+            }
+            else
+            {
+                return Convert.ToInt32(item.ID);
+            }
+        }
 
         internal dynamic GetTypesByUserID(string uid)
         {
@@ -393,6 +422,15 @@ namespace TechQuickCode.Models.Manager
             {
                 conn.GiveBack();
             }
+        }
+
+        internal bool ChangeNickName(string articleID, string nickName)
+        {
+            var conn = MySQLConnectionPool.GetConnection();
+            string sql = string.Format("update `ArticleList` Set  NickName='{1}' where  GUID='{0}';", articleID, nickName);
+            var result = conn.Execute(sql);
+            conn.GiveBack();
+            return result == 1 ? true : false;
         }
     }
 }

@@ -1,7 +1,9 @@
-﻿using Newtonsoft.Json;
+﻿using LinqToExcel;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Dynamic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -9,6 +11,7 @@ using TechQuickCode.App_Code;
 using TechQuickCode.Models.Entity;
 using TechQuickCode.Models.Manager;
 using TKCode.App_Code;
+using TKCode.Models.Entity;
 
 namespace TechQuickCode.Controllers
 {
@@ -70,8 +73,8 @@ namespace TechQuickCode.Controllers
             jr.message = error;
             return JsonConvert.SerializeObject(jr);
         }
-         [HttpPost]
-        public string Heads(HttpPostedFileBase headfile,string uid)
+        [HttpPost]
+        public string Heads(HttpPostedFileBase headfile, string uid)
         {
 
             bool uploadOK = false;
@@ -86,7 +89,7 @@ namespace TechQuickCode.Controllers
                 pic = "/HeadImg/" + fileName;
                 uploadOK = true;
                 UserManager.Instance.UpdateUserHeadImg(uid, pic);
-              //  color = PictureAnalysis.GetMostUsedColor(filePhysicalPath);
+                //  color = PictureAnalysis.GetMostUsedColor(filePhysicalPath);
             }
             catch (Exception ex)
             {
@@ -149,5 +152,56 @@ namespace TechQuickCode.Controllers
             jr.success = uploadOK ? 1 : 0;
             return JsonConvert.SerializeObject(jr);
         }
+
+        [HttpPost]
+        public string ImportArticle(HttpPostedFileBase ArticleFile)
+        {
+
+            int count=0;
+            try
+            {
+              
+                string filepath=Server.MapPath("~/Attribute/_IA_" + DateTime.Now.ToString("yyyyMMddHHmmssfff_") + ArticleFile.FileName);
+                ArticleFile.SaveAs(filepath);
+                 var excelFile = new ExcelQueryFactory(filepath);
+                 var data = excelFile.Worksheet<ImportArticleItem>();
+                 count = data.Count();
+                 foreach (var item in data)
+                 {
+                     ArticleItem ai = new ArticleItem();
+                     ai.GUID = ArticleManager.Instance.GetArticleGUID();
+                     ai.ArticleDescription = Utils.ReplaceHtmlTag(item.文档类容);
+                     ai.ArticleHeadImage = "/Content/Images/logo.png";
+                     ai.ArticlePlate = item.板块名称.Trim();
+                     ai.ArticleTags = item.文档标签.Trim();
+                     ai.ArticleTitle = item.文档标题.Trim();
+                     ai.ArticleType = item.类别名称.Trim();
+                     ai.ArticleTypeID = ArticleManager.Instance.GetOrCreateTypeID(ai.ArticlePlate, ai.ArticleType);
+                     ai.Author = item.文档作者姓名.Trim();
+                     ai.AuthorID = UserManager.Instance.GetUserByUserName(ai.Author);
+                     ai.CreateTime = DateTime.Now;
+                     ArticleContentItem  aci=new ArticleContentItem ();
+                     aci.ArticleHtml= HttpUtility.UrlDecode(item.文档类容.Trim().Replace("\n","<br/>"));
+                     aci.ArticleMarkdown="";
+                     ArticleManager.Instance.UpdateArticle(ai.GUID, ai, aci);
+                 }
+              
+            }
+            catch (Exception ex)
+            {
+
+                Qing.QLog.SendLog(ex.Message);
+                return "导入出错："+ex.Message;
+            }
+
+            return "导入成功 共" + count+"条";
+        }
+
+        public ActionResult ImportArticle()
+        {
+            UserManager.Instance.CheckLogin(Request, ViewBag);
+            return View();
+        }
+
     }
 }

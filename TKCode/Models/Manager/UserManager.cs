@@ -109,6 +109,19 @@ namespace TechQuickCode.Models.Manager
             UserItem user = Users.Where(x => x.GUID == id).FirstOrDefault();
             return user;
         }
+        internal string  GetUserByUserName(string userName)
+        {
+            UserItem user = Users.Where(x => x.UserNickName == userName).FirstOrDefault();
+            if (user == null)
+            {
+                return "NoPeople";
+            }
+            else
+            {
+                return user.GUID;
+            }
+           
+        }
 
         internal bool UpdateUserHeadImg(string id,string headimg)
         {

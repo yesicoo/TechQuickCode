@@ -48,9 +48,24 @@
     <Reference Include="Fleck">
       <HintPath>..\packages\Fleck.0.13.0.52\lib\net40\Fleck.dll</HintPath>
     </Reference>
+    <Reference Include="LinqToExcel">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\LinqToExcel.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net">
+      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MySql.Data">
       <HintPath>..\packages\MySql.Data.6.9.6\lib\net40\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Data.Linq">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Data.Linq.dll</HintPath>
+    </Reference>
+    <Reference Include="Remotion.Interfaces">
+      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="STSdb4">
       <HintPath>..\packages\STSdb.4.0.0\lib\STSdb4.dll</HintPath>
@@ -148,6 +163,7 @@
     <Compile Include="Models\Entity\ArticleItem.cs" />
     <Compile Include="Models\Entity\ArticlePlateTypeItem.cs" />
     <Compile Include="Models\Entity\AttachmentItem.cs" />
+    <Compile Include="Models\Entity\ImportArticleItem.cs" />
     <Compile Include="Models\Entity\JResult.cs" />
     <Compile Include="Models\Entity\LoginItem.cs" />
     <Compile Include="Models\Entity\StarItem.cs" />
@@ -695,6 +711,7 @@
     <Content Include="Views\Article\Edit.cshtml" />
     <Content Include="Views\Article\Create.cshtml" />
     <Content Include="Views\Article\Tag.cshtml" />
+    <Content Include="Views\UpLoad\ImportArticle.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

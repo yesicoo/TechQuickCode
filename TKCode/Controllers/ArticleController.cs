@@ -76,14 +76,18 @@ namespace TechQuickCode.Controllers
             }
             else
             {
-
                 ViewBag.Title = "页面找不到了....";
                 bool find = false;
-                ArticleContentItem aci = ArticleManager.Instance.GetArticleContentItem(NickName);
-                if (aci != null)
+                ViewBag.IsOwn = false;
+                ArticleItem ai = ArticleManager.Instance.GetArticleItemByNickName(NickName);
+                if (ai != null)
                 {
+                    if (ViewBag.Login)
+                    {
+                        ViewBag.IsOwn = ai.AuthorID == ViewBag.User.GUID;
+                    }
                     ViewBag.Tags = new List<string>();
-                    ArticleItem ai = ArticleManager.Instance.GetArticleItem(NickName);
+                    ArticleContentItem aci = ArticleManager.Instance.GetArticleContentItem(ai.GUID);
                     ViewBag.Title = ai.ArticleTitle;
                     ViewBag.ArticleItem = ai;
                     if (!string.IsNullOrEmpty(ai.ArticleTags))
@@ -188,8 +192,17 @@ namespace TechQuickCode.Controllers
             return JsonConvert.SerializeObject(re);
 
         }
+       
+        [HttpPost]
+        public bool ChangeNickName(string ArticleID, string NickName)
+        {
+          bool result=  ArticleManager.Instance.ChangeNickName(ArticleID, NickName);
+          return result;
+        }
+        
         #endregion
 
+        #region 删除
         [HttpPost]
         public string Delete(string ArticleID)
         {
@@ -216,8 +229,9 @@ namespace TechQuickCode.Controllers
                     }
                 }
             }
-           return JsonConvert.SerializeObject(jr);
-        }
+            return JsonConvert.SerializeObject(jr);
+        } 
+        #endregion
 
         #region 发布
         [HttpPost]
