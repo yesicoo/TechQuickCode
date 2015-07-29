@@ -182,6 +182,35 @@ namespace TechQuickCode.Controllers
         }
         #endregion
 
+        [HttpPost]
+        public string Delete(string ArticleID)
+        {
+            JResult jr = new JResult();
+            UserManager.Instance.CheckLogin(Request, ViewBag);
+            if (ViewBag.Login)
+            {
+                var articleItem = ArticleManager.Instance.GetArticleItem(ArticleID);
+                if (articleItem == null)
+                {
+                    jr.ErrorMsg = "文档不存在";
+
+                }
+                else
+                {
+                    if (ViewBag.User.GUID == articleItem.AuthorID)
+                    {
+                        ArticleManager.Instance.DeleteArticle(articleItem.GUID);
+                        jr.Success = true;
+                    }
+                    else
+                    {
+                        jr.ErrorMsg = "非文档作者不可删除！";
+                    }
+                }
+            }
+           return JsonConvert.SerializeObject(jr);
+        }
+
         #region 发布
         [HttpPost]
         public string Publish(string ArticleID)

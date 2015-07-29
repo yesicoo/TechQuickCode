@@ -67,7 +67,7 @@
 
                 #Head .HeadImage img {
                     border-radius: 50%;
-                    cursor:pointer;
+                    cursor: pointer;
                 }
 
             #Head .UserName {
@@ -188,204 +188,241 @@
             }
             else
             {
-                <img id="HeadImg" title="换个头像" src="@ViewBag.WacthUser.UserHeadImg"  width="100%" height="100%" onclick="SelectImgFile()" />
-    <form id="AjaxUploadForm" enctype='multipart/form-data'>
-        <input type="file" style="visibility:hidden;height:0px;" name="headfile" id="input_SelectFile" accept="image/*" onchange="HeadUpLoadChange(this)" />
-        <input type="hidden" style="visibility:hidden;height:0px;" name="uid" value="@ViewBag.WacthUser.GUID" />
-    </form>
+                <img id="HeadImg" title="换个头像" src="@ViewBag.WacthUser.UserHeadImg" width="100%" height="100%" onclick="SelectImgFile()" />
+                <form id="AjaxUploadForm" enctype='multipart/form-data'>
+                    <input type="file" style="visibility:hidden;height:0px;" name="headfile" id="input_SelectFile" accept="image/*" onchange="HeadUpLoadChange(this)" />
+                    <input type="hidden" style="visibility:hidden;height:0px;" name="uid" value="@ViewBag.WacthUser.GUID" />
+                </form>
             }
+        </div>
+        <div class="UserName">
+            <span>@ViewBag.WacthUser.UserNickName</span>
+        </div>
+        <div class="UserMail">
+            <span><a href="mailto:@ViewBag.WacthUser.UserEmail"> @ViewBag.WacthUser.UserEmail</a></span>
+        </div>
     </div>
-                <div class="UserName">
-                    <span>@ViewBag.WacthUser.UserNickName</span>
+    <div id="Content">
+        <div class="Type">
+            <div>
+                <ul class="nav nav-tabs" id="myTab">
+                    <li><a id="A_All" href="#ActiveList_All" dataid='All' platename='All'>全部</a></li>
+                </ul>
+            </div>
+            <div class="tab-content" id="TypePane">
+                <div class="tab-pane fade in active" page=1 id="ActiveList_All">
+                    <div id="ActiveList_All_Rom"></div>
                 </div>
-                <div class="UserMail">
-                    <span><a href="mailto:@ViewBag.WacthUser.UserEmail"> @ViewBag.WacthUser.UserEmail</a></span>
+               
+            </div>
+            <div><button id="btn_More" class="btn btn-block btn-default" onclick="LoadArticle()">更多</button></div>
+        </div>
+        <div class="New">
+            <div class="Title">最新动态</div>
+            <div class="New_Content">
+                <div class="NewItem">
+                    <div class="Message">
+                        <span>2012-12-12 12:12:12</span>
+                        <span>在</span>
+                        <span><a href="#">技术片段</a>/<a href="#">数据库</a></span>
+                        <span>发布</span>
+                        <span><a href="#">MySQL数据库高级查询</a></span>
+                    </div>
+                    <div class="Description">
+                        <span>在项目中由于一开始数据库设计的时候没有照顾到功能的实现，所以后期的功能逻辑出现了很大的难度，不过倒也锻炼了自己的数据库查询技巧，这里总结一下数据查询的一些知识..</span>
+                    </div>
+                </div>
+                <div class="NewItem">
+                    <div class="Message">
+                        <span>2015-12-11 15:12:12</span>
+                        <span>对文章</span>
+                        <span>《<a href="#">MySQL数据库高级查询</a>》</span>
+                        <span>进行如下评论：</span>
+
+                    </div>
+                    <div class="Description">
+                        <span>在项目中由于一开始数据库设计的时候没有照顾到功能的实现，所以后期的功能逻辑出现了很大的难度，不过倒也锻炼了自己的数据库查询技巧，这里总结一下数据查询的一些知识..</span>
+                    </div>
+                </div>
+
+                <div class="NewItem">
+                    <div class="Message">
+                        <span>2012-12-12 12:12:12</span>
+                        <span>在</span>
+                        <span><a href="#">技术片段</a>/<a href="#">数据库</a></span>
+                        <span>发布</span>
+                        <span><a href="#">MySQL数据库高级查询</a></span>
+                    </div>
+                    <div class="Description">
+                        <span>在项目中由于一开始数据库设计的时候没有照顾到功能的实现，所以后期的功能逻辑出现了很大的难度，不过倒也锻炼了自己的数据库查询技巧，这里总结一下数据查询的一些知识..</span>
+                    </div>
                 </div>
             </div>
-                <div id="Content">
-                    <div class="Type">
-                        <div>
-                            <ul class="nav nav-tabs" id="myTab">
-                                <li><a id="A_All" href="#ActiveList_All" dataid='All' platename='All'>全部</a></li>
-                            </ul>
-                        </div>
-                        <div class="tab-content" id="TypePane">
-                            <div class="tab-pane fade in active" page=1 id="ActiveList_All">
+        </div>
+    </div>
+    <script src="~/Content/Scripts/jquery-1.8.3.min.js"></script>
+    <script src="~/Content/Scripts/bootstrap.min.js"></script>
+    <script src="~/Content/Scripts/jquery.particleground.min.js"></script>
+    <script src="~/Content/Scripts/layer.js"></script>
+    <script>
+        $('#Head').particleground({
+            dotColor: '#ffffff',
+            lineColor: '#ffffff'
+        });
+        var PlateName = "All";
+        var DataID = "All";
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
+        $.get("/User/GetTypes/@ViewBag.WacthUser.GUID", function (d, s, x) {
+            if (s == "success") {
+                var jd = JSON.parse(d);
+                for (var i = 0; i < jd.length; i++) {
+                    var item = jd[i];
+                    var li_node = document.createElement("li");
+                    li_node.innerHTML = "<a id='A_" + i + "' href='#ActiveList_" + i + "' DataID='" + i + "' PlateName='" + item.ArticlePlate + "' >" + item.ArticlePlate + "(" + item.Count + ")</a>";
+                    $("#myTab").append(li_node);
+                    var div_node = document.createElement("div");
+                    div_node.className = "tab-pane fade";
+                    div_node.setAttribute("page", 1);
+                    div_node.id = "ActiveList_" + i;
+                    div_node.innerHTML = ' <div id="ActiveList_' + i + '_Rom"></div>';
+                    $("#TypePane").append(div_node);
+                }
+                $('#myTab a').click(function (e) {
+                    e.preventDefault();
+                    $(this).tab('show');
+                    PlateName = e.target.attributes["PlateName"].value;
+                    DataID = e.target.attributes["DataID"].value;
+                    if ($("#ActiveList_" + DataID + "_Rom").children("div").length == 0) {
+                        LoadArticle();
+                    }
+                });
+                $('#myTab a:first').trigger("click");
+            }
+        });
 
-                            </div>
-                        </div>
-                    </div>
-                    <div class="New">
-                        <div class="Title">最新动态</div>
-                        <div class="New_Content">
-                            <div class="NewItem">
-                                <div class="Message">
-                                    <span>2012-12-12 12:12:12</span>
-                                    <span>在</span>
-                                    <span><a href="#">技术片段</a>/<a href="#">数据库</a></span>
-                                    <span>发布</span>
-                                    <span><a href="#">MySQL数据库高级查询</a></span>
-                                </div>
-                                <div class="Description">
-                                    <span>在项目中由于一开始数据库设计的时候没有照顾到功能的实现，所以后期的功能逻辑出现了很大的难度，不过倒也锻炼了自己的数据库查询技巧，这里总结一下数据查询的一些知识..</span>
-                                </div>
-                            </div>
-                            <div class="NewItem">
-                                <div class="Message">
-                                    <span>2015-12-11 15:12:12</span>
-                                    <span>对文章</span>
-                                    <span>《<a href="#">MySQL数据库高级查询</a>》</span>
-                                    <span>进行如下评论：</span>
+    </script>
+    @{if (ViewBag.IsOwn)
+    {
+        <script type="text/javascript" src="~/Content/Scripts/jquery.form.js"></script>
+        <script>
 
-                                </div>
-                                <div class="Description">
-                                    <span>在项目中由于一开始数据库设计的时候没有照顾到功能的实现，所以后期的功能逻辑出现了很大的难度，不过倒也锻炼了自己的数据库查询技巧，这里总结一下数据查询的一些知识..</span>
-                                </div>
-                            </div>
+            var li_node = document.createElement("li");
+            li_node.innerHTML = "<a id='A_NoPublish' href='#ActiveList_NoPublish' DataID='NoPublish' PlateName='NoPublish' >未发布</a>";
+            $("#myTab").append(li_node);
+            var div_node = document.createElement("div");
+            div_node.className = "tab-pane fade";
+            div_node.setAttribute("page", 1);
+            div_node.id = "ActiveList_NoPublish";
+            div_node.innerHTML = ' <div id="ActiveList_NoPublish_Rom"></div>';
+            $("#TypePane").append(div_node);
 
-                            <div class="NewItem">
-                                <div class="Message">
-                                    <span>2012-12-12 12:12:12</span>
-                                    <span>在</span>
-                                    <span><a href="#">技术片段</a>/<a href="#">数据库</a></span>
-                                    <span>发布</span>
-                                    <span><a href="#">MySQL数据库高级查询</a></span>
-                                </div>
-                                <div class="Description">
-                                    <span>在项目中由于一开始数据库设计的时候没有照顾到功能的实现，所以后期的功能逻辑出现了很大的难度，不过倒也锻炼了自己的数据库查询技巧，这里总结一下数据查询的一些知识..</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <script src="~/Content/Scripts/jquery-1.8.3.min.js"></script>
-                <script src="~/Content/Scripts/bootstrap.min.js"></script>
-                <script src="~/Content/Scripts/jquery.particleground.min.js"></script>
-                <script>
-                    $('#Head').particleground({
-                        dotColor: '#ffffff',
-                        lineColor: '#ffffff'
-                    });
-                    var PlateName = "All";
-                    var DataID = "All";
-                    $.get("/User/GetTypes/@ViewBag.WacthUser.GUID", function (d, s, x) {
+            function LoadArticle() {
+                var Div_Article = $('#ActiveList_' + DataID);
+                var page = parseInt(Div_Article.attr("page"));
+
+                $.post("/Article/ArticleItemListByPlateForUser", { PlateName: PlateName, Page: page, Token: "@ViewBag.WacthUser.GUID" }, function (d, s, x) {
+                    if (s == "success") {
+                        var jds = JSON.parse(d);
+                        var html = "";
+                        if (jds.length > 0) {
+                            for (var i = 0; i < jds.length; i++) {
+                                var jd = jds[i];
+                                html = html + '<div class="TabItem"> <div  class="TitleRom"> <div class="pull-left"><a class="ItemTitle" href="/Article/Details/' + jd.GUID + '" target="_blank">' + jd.ArticleTitle + '</a> <span class="Tools"> &nbsp; <a onclick="EditArticle(\'' + jd.GUID + '\')"><i class="fa fa-edit"></i></a> &nbsp; <a onclick="DeleteArticle(\'' + jd.GUID + '\')"><i class="fa fa-trash-o"></i></a> </span></div><div class="pull-right Message"> <a >' + jd.ArticlePlate + '</a>&nbsp;/&nbsp;<a >' + jd.ArticleType + '</a> &nbsp;&nbsp;<span>' + jd.CreateTime + '</span> </div> <div style="clear:both"></div></div> <div class="Description"> <span>' + jd.ArticleDescription + '</span> </div></div>';
+                            }
+                            $('#ActiveList_' + DataID + '_Rom').append(html);
+                            Div_Article.attr("page", page + 1);
+                            $("#btn_More").show();
+                        } else {
+                            $("#btn_More").hide();
+                            layer.msg("没有更多的数据了");
+                        }
+                    }
+                });
+
+            }
+            function EditArticle(id) {
+
+                location.href = "/Article/Edit/" + id;
+            }
+            function DeleteArticle(e) {
+                layer.confirm('确定将本篇文章删除？', {
+                    btn: ['是的', '取消'], //按钮
+                    shade: false //不显示遮罩
+                }, function () {
+                    $.post("/Article/Delete", { ArticleID: e }, function (d, s, x) {
                         if (s == "success") {
                             var jd = JSON.parse(d);
-                            for (var i = 0; i < jd.length; i++) {
-                                var item = jd[i];
-                                var li_node = document.createElement("li");
-                                li_node.innerHTML = "<a id='A_" + i + "' href='#ActiveList_" + i + "' DataID='" + i + "' PlateName='" + item.ArticlePlate + "' >" + item.ArticlePlate + "(" + item.Count + ")</a>";
-                                $("#myTab").append(li_node);
-                                var div_node = document.createElement("div");
-                                div_node.className = "tab-pane fade";
-                                div_node.setAttribute("page", 1);
-                                div_node.id = "ActiveList_" + i;
-                                $("#TypePane").append(div_node);
+                            if (jd.Success) {
+                                layer.msg("删除成功");
+                            } else {
+                                console.debug(jd.ErrorMsg);
                             }
-                            $('#myTab a').click(function (e) {
-                                e.preventDefault();
-                                $(this).tab('show');
-                                PlateName = e.target.attributes["PlateName"].value;
-                                DataID = e.target.attributes["DataID"].value;
-                                if ($("#ActiveList_" + DataID).children("div").length == 0) {
-                                    LoadArticle();
-                                }
-                            });
-                            $('#myTab a:first').trigger("click");
+                        } else {
+                            console.debug("接口调用失败");
+                            console.debug(x.responseText);
                         }
-
                     });
+                    layer.closeAll();
+                });
+
+            }
+            function SelectImgFile() {
+                $('#input_SelectFile').click();
+            }
+            function HeadUpLoadChange(e) {
+                $("#AjaxUploadForm").ajaxSubmit({
+                    type: "post",
+                    url: "/Upload/Heads",
+                    success: function (data) {
+                        var d = JSON.parse(data);
+                        if (d.success == 1) {
+                            $("#HeadImg").attr("src", d.url);
+                            $("#Head").css("background-color", d.color);
+
+                        } else {
+                            console.debug(d.message);
+                        }
+                    },
+                    error: function (XMLHttpRequest, textStatus, errorThrown) {
+                        console.debug(XMLHttpRequest.responseText);
+                    }
+                });
+
+            }
 
 
+        </script>
 
-                </script>
-                @{if (ViewBag.IsOwn)
-                {
-                    <script type="text/javascript" src="~/Content/Scripts/jquery.form.js"></script>
-                    <script>
+    }
+    else
+    {
+        <script>
+            function LoadArticle() {
+                var Div_Article = $('#ActiveList_' + DataID);
+                var page = parseInt(Div_Article.attr("page"));
 
-                        var li_node = document.createElement("li");
-                        li_node.innerHTML = "<a id='A_NoPublish' href='#ActiveList_NoPublish' DataID='NoPublish' PlateName='NoPublish' >未发布</a>";
-                        $("#myTab").append(li_node);
-                        var div_node = document.createElement("div");
-                        div_node.className = "tab-pane fade";
-                        div_node.setAttribute("page", 1);
-                        div_node.id = "ActiveList_NoPublish";
-                        $("#TypePane").append(div_node);
-
-                        function LoadArticle() {
-                            var Div_Article = $('#ActiveList_' + DataID);
-                            var page = parseInt(Div_Article.attr("page"));
-
-                            $.post("/Article/ArticleItemListByPlateForUser", { PlateName: PlateName, Page: page, Token: "@ViewBag.WacthUser.GUID" }, function (d, s, x) {
-                                if (s == "success") {
-                                    var jds = JSON.parse(d);
-                                    var html = "";
-                                    for (var i = 0; i < jds.length; i++) {
-                                        var jd = jds[i];
-                                        html = html + '<div class="TabItem"> <div  class="TitleRom"> <div class="pull-left"><a class="ItemTitle" href="/Article/Details/' + jd.GUID + '" target="_blank">' + jd.ArticleTitle + '</a> <span class="Tools"> &nbsp; <a onclick="EditArticle(\'' + jd.GUID + '\')"><i class="fa fa-edit"></i></a> &nbsp; <a onclick="DeleteArticle(\'' + jd.GUID + '\')"><i class="fa fa-trash-o"></i></a> </span></div><div class="pull-right Message"> <a >' + jd.ArticlePlate + '</a>&nbsp;/&nbsp;<a >' + jd.ArticleType + '</a> &nbsp;&nbsp;<span>' + jd.CreateTime + '</span> </div> <div style="clear:both"></div></div> <div class="Description"> <span>' + jd.ArticleDescription + '</span> </div></div>';
-                                    }
-                                    Div_Article.append(html);
-                                }
-                            });
+                $.post("/Article/ArticleItemListByPlateForUser", { PlateName: PlateName, Page: page, Token: "@ViewBag.WacthUser.GUID" }, function (d, s, x) {
+                    if (s == "success") {
+                        var jds = JSON.parse(d);
+                        var html = "";
+                        if (jds.length > 0) {
+                            for (var i = 0; i < jds.length; i++) {
+                                var jd = jds[i];
+                                html = html + '<div class="TabItem"> <div> <div class="pull-left"> <a class="ItemTitle" href="/Article/Details/' + jd.GUID + '" target="_blank">' + jd.ArticleTitle + '</a> </div><div class="pull-right Message"> <a >' + jd.ArticlePlate + '</a>&nbsp;/&nbsp;<a >' + jd.ArticleType + '</a> &nbsp;&nbsp;<span>' + jd.CreateTime + '</span> </div> <div style="clear:both"></div></div> <div class="Description"> <span>' + jd.ArticleDescription + '</span> </div></div>';
+                            }
+                            $('#ActiveList_' + DataID + '_Rom').append(html);
                             Div_Article.attr("page", page + 1);
+                            $("#btn_More").show();
+                        } else {
+                            layer.msg("没有更多的数据了");
+                            $("#btn_More").hide();
                         }
-                        function EditArticle(id) {
-
-                            location.href = "/Article/Edit/" + id;
-                        }
-                        function DeleteArticle(e) {
-                            alert(e);
-                        }
-                        function SelectImgFile() {
-                            $('#input_SelectFile').click();
-                        }
-                        function HeadUpLoadChange(e) {
-                            $("#AjaxUploadForm").ajaxSubmit({
-                                type: "post",
-                                url: "/Upload/Heads",
-                                success: function (data) {
-                                    var d = JSON.parse(data);
-                                    if (d.success == 1) {
-                                        $("#HeadImg").attr("src", d.url);
-                                        $("#Head").css("background-color", d.color);
-
-                                    } else {
-                                        console.debug(d.message);
-                                    }
-                                },
-                                error: function (XMLHttpRequest, textStatus, errorThrown) {
-                                    console.debug(XMLHttpRequest.responseText);
-                                }
-                            });
-
-                        }
-
-
-                    </script>
-
-                }
-                else
-                {
-                    <script>
-                        function LoadArticle() {
-                            var Div_Article = $('#ActiveList_' + DataID);
-                            var page = parseInt(Div_Article.attr("page"));
-
-                            $.post("/Article/ArticleItemListByPlateForUser", { PlateName: PlateName, Page: page, Token: "@ViewBag.WacthUser.GUID" }, function (d, s, x) {
-                                if (s == "success") {
-                                    var jds = JSON.parse(d);
-                                    var html = "";
-                                    for (var i = 0; i < jds.length; i++) {
-                                        var jd = jds[i];
-                                        html = html + '<div class="TabItem"> <div> <div class="pull-left"> <a class="ItemTitle" href="/Article/Details/' + jd.GUID + '" target="_blank">' + jd.ArticleTitle + '</a> </div><div class="pull-right Message"> <a >' + jd.ArticlePlate + '</a>&nbsp;/&nbsp;<a >' + jd.ArticleType + '</a> &nbsp;&nbsp;<span>' + jd.CreateTime + '</span> </div> <div style="clear:both"></div></div> <div class="Description"> <span>' + jd.ArticleDescription + '</span> </div></div>';
-                                    }
-                                    Div_Article.append(html);
-                                }
-                            });
-                            Div_Article.attr("page", page + 1);
-                        }
-                    </script>
-                }}
-            </body>
-        </html>
+                    }
+                });
+            }
+        </script>
+    }}
+</body>
+</html>

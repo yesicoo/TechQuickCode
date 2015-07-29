@@ -375,5 +375,24 @@ namespace TechQuickCode.Models.Manager
             }
             return sb.ToString();
         }
+
+        internal void DeleteArticle(string id)
+        {
+            int result;
+            var conn = MySQLConnectionPool.GetConnection();
+            try
+            {
+                result = conn.Execute("Update   ArticleList set Publish=-1  where GUID='" + id + "';");
+            }
+            catch (Exception ex)
+            {
+
+                QLog.SendLog_Exception(ex.Message, id);
+            }
+            finally
+            {
+                conn.GiveBack();
+            }
+        }
     }
 }

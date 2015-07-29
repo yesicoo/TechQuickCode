@@ -6,7 +6,7 @@
     <div class="PlateName"><span>@ViewBag.PlateName</span><span>列表</span></div>
     <div>
         <ul class="nav nav-tabs" id="myTab">
-            <li ><a id="A_New" href="#ActiveList_New">最新</a></li>
+            <li><a id="A_New" href="#ActiveList_New">最新</a></li>
             <li><a id="A_Hot" href="#ActiveList_Hot">热门</a></li>
             <li><a id="A_Best" href="#ActiveList_Best">精华</a></li>
 
@@ -19,7 +19,7 @@
         <div class="tab-pane  fade" page=1 id="ActiveList_Hot"></div>
         <div class="tab-pane  fade" page=1 id="ActiveList_Best"></div>
     </div>
-
+    <div><button id="btn_More" class="btn btn-block btn-default" onclick="LoadArticle()">更多</button></div>
 
 
 </div>
@@ -31,6 +31,9 @@
         var PlateName = "@ViewBag.PlateName";
         var ActiveID = "New";
         var ActiveTitle = "最新";
+        layer.config({
+            extend: 'extend/layer.ext.js'
+        });
 
         $.post("/Article/GetType", { PlateName: PlateName }, function (d, s, x) {
             if (s == "success") {
@@ -47,10 +50,12 @@
                     $("#TypePane").append(div_node);
                 }
             }
-          
+
             $('#myTab a').click(function (e) {
+                $("#btn_More").hide();
                 e.preventDefault();
                 $(this).tab('show');
+                $("#btn_More").show();
                 ActiveTitle = e.target.innerText;
                 ActiveID = e.target.hash.replace(/#ActiveList_/, "")
                 console.debug(ActiveID + "-" + ActiveTitle);
@@ -59,13 +64,13 @@
                 }
             })
 
-            if (TypeID != "" && TypeID!="-1") {
+            if (TypeID != "" && TypeID != "-1") {
                 $('#A_' + TypeID).trigger("click");
                 ActiveID = TypeID;
-              //  LoadArticle();
+                //  LoadArticle();
             } else {
                 $('#A_New').trigger("click");
-               // LoadArticle();
+                // LoadArticle();
             }
         });
         function LoadArticle() {
@@ -73,9 +78,17 @@
             var page = parseInt(Div_Article.attr("page"));
             $.post("/Article/ArticleHTMLList", { PlateName: PlateName, TypeName: ActiveTitle, Page: page }, function (d, s, x) {
                 if (s == "success") {
-                    Div_Article.append(d);
-                }});
-            Div_Article.attr("page",page + 1);
+                    if (d.length > 130) {
+                        Div_Article.append(d);
+                        Div_Article.attr("page", page + 1);
+                        $("#btn_More").show();
+                    } else {
+                        $("#btn_More").hide();
+                        layer.msg("没有更多数据");
+                    }
+                }
+            });
+
         }
     </script>
 
