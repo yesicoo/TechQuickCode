@@ -17,6 +17,14 @@
   width: 100%;
   font-size: x-large;
 }
+.Details .Article .Title .ToolBox {
+  visibility: hidden;
+  font-size:small;
+}
+
+.Details .Article .Title:hover .ToolBox {
+   visibility: visible;
+}
 .Details .Article .Attribute {
   font-size: 14px;
   border-bottom: 1px solid #D8D8D8;

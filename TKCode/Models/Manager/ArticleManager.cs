@@ -89,7 +89,7 @@ namespace TechQuickCode.Models.Manager
             var conn = MySQLConnectionPool.GetConnection();
             try
             {
-                ai = conn.Query<ArticleItem>(string.Format("update ArticleList Set ReadCount=ReadCount+1 where  GUID='{0}'; select * from ArticleList where GUID='{0}';", id)).SingleOrDefault();
+                ai = conn.Query<ArticleItem>(string.Format("update ArticleList Set ReadCount=ReadCount+1 where  GUID='{0}'; select * from ArticleList where GUID='{0}' and Publish>-1;", id)).SingleOrDefault();
             }
             catch (Exception ex)
             {

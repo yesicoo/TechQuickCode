@@ -2,10 +2,9 @@
     <link href="~/Content/Css/editormd.preview.min.css" rel="stylesheet" />
     <link href="~/Content/Css/jquery.raty.css" rel="stylesheet" />
     <link href="~/Content/Css/ArticleDetails.css" rel="stylesheet" />
-
+    <link href="~/Content/Css/prism.css" rel="stylesheet" />
 
     <style>
-    
     </style>
 }
 
@@ -16,6 +15,10 @@
         <div class="Article ">
             <div class="Title">
                 <b>@ViewBag.Title</b>
+                @if (ViewBag.IsOwn)
+                {
+                    <span class="ToolBox">&nbsp; <a onclick="EditArticle('@ViewBag.ArticleItem.GUID')" title="编辑"><i class="fa fa-edit"></i></a> &nbsp; <a onclick="DeleteArticle('@ViewBag.ArticleItem.GUID')" title="删除"><i class="fa fa-trash-o"></i></a></span>
+                }
             </div>
             <div class="Attribute">
                 <div class="ArticleTypeTag">
@@ -64,7 +67,7 @@
 
         <script src="~/Content/Scripts/editormd.js"></script>
         <script src="~/Content/Scripts/jquery.raty.js"></script>
-
+    <script src="~/Content/Scripts/prism.js"></script>
         <script>
             $.ready();
             var setting = {
@@ -74,15 +77,15 @@
                     }
                 },
                 view: {
-            nameIsHTML: true
-            }
+                    nameIsHTML: true
+                }
             };
             var zNodes = [
-              { id: 1, pId: 0, open: true, name: "<div>1</div><div>2</div>",  icon: "/Content/Image/teemo.jpg" },
+              { id: 1, pId: 0, open: true, name: "<div>1</div><div>2</div>", icon: "/Content/Image/teemo.jpg" },
               { id: 11, pId: 1, open: true, name: "叶子节点1", icon: "/Content/Image/teemo.jpg" },
-              { id: 12, pId: 1, open: true, name: "叶子节点2",  icon: "/Content/Image/teemo.jpg" },
+              { id: 12, pId: 1, open: true, name: "叶子节点2", icon: "/Content/Image/teemo.jpg" },
               { id: 13, pId: 1, open: true, name: "叶子节点3", icon: "/Content/Image/teemo.jpg" },
-              { id: 2, pId: 0, open: true, name: "展开、折叠 自定义图标相同",  icon: "/Content/Image/teemo.jpg" },
+              { id: 2, pId: 0, open: true, name: "展开、折叠 自定义图标相同", icon: "/Content/Image/teemo.jpg" },
               { id: 21, pId: 2, open: true, name: "叶子节点1", icon: "/Content/Image/teemo.jpg" },
               { id: 22, pId: 2, open: true, name: "叶子节点2", icon: "/Content/Image/teemo.jpg" },
               { id: 23, pId: 2, open: true, name: "叶子节点3", icon: "/Content/Image/teemo.jpg" },
@@ -112,15 +115,6 @@
                 }
             });
 
-
-          
-
-          
-
- 
- 
-
-
         </script>
         @if (@ViewBag.ArticleItem.ArticleAttachments != null)
         {
@@ -141,8 +135,40 @@
                 }
             </script>
         }
+        @if (ViewBag.IsOwn)
+        {
+            <script>
+                function EditArticle(id) {
+
+                    location.href = "/Article/Edit/" + id;
+                }
+                function DeleteArticle(e) {
+                    layer.confirm('确定将本篇文章删除？', {
+                        btn: ['是的', '取消'], //按钮
+                        shade: false //不显示遮罩
+                    }, function () {
+                        $.post("/Article/Delete", { ArticleID: e }, function (d, s, x) {
+                            if (s == "success") {
+                                var jd = JSON.parse(d);
+                                if (jd.Success) {
+                                    //var delNode = $("#tab_" + e).hide(1000);
+                                    layer.msg("删除成功");
+                                    window.opener = null;
+                                    window.close();
+
+                                } else {
+                                    console.debug(jd.ErrorMsg);
+                                }
+                            } else {
+                                console.debug("接口调用失败");
+                                console.debug(x.responseText);
+                            }
+                        });
+                        layer.closeAll();
+                    });
+
+                }
+            </script>
+        }
 
     }
-</div>
-
-

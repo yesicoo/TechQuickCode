@@ -21,7 +21,7 @@
     </div>
     <div style="clear:both"></div>
     <textarea id="editor" placeholder="这里输入内容" autofocus>
-        @(new HtmlString(@ViewBag.ArticleContent))
+        @ViewBag.ArticleContent
     </textarea>
 
     <div class="Attribute">
@@ -71,6 +71,9 @@
 
         //------------Simditor---------------
         var toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'color', '|', 'ol', 'ul', 'blockquote', 'code', 'table', '|', 'link', 'image', 'hr', '|', 'indent', 'outdent', 'alignment'];
+
+
+
         var editor = new Simditor({
             toolbar: toolbar,
             textarea: $('#editor'),
@@ -168,7 +171,7 @@
                     var d = JSON.parse(e);
                     if (d.success == 1) {
                         DraftStatus.innerHTML = "<span>文档于：" + d.UpdateTime + " 保存为草稿</span><a href='/Article/Details/@ViewBag.Article.GUID' target='_blank'> 新页面预览 </a> ";
-                        layer.msg("草稿保存成功！");
+                        layer.msg("保存成功！");
                     }
                 });
             } else {

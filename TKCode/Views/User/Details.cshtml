@@ -292,6 +292,7 @@
                 $('#myTab a').click(function (e) {
                     e.preventDefault();
                     $(this).tab('show');
+                    $("#btn_More").show();
                     PlateName = e.target.attributes["PlateName"].value;
                     DataID = e.target.attributes["DataID"].value;
                     if ($("#ActiveList_" + DataID + "_Rom").children("div").length == 0) {
@@ -329,7 +330,7 @@
                         if (jds.length > 0) {
                             for (var i = 0; i < jds.length; i++) {
                                 var jd = jds[i];
-                                html = html + '<div class="TabItem"> <div  class="TitleRom"> <div class="pull-left"><a class="ItemTitle" href="/Article/Details/' + jd.GUID + '" target="_blank">' + jd.ArticleTitle + '</a> <span class="Tools"> &nbsp; <a onclick="EditArticle(\'' + jd.GUID + '\')"><i class="fa fa-edit"></i></a> &nbsp; <a onclick="DeleteArticle(\'' + jd.GUID + '\')"><i class="fa fa-trash-o"></i></a> </span></div><div class="pull-right Message"> <a >' + jd.ArticlePlate + '</a>&nbsp;/&nbsp;<a >' + jd.ArticleType + '</a> &nbsp;&nbsp;<span>' + jd.CreateTime + '</span> </div> <div style="clear:both"></div></div> <div class="Description"> <span>' + jd.ArticleDescription + '</span> </div></div>';
+                                html = html + '<div class="TabItem" id="tab_' + jd.GUID + '"> <div  class="TitleRom"> <div class="pull-left"><a class="ItemTitle" href="/Article/Details/' + jd.GUID + '" target="_blank">' + jd.ArticleTitle + '</a> <span class="Tools"> &nbsp; <a onclick="EditArticle(\'' + jd.GUID + '\')"><i class="fa fa-edit"></i></a> &nbsp; <a onclick="DeleteArticle(\'' + jd.GUID + '\')"><i class="fa fa-trash-o"></i></a> </span></div><div class="pull-right Message"> <a >' + jd.ArticlePlate + '</a>&nbsp;/&nbsp;<a >' + jd.ArticleType + '</a> &nbsp;&nbsp;<span>' + jd.CreateTime + '</span> </div> <div style="clear:both"></div></div> <div class="Description"> <span>' + jd.ArticleDescription + '</span> </div></div>';
                             }
                             $('#ActiveList_' + DataID + '_Rom').append(html);
                             Div_Article.attr("page", page + 1);
@@ -355,7 +356,9 @@
                         if (s == "success") {
                             var jd = JSON.parse(d);
                             if (jd.Success) {
+                                var delNode = $("#tab_" + e).hide(1000);
                                 layer.msg("删除成功");
+
                             } else {
                                 console.debug(jd.ErrorMsg);
                             }

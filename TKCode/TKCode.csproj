@@ -178,6 +178,7 @@
     <Content Include="Content\Css\jquery.dtGrid.min.css" />
     <Content Include="Content\Css\jquery.raty.css" />
     <Content Include="Content\Css\MainStyle.css" />
+    <Content Include="Content\Css\prism.css" />
     <Content Include="Content\Css\simditor.css" />
     <Content Include="Content\fonts\editormd-logo.svg" />
     <Content Include="Content\fonts\fontawesome-webfont.svg" />
@@ -617,6 +618,7 @@
     <Content Include="Content\Scripts\module.js" />
     <Content Include="Content\Scripts\module.min.js" />
     <Content Include="Content\Scripts\nprogress.js" />
+    <Content Include="Content\Scripts\prism.js" />
     <Content Include="Content\Scripts\simditor.js" />
     <Content Include="Content\Scripts\simditor.min.js" />
     <Content Include="Content\Scripts\skin\default\icon-ext.png" />

@@ -3624,71 +3624,125 @@ CodePopover = (function(superClass) {
   function CodePopover() {
     return CodePopover.__super__.constructor.apply(this, arguments);
   }
-
+    //markup+css+clike+javascript+actionscript+aspnet+autohotkey+c+csharp+cpp+coffeescript+css-extras+dart+erlang+fsharp+git+go+haskell+http+java+latex+less+objectivec+php+python+jsx+ruby+sass+scss+sql+swift+typescript
   CodePopover.prototype.render = function() {
     var $option, j, lang, len, ref;
     this._tpl = "<div class=\"code-settings\">\n  <div class=\"settings-field\">\n    <select class=\"select-lang\">\n      <option value=\"-1\">" + (this._t('selectLanguage')) + "</option>\n    </select>\n  </div>\n</div>";
     this.langs = this.editor.opts.codeLanguages || [
       {
-        name: 'Bash',
-        value: 'bash'
-      }, {
-        name: 'C++',
-        value: 'c++'
-      }, {
-        name: 'C#',
-        value: 'cs'
-      }, {
-        name: 'CSS',
-        value: 'css'
-      }, {
-        name: 'Erlang',
-        value: 'erlang'
-      }, {
-        name: 'Less',
-        value: 'less'
-      }, {
-        name: 'Sass',
-        value: 'sass'
-      }, {
-        name: 'Diff',
-        value: 'diff'
-      }, {
-        name: 'CoffeeScript',
-        value: 'coffeescript'
-      }, {
-        name: 'HTML,XML',
-        value: 'html'
-      }, {
-        name: 'JSON',
-        value: 'json'
-      }, {
-        name: 'Java',
-        value: 'java'
-      }, {
-        name: 'JavaScript',
-        value: 'js'
-      }, {
-        name: 'Markdown',
-        value: 'markdown'
-      }, {
-        name: 'Objective C',
-        value: 'oc'
-      }, {
-        name: 'PHP',
-        value: 'php'
-      }, {
-        name: 'Perl',
-        value: 'parl'
-      }, {
-        name: 'Python',
-        value: 'python'
-      }, {
-        name: 'Ruby',
-        value: 'ruby'
-      }, {
-        name: 'SQL',
-        value: 'sql'
+          name: 'HTML,XML',
+          value: 'markup'
+      },
+       {
+           name: 'C#',
+           value: 'csharp'
+       },
+       {
+           name: 'Sql',
+           value: 'sql'
+       },
+       {
+           name: 'Java',
+           value: 'java'
+       },
+       {
+           name: 'JavaScript',
+           value: 'javascript'
+       },
+       {
+           name: 'CSS',
+           value: 'css'
+       },
+      {
+          name: 'Asp.Net',
+          value: 'aspnet'
+      },
+       {
+           name: 'Swift',
+           value: 'swift'
+       },
+       
+       {
+           name: 'Objective-C',
+           value: 'objectivec'
+       },
+       {
+           name: 'TypeScript',
+           value: 'typescript'
+       },
+       {
+           name: 'PHP',
+           value: 'php'
+       },
+       {
+           name: 'Less',
+           value: 'less'
+       },
+      {
+          name: 'Python',
+          value: 'python'
+      },
+      {
+          name: 'Actionscript',
+          value: 'actionscript'
+      },
+     
+      {
+          name: 'C',
+          value: 'c'
+      },
+      {
+          name: 'c++',
+          value: 'cpp'
+      },
+      {
+          name: 'Coffeescript',
+          value: 'coffeescript'
+      },
+      {
+          name: 'Dart',
+          value: 'dart'
+      },
+      {
+          name: 'Erlang',
+          value: 'erlang'
+      },
+      {
+          name: 'F#',
+          value: 'fsharp'
+      },
+      {
+          name: 'Ruby',
+          value: 'ruby'
+      },
+       {
+           name: 'Sass',
+           value: 'sass'
+       },
+      {
+          name: 'Scss',
+          value: 'scss'
+      },
+      {
+          name: 'Haskell',
+          value: 'haskell'
+      },
+
+      {
+          name: 'Latex',
+          value: 'latex'
+      },
+      {
+          name: 'React JSX',
+          value: 'jsx'
+      },
+      {
+          name: 'Git',
+          value: 'git'
+      },
+      {
+          name: 'GO',
+          value: 'go'
       }
     ];
     this.el.addClass('code-popover').append(this._tpl);

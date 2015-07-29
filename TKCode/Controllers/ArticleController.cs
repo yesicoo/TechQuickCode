@@ -29,6 +29,7 @@ namespace TechQuickCode.Controllers
         {
             UserManager.Instance.CheckLogin(Request, ViewBag);
             ViewBag.Title = "页面找不到了....";
+            ViewBag.IsOwn=false;
             bool find = false;
             if (!string.IsNullOrEmpty(id))
             {
@@ -37,14 +38,21 @@ namespace TechQuickCode.Controllers
                 {
                     ViewBag.Tags = new List<string>();
                     ArticleItem ai = ArticleManager.Instance.GetArticleItem(id);
-                    ViewBag.Title = ai.ArticleTitle;
-                    ViewBag.ArticleItem = ai;
-                    if (!string.IsNullOrEmpty(ai.ArticleTags))
+                    if (ai != null)
                     {
-                        ViewBag.Tags = ai.ArticleTags.Split(new string[] { ",", "，", ";", "；" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        if (ViewBag.Login)
+                        {
+                            ViewBag.IsOwn = ai.AuthorID == ViewBag.User.GUID;
+                        }
+                        ViewBag.Title = ai.ArticleTitle;
+                        ViewBag.ArticleItem = ai;
+                        if (!string.IsNullOrEmpty(ai.ArticleTags))
+                        {
+                            ViewBag.Tags = ai.ArticleTags.Split(new string[] { ",", "，", ";", "；" }, StringSplitOptions.RemoveEmptyEntries).ToList();
+                        }
+                        ViewBag.ArticleContentItem = aci;
+                        find = true;
                     }
-                    ViewBag.ArticleContentItem = aci;
-                    find = true;
                 }
             }
             if (find)
