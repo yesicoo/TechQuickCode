@@ -7,6 +7,7 @@ using TechQuickCode.App_Code;
 using TechQuickCode.Models.Entity;
 using Dapper;
 using Qing;
+using TKCode.Models.Entity;
 
 namespace TechQuickCode.Models.Manager
 {
@@ -140,6 +141,17 @@ namespace TechQuickCode.Models.Manager
             string sql = string.Format("update `ArticleList` Set  Publish=1,CreateTime='{1}' where  GUID='{0}';", articleID, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             var result = conn.Execute(sql);
             conn.GiveBack();
+            new System.Threading.Thread(() => {
+                var _conn = MySQLConnectionPool.GetConnection();
+                var ai = _conn.Query<ArticleItem>(string.Format(" select * from ArticleList where GUID='{0}' and Publish>-1;", articleID)).SingleOrDefault();
+                UserActive ua = new UserActive();
+                ua.Content = ai.ArticleDescription;
+                ua.CreateTime = ai.CreateTime;
+                ua.UserID=ai.AuthorID;
+                ua.TitleHtml = string.Format("<div class=\"Message\"><span>{0}</span> <span>在</span> <span><a href=\"/Article/List/{1}\">{1}</a>/<a href=\"/Article/List/{1}?Type={2}\">{3}</a></span><span>发布</span> <span><a href=\"/Article/Details/{4}\">{5}</a></span> </div>", ai.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"), ai.ArticlePlate, ai.ArticleTypeID, ai.ArticleType,ai.GUID, ai.ArticleTitle);
+                conn.Execute(ua.GetInsertSQL("UserActive"));
+                conn.GiveBack();
+            }).Start();
             return result == 1 ? true : false;
         }
         #endregion
@@ -261,6 +273,8 @@ namespace TechQuickCode.Models.Manager
         }
         #endregion
 
+
+       
         #region 评论
         internal object GetStar(string ArticleID, string UserID)
         {

@@ -133,5 +133,14 @@ namespace TechQuickCode.Models.Manager
             conn.GiveBack();
             return true;
         }
+
+        internal List<UserActive> GetUserActives(string uid, int page, int count = 1)
+        {
+            List<UserActive> userActives = new List<UserActive>();
+            var conn = MySQLConnectionPool.GetConnection();
+            userActives = conn.Query<UserActive>(string.Format("select * from `UserActive` where UserID='{0}' order by CreateTime Desc limit {1},{2}", uid, (page - 1) * count, count)).ToList();
+            conn.GiveBack();
+            return userActives;
+        }
     }
 }

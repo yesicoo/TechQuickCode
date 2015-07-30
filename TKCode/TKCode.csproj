@@ -167,6 +167,7 @@
     <Compile Include="Models\Entity\JResult.cs" />
     <Compile Include="Models\Entity\LoginItem.cs" />
     <Compile Include="Models\Entity\StarItem.cs" />
+    <Compile Include="Models\Entity\UserActive.cs" />
     <Compile Include="Models\Entity\UserItem.cs" />
     <Compile Include="Models\Manager\ArticleManager.cs" />
     <Compile Include="Models\Manager\AttachmentManager.cs" />

@@ -25,7 +25,7 @@ namespace TKCode.Controllers
             {
                 return View("404");
             }
-            ViewBag.IsOwn =ViewBag.Login?user.GUID == ViewBag.User.GUID:false;
+            ViewBag.IsOwn = ViewBag.Login ? user.GUID == ViewBag.User.GUID : false;
             ViewBag.WacthUser = user;
             return View();
         }
@@ -35,6 +35,11 @@ namespace TKCode.Controllers
             dynamic data = ArticleManager.Instance.GetTypesByUserID(id);
             return JsonConvert.SerializeObject(data);
         }
-
+        [HttpPost]
+        public string GetUserActives(string uid, int page, int count=10)
+        {
+            var result = UserManager.Instance.GetUserActives(uid, page, count);
+            return JsonConvert.SerializeObject(result);
+        }
     }
 }

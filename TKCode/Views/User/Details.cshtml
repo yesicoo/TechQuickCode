@@ -133,21 +133,21 @@
                 border-bottom: solid 1px #D8D8D8;
             }
 
-            #Content .New_Content {
+            #Content .NewActive {
                 font-size: small;
             }
 
-                #Content .New_Content .NewItem {
+                #Content .NewActive .NewItem {
                     margin: 2px;
                     border-bottom: dashed 1px #D8D8D8;
                     margin-top: 3px;
                     padding: 2px 3px 5px 3px;
                 }
 
-                    #Content .New_Content .NewItem .Message {
+                    #Content .NewActive .NewItem .Message {
                     }
 
-                    #Content .New_Content .NewItem .Description {
+                    #Content .NewActive .NewItem .Description {
                         color: #B38B8B;
                         font-size: x-small;
                         margin: 3px 0px 0px 3px;
@@ -221,44 +221,8 @@
         </div>
         <div class="New">
             <div class="Title">最新动态</div>
-            <div class="New_Content">
-                <div class="NewItem">
-                    <div class="Message">
-                        <span>2012-12-12 12:12:12</span>
-                        <span>在</span>
-                        <span><a href="#">技术片段</a>/<a href="#">数据库</a></span>
-                        <span>发布</span>
-                        <span><a href="#">MySQL数据库高级查询</a></span>
-                    </div>
-                    <div class="Description">
-                        <span>在项目中由于一开始数据库设计的时候没有照顾到功能的实现，所以后期的功能逻辑出现了很大的难度，不过倒也锻炼了自己的数据库查询技巧，这里总结一下数据查询的一些知识..</span>
-                    </div>
-                </div>
-                <div class="NewItem">
-                    <div class="Message">
-                        <span>2015-12-11 15:12:12</span>
-                        <span>对文章</span>
-                        <span>《<a href="#">MySQL数据库高级查询</a>》</span>
-                        <span>进行如下评论：</span>
-
-                    </div>
-                    <div class="Description">
-                        <span>在项目中由于一开始数据库设计的时候没有照顾到功能的实现，所以后期的功能逻辑出现了很大的难度，不过倒也锻炼了自己的数据库查询技巧，这里总结一下数据查询的一些知识..</span>
-                    </div>
-                </div>
-
-                <div class="NewItem">
-                    <div class="Message">
-                        <span>2012-12-12 12:12:12</span>
-                        <span>在</span>
-                        <span><a href="#">技术片段</a>/<a href="#">数据库</a></span>
-                        <span>发布</span>
-                        <span><a href="#">MySQL数据库高级查询</a></span>
-                    </div>
-                    <div class="Description">
-                        <span>在项目中由于一开始数据库设计的时候没有照顾到功能的实现，所以后期的功能逻辑出现了很大的难度，不过倒也锻炼了自己的数据库查询技巧，这里总结一下数据查询的一些知识..</span>
-                    </div>
-                </div>
+            <div id="NewActive" class="NewActive  fade in active" page=1>
+                
             </div>
         </div>
     </div>
@@ -304,7 +268,26 @@
                 $('#myTab a:first').trigger("click");
             }
         });
+        function LoadUserActive() {
+            var NewActive = $('#NewActive');
+            var page = parseInt(NewActive.attr("page"));
+            console.debug(page);
+            $.post("/User/GetUserActives", { uid: "@ViewBag.WacthUser.GUID", Page: page }, function (d, s, x) {
+                if (s == "success") {
+                    var jds = JSON.parse(d);
+                    for (var i = 0; i < jds.length; i++) {
+                        var jd = jds[i];
+                        var htmlContent = "<div class=\"Message\">" + jd.TitleHtml + "</div> <div class=\"Description\"><span>" + jd.Content + "</span></div>";
+                        var node = document.createElement("div");
+                        node.className = "NewItem";
+                        node.innerHTML = htmlContent;
+                        NewActive.append(node);
+                    }
+                }
+            });
 
+        }
+        LoadUserActive();
     </script>
     @{if (ViewBag.IsOwn)
     {
@@ -332,7 +315,7 @@
                         if (jds.length > 0) {
                             for (var i = 0; i < jds.length; i++) {
                                 var jd = jds[i];
-                                html = html + '<div class="TabItem" id="tab_' + jd.GUID + '"> <div  class="TitleRom"> <div class="pull-left"><a class="ItemTitle" href="/Article/Details/' + jd.GUID + '" target="_blank">' + jd.ArticleTitle + '</a> <span class="Tools"> &nbsp; <a onclick="EditArticle(\'' + jd.GUID + '\')"><i class="fa fa-edit"></i></a> &nbsp; <a onclick="DeleteArticle(\'' + jd.GUID + '\')"><i class="fa fa-trash-o"></i></a> </span></div><div class="pull-right Message"> <a >' + jd.ArticlePlate + '</a>&nbsp;/&nbsp;<a >' + jd.ArticleType + '</a> &nbsp;&nbsp;<span>' + jd.CreateTime + '</span> </div> <div style="clear:both"></div></div> <div class="Description"> <span>' + jd.ArticleDescription + '</span> </div></div>';
+                                html = html + '<div class="TabItem tab_' + jd.GUID + '"> <div  class="TitleRom"> <div class="pull-left"><a class="ItemTitle" href="/Article/Details/' + jd.GUID + '" target="_blank">' + jd.ArticleTitle + '</a> <span class="Tools"> &nbsp; <a onclick="EditArticle(\'' + jd.GUID + '\')"><i class="fa fa-edit"></i></a> &nbsp; <a onclick="DeleteArticle(\'' + jd.GUID + '\')"><i class="fa fa-trash-o"></i></a> </span></div><div class="pull-right Message"> <a >' + jd.ArticlePlate + '</a>&nbsp;/&nbsp;<a >' + jd.ArticleType + '</a> &nbsp;&nbsp;<span>' + jd.CreateTime + '</span> </div> <div style="clear:both"></div></div> <div class="Description"> <span>' + jd.ArticleDescription + '</span> </div></div>';
                             }
                             $('#ActiveList_' + DataID + '_Rom').append(html);
                             Div_Article.attr("page", page + 1);
@@ -358,7 +341,13 @@
                         if (s == "success") {
                             var jd = JSON.parse(d);
                             if (jd.Success) {
-                                var delNode = $("#tab_" + e).hide(1000);
+                               // $("#tab_" + e).hide(1000);
+                                var del_nodes = document.querySelectorAll(".tab_" + e);
+                                for (var i = 0; i < del_nodes.length; i++) {
+                                    var node = del_nodes[i];
+                                   $(node).hide(1000);
+                                }
+
                                 layer.msg("删除成功");
 
                             } else {
@@ -413,11 +402,11 @@
     else
     {
         <script>
-            function LoadArticle() {
-                var Div_Article = $('#ActiveList_' + DataID);
-                var page = parseInt(Div_Article.attr("page"));
+    function LoadArticle() {
+        var Div_Article = $('#ActiveList_' + DataID);
+        var page = parseInt(Div_Article.attr("page"));
 
-                $.post("/Article/ArticleItemListByPlateForUser", { PlateName: PlateName, Page: page, Token: "@ViewBag.WacthUser.GUID" }, function (d, s, x) {
+        $.post("/Article/ArticleItemListByPlateForUser", { PlateName: PlateName, Page: page, Token: "@ViewBag.WacthUser.GUID" }, function (d, s, x) {
                     if (s == "success") {
                         var jds = JSON.parse(d);
                         var html = "";
@@ -436,6 +425,8 @@
                     }
                 });
             }
+
+           
         </script>
     }}
 </body>
