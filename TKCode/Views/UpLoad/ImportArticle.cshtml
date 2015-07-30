@@ -21,6 +21,7 @@
 
             .ImportRom .WorkRom {
                 height: 80px;
+                text-align:center;
             }
 
             .ImportRom .Btn_Do {
@@ -41,18 +42,18 @@
 }
 <div class="ImportRom">
     <div class="Title">文档导入</div>
-    <div class="WorkRom"></div>
+    <div class="WorkRom"><span>方便·快捷</span></div>
     <div class="Btn_Do"><a class="btn btn-primary" href="/DownLoad/Attachment/b590cc7286f0479cbbebf3c58c8c63f8" target="_blank">模板下载</a>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary" onclick="SelectFile()">选择上传文件</button></div>
-    <div class="WorkRom">
+  
         <div class="DetailsMsg">
             <div><span>说明：</span></div>
             <div><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>1.导入的文档不支持 xlsx格式！</span></div>
-            <div><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>2.下载模板编辑是最准确的方式。</span></div>
-            <div><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>3.对文档正文中的换行符替换成br标签处理</span></div>
+            <div><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>2.按照模板的格式进行编辑。</span></div>
+            <div><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>3.程序会对文档正文中的换行符替换成br标签处理。</span></div>
             <div><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>4.导入后的文档是未发布状态，需要手动到个人中心的[未发布]分类去编辑微调格式后发布。</span></div>
-            <div><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>5.导入的文档不支持附件，只能手动编辑时添加附件</span></div>
+            <div><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>5.导入的文档不支持附件，只能手动编辑时添加附件。</span></div>
         </div>
-    </div>
+    
 </div>
 <form id="AjaxUploadForm" enctype='multipart/form-data'>
     <input type="file" style="visibility:hidden;height:0px;" accept=".xls" name="ArticleFile" id="input_SelectFile" onchange="UpLoadFileChange(this)" />

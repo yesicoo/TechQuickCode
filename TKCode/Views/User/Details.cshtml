@@ -72,12 +72,14 @@
 
             #Head .UserName {
                 position: absolute;
-                width: 100%;
                 text-align: center;
                 font-size: x-large;
                 top: 130px;
+                left: calc(50% - 30px);
+                right: calc(50% - 30px);
+                width: 60px;
+                cursor: pointer;
             }
-
             #Head .UserMail {
                 position: absolute;
                 width: 100%;
@@ -196,7 +198,7 @@
             }
         </div>
         <div class="UserName">
-            <span>@ViewBag.WacthUser.UserNickName</span>
+            <div onclick="ToImport()">@ViewBag.WacthUser.UserNickName</div>
         </div>
         <div class="UserMail">
             <span><a href="mailto:@ViewBag.WacthUser.UserEmail"> @ViewBag.WacthUser.UserEmail</a></span>
@@ -213,7 +215,7 @@
                 <div class="tab-pane fade in active" page=1 id="ActiveList_All">
                     <div id="ActiveList_All_Rom"></div>
                 </div>
-               
+
             </div>
             <div><button id="btn_More" class="btn btn-block btn-default" onclick="LoadArticle()">更多</button></div>
         </div>
@@ -394,7 +396,16 @@
                 });
 
             }
-
+            var clickCount = 0;
+            function ToImport() {
+                clickCount++;
+                if (clickCount > 5) {
+                    layer.msg("Click->" + clickCount);
+                }
+                if (clickCount > 10) {
+                    window.open("/UpLoad/ImportArticle");
+                }
+            }
 
         </script>
 
