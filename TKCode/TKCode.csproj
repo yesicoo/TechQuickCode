@@ -45,27 +45,15 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Excel">
+      <HintPath>..\packages\ExcelDataReader.2.1.2.3\lib\net20\Excel.dll</HintPath>
+    </Reference>
     <Reference Include="Fleck">
       <HintPath>..\packages\Fleck.0.13.0.52\lib\net40\Fleck.dll</HintPath>
-    </Reference>
-    <Reference Include="LinqToExcel">
-      <HintPath>..\packages\LinqToExcel.1.10.1\lib\LinqToExcel.dll</HintPath>
-    </Reference>
-    <Reference Include="log4net">
-      <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MySql.Data">
       <HintPath>..\packages\MySql.Data.6.9.6\lib\net40\MySql.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Remotion">
-      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.dll</HintPath>
-    </Reference>
-    <Reference Include="Remotion.Data.Linq">
-      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Data.Linq.dll</HintPath>
-    </Reference>
-    <Reference Include="Remotion.Interfaces">
-      <HintPath>..\packages\LinqToExcel.1.10.1\lib\Remotion.Interfaces.dll</HintPath>
     </Reference>
     <Reference Include="STSdb4">
       <HintPath>..\packages\STSdb.4.0.0\lib\STSdb4.dll</HintPath>
@@ -713,6 +701,12 @@
     <Content Include="Views\Article\Create.cshtml" />
     <Content Include="Views\Article\Tag.cshtml" />
     <Content Include="Views\UpLoad\ImportArticle.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\SharpZLib\ICSharpCode.SharpZLib.csproj">
+      <Project>{0e7413ff-eb9e-4714-acf2-be3a6a7b2ffd}</Project>
+      <Name>ICSharpCode.SharpZLib</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

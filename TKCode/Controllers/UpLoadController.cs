@@ -1,7 +1,8 @@
-﻿using LinqToExcel;
+﻿using Excel;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Dynamic;
 using System.IO;
 using System.Linq;
@@ -146,6 +147,7 @@ namespace TechQuickCode.Controllers
             catch (Exception ex)
             {
                 error = ex.Message;
+                Qing.QLog.SendLog(ex.ToString());
                 jr.message = error;
             }
 
@@ -157,44 +159,83 @@ namespace TechQuickCode.Controllers
         public string ImportArticle(HttpPostedFileBase ArticleFile)
         {
 
-            int count=0;
+            int count = 0;
             try
             {
-              
-                string filepath=Server.MapPath("~/Attribute/_IA_" + DateTime.Now.ToString("yyyyMMddHHmmssfff_") + ArticleFile.FileName);
-                ArticleFile.SaveAs(filepath);
-                 var excelFile = new ExcelQueryFactory(filepath);
-                 var data = excelFile.Worksheet<ImportArticleItem>();
-                 count = data.Count();
-                 foreach (var item in data)
-                 {
-                     ArticleItem ai = new ArticleItem();
-                     ai.GUID = ArticleManager.Instance.GetArticleGUID();
-                     ai.ArticleDescription = Utils.ReplaceHtmlTag(item.文档类容);
-                     ai.ArticleHeadImage = "/Content/Images/logo.png";
-                     ai.ArticlePlate = item.板块名称.Trim();
-                     ai.ArticleTags = item.文档标签.Trim();
-                     ai.ArticleTitle = item.文档标题.Trim();
-                     ai.ArticleType = item.类别名称.Trim();
-                     ai.ArticleTypeID = ArticleManager.Instance.GetOrCreateTypeID(ai.ArticlePlate, ai.ArticleType);
-                     ai.Author = item.文档作者姓名.Trim();
-                     ai.AuthorID = UserManager.Instance.GetUserByUserName(ai.Author);
-                     ai.CreateTime = DateTime.Now;
-                     ArticleContentItem  aci=new ArticleContentItem ();
-                     aci.ArticleHtml= HttpUtility.UrlDecode(item.文档类容.Trim().Replace("\n","<br/>"));
-                     aci.ArticleMarkdown="";
-                     ArticleManager.Instance.UpdateArticle(ai.GUID, ai, aci);
-                 }
-              
+                string fileName = DateTime.Now.ToString("yyyyMMddHHmmssfff_") + ArticleFile.FileName;
+                string filePhysicalPath = Server.MapPath("~/Attribute/" + fileName);
+                ArticleFile.SaveAs(filePhysicalPath);
+                Qing.QLog.SendLog(filePhysicalPath);
+                FileStream stream = System.IO.File.Open(filePhysicalPath, FileMode.Open, FileAccess.Read);
+                IExcelDataReader excelReader = ExcelReaderFactory.CreateOpenXmlReader(stream);
+                Qing.QLog.SendLog("--1");
+                
+                excelReader.IsFirstRowAsColumnNames = true;
+                DataSet ds = excelReader.AsDataSet();
+                if (ds == null)
+                {
+                    Qing.QLog.SendLog("ds Is Null");
+                    return "ds Is Null";
+                }
+
+                DataTable result = excelReader.AsDataSet().Tables[0];
+                for (int i = 0; i < result.Rows.Count; i++)
+                {
+                    DataRow dr = result.Rows[i];
+                    ArticleItem ai = new ArticleItem();
+                    ai.GUID = ArticleManager.Instance.GetArticleGUID();
+
+                    ai.ArticleDescription = Utils.ReplaceHtmlTag(dr["文档类容"].ToString());
+                    ai.ArticleHeadImage = "/Content/Images/logo.png";
+                    ai.ArticlePlate = dr["板块名称"].ToString().Trim();
+                    ai.ArticleTags = dr["文档标签"].ToString().Trim();
+                    ai.ArticleTitle = dr["文档标题"].ToString().Trim();
+                    ai.ArticleType = dr["类别名称"].ToString().Trim();
+                    ai.ArticleTypeID = ArticleManager.Instance.GetOrCreateTypeID(ai.ArticlePlate, ai.ArticleType);
+                    ai.Author = dr["文档作者姓名"].ToString().Trim();
+                    ai.AuthorID = UserManager.Instance.GetUserByUserName(ai.Author);
+                    ai.CreateTime = DateTime.Now;
+                    ArticleContentItem aci = new ArticleContentItem();
+                    aci.ArticleHtml = HttpUtility.UrlDecode(dr["文档类容"].ToString().Trim().Replace("\n", "<br/>"));
+                    aci.ArticleMarkdown = "";
+                    ArticleManager.Instance.UpdateArticle(ai.GUID, ai, aci);
+                    count++;
+                }
+
+
+
+                //var excelFile = new ExcelQueryFactory(filepath);
+                //var data = excelFile.Worksheet<ImportArticleItem>();
+                //count = data.Count();
+                //foreach (var item in data)
+                //{
+                //    ArticleItem ai = new ArticleItem();
+                //    ai.GUID = ArticleManager.Instance.GetArticleGUID();
+                //    ai.ArticleDescription = Utils.ReplaceHtmlTag(item.文档类容);
+                //    ai.ArticleHeadImage = "/Content/Images/logo.png";
+                //    ai.ArticlePlate = item.板块名称.Trim();
+                //    ai.ArticleTags = item.文档标签.Trim();
+                //    ai.ArticleTitle = item.文档标题.Trim();
+                //    ai.ArticleType = item.类别名称.Trim();
+                //    ai.ArticleTypeID = ArticleManager.Instance.GetOrCreateTypeID(ai.ArticlePlate, ai.ArticleType);
+                //    ai.Author = item.文档作者姓名.Trim();
+                //    ai.AuthorID = UserManager.Instance.GetUserByUserName(ai.Author);
+                //    ai.CreateTime = DateTime.Now;
+                //    ArticleContentItem  aci=new ArticleContentItem ();
+                //    aci.ArticleHtml= HttpUtility.UrlDecode(item.文档类容.Trim().Replace("\n","<br/>"));
+                //    aci.ArticleMarkdown="";
+                //    ArticleManager.Instance.UpdateArticle(ai.GUID, ai, aci);
+                //}
+
             }
             catch (Exception ex)
             {
 
-                Qing.QLog.SendLog(ex.Message);
-                return "导入出错："+ex.Message;
+                Qing.QLog.SendLog(ex.ToString());
+                return "导入出错：" + ex.Message;
             }
 
-            return "导入成功 共" + count+"条";
+            return "导入成功 共" + count + "条";
         }
 
         public ActionResult ImportArticle()

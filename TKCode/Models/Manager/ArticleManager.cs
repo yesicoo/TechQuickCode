@@ -141,14 +141,15 @@ namespace TechQuickCode.Models.Manager
             string sql = string.Format("update `ArticleList` Set  Publish=1,CreateTime='{1}' where  GUID='{0}';", articleID, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
             var result = conn.Execute(sql);
             conn.GiveBack();
-            new System.Threading.Thread(() => {
+            new System.Threading.Thread(() =>
+            {
                 var _conn = MySQLConnectionPool.GetConnection();
                 var ai = _conn.Query<ArticleItem>(string.Format(" select * from ArticleList where GUID='{0}' and Publish>-1;", articleID)).SingleOrDefault();
                 UserActive ua = new UserActive();
                 ua.Content = ai.ArticleDescription;
                 ua.CreateTime = ai.CreateTime;
-                ua.UserID=ai.AuthorID;
-                ua.TitleHtml = string.Format("<div class=\"Message\"><span>{0}</span> <span>在</span> <span><a href=\"/Article/List/{1}\">{1}</a>/<a href=\"/Article/List/{1}?Type={2}\">{3}</a></span><span>发布</span> <span><a href=\"/Article/Details/{4}\">{5}</a></span> </div>", ai.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"), ai.ArticlePlate, ai.ArticleTypeID, ai.ArticleType,ai.GUID, ai.ArticleTitle);
+                ua.UserID = ai.AuthorID;
+                ua.TitleHtml = string.Format("<div class=\"Message\"><span>{0}</span> <span>在</span> <span><a href=\"/Article/List/{1}\">{1}</a>/<a href=\"/Article/List/{1}?Type={2}\">{3}</a></span><span>发布</span> <span><a href=\"/Article/Details/{4}\">{5}</a></span> </div>", ai.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"), ai.ArticlePlate, ai.ArticleTypeID, ai.ArticleType, ai.GUID, ai.ArticleTitle);
                 conn.Execute(ua.GetInsertSQL("UserActive"));
                 conn.GiveBack();
             }).Start();
@@ -157,7 +158,7 @@ namespace TechQuickCode.Models.Manager
         #endregion
 
         #region 分类获取板块文章数据
-        internal List<ArticleItem> GetArticleItemsByPlate(string PlateName,int page, int count = 10)
+        internal List<ArticleItem> GetArticleItemsByPlate(string PlateName, int page, int count = 10)
         {
             StringBuilder sb_sql = new StringBuilder("select * from ArticleList where Publish=1");
             if (PlateName != "All")
@@ -210,13 +211,35 @@ namespace TechQuickCode.Models.Manager
             {
 
                 case "案例库":
+
                     if (ArticleItems.Count > 0)
                     {
                         StringBuilder sb = new StringBuilder();
-                        for (int i = 0; i < ArticleItems.Count; i++)
+                        if (count != 10)
                         {
-                            var ai = ArticleItems[i];
-                            sb.AppendFormat("<div class='ExampleTitle'><div class='pull-left  text'><span class='Index-{0}'>{0}</span><a href='/Article/Details/{1}' target='_blank'>{2}</a></div><div class='pull-right author'> <span class='pull-left'><a href='/User/Details/{3}' target='_blank'>{4}</a></span><span class='pull-right'>{5}</span></div><div style='clear: both;'></div></div>", i + 1, ai.GUID, ai.ArticleTitle, ai.AuthorID, ai.Author, ai.CreateTime.ToString("yyyy-MM-dd"));
+                            for (int i = 0; i < ArticleItems.Count; i++)
+                            {
+                                var ai = ArticleItems[i];
+                                sb.AppendFormat("<div class='ExampleTitle'><div class='pull-left  text'><span class='Index-{0}'>{0}</span><a href='/Article/Details/{1}' target='_blank'>{2}</a></div><div class='pull-right author'> <span class='pull-left'><a href='/User/Details/{3}' target='_blank'>{4}</a></span><span class='pull-right'>{5}</span></div><div style='clear: both;'></div></div>", i + 1, ai.GUID, ai.ArticleTitle, ai.AuthorID, ai.Author, ai.CreateTime.ToString("yyyy-MM-dd"));
+                            }
+                        }
+                        else
+                        {
+                            foreach (var item in ArticleItems)
+                            {
+                                sb.AppendFormat("<div class='ArticleItem'><div class='ArticleImg pull-left'><img src='{0}' width='100%' height='100%' /></div><div class='ArticleCard'><div class='ArticleTitle'><a href='/Article/Details/{1}' target='_blank'>{2}</a></div><div class='ArticleAttributes'><span><a  href='/User/Details/{12}' target='_blank'>{3}</a></span><span>发布于:{4}</span><span>&nbsp;</span><span>分类：</span><span><a href='/Article/List/{5}'>{5}</a>&nbsp;/&nbsp;<a  href='/Article/List/{5}?Type={11}'>{6}</a></span><span>&nbsp;</span><span>阅读：(</span><span>{7}</span><span>)</span><span>&nbsp;</span><span>评论：(</span><span>{8}</span><span>)</span><span>&nbsp;</span><span>评级：(</span><span>{9}分</span><span>)</span></div><div class='ArticleContent'><span>{10}</span></div><div class='ArticleTags'>",
+                                     item.ArticleHeadImage, item.GUID, item.ArticleTitle, item.Author, item.CreateTime.ToString("yyyy-MM-dd HH:mm:ss"), item.ArticlePlate, item.ArticleType, item.ReadCount, item.CommentCount, item.Score, item.ArticleDescription, item.ArticleTypeID, item.AuthorID);
+                                if (!string.IsNullOrEmpty(item.ArticleTags))
+                                {
+                                    string[] Tags = item.ArticleTags.Split(new string[] { ",", "，", ";", "；" }, StringSplitOptions.RemoveEmptyEntries);
+                                    foreach (var tag in Tags)
+                                    {
+                                        sb.AppendFormat("<span class='btn btn-success' onclick=\"location.href='/Article/Tag/{0}'\" >{0}</span>", tag);
+                                    }
+                                }
+                                sb.Append("</div></div></div>");
+                            }
+
                         }
                         result = sb.ToString();
                     }
@@ -224,6 +247,7 @@ namespace TechQuickCode.Models.Manager
                     {
                         result = " <div style='height:140px;text-align:center;padding-top:40px;'> 凸(艹皿艹 ) &nbsp;&nbsp;&nbsp;&nbsp;在数据库翻了翻，一篇文章都没有......</div>";
                     }
+
                     break;
                 case "实用工具":
                     if (ArticleItems.Count > 0)
@@ -274,7 +298,7 @@ namespace TechQuickCode.Models.Manager
         #endregion
 
 
-       
+
         #region 评论
         internal object GetStar(string ArticleID, string UserID)
         {
@@ -336,7 +360,7 @@ namespace TechQuickCode.Models.Manager
             var item = PlateTypeItems.Where(x => x.PlateName == plateName && x.TypeName == typeName).FirstOrDefault();
             if (item == null)
             {
-               return int.Parse(AddPlateType(plateName, typeName));
+                return int.Parse(AddPlateType(plateName, typeName));
             }
             else
             {
@@ -360,10 +384,10 @@ namespace TechQuickCode.Models.Manager
 
             switch (PlateName)
             {
-                case"All":
+                case "All":
                     sb_sql.Append(" and Publish=1");
                     break;
-                case"NoPublish":
+                case "NoPublish":
                     sb_sql.Append(" and Publish=0");
                     break;
                 default:
@@ -384,7 +408,7 @@ namespace TechQuickCode.Models.Manager
             var conn = MySQLConnectionPool.GetConnection();
             try
             {
-                result = conn.Query<ArticleItem>( string.Format("select * from ArticleList where Publish=1 and ArticleTags like '%{0}%' order by CreateTime desc  limit {1},{2};",tag,(page - 1) * count, count)).ToList();
+                result = conn.Query<ArticleItem>(string.Format("select * from ArticleList where Publish=1 and ArticleTags like '%{0}%' order by CreateTime desc  limit {1},{2};", tag, (page - 1) * count, count)).ToList();
             }
             catch (Exception ex)
             {

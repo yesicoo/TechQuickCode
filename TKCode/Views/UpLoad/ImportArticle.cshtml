@@ -43,10 +43,10 @@
 <div class="ImportRom">
     <div class="Title">文档导入</div>
     <div class="WorkRom"><span>方便·快捷</span></div>
-    <div class="Btn_Do"><a class="btn btn-primary" href="/DownLoad/Attachment/b590cc7286f0479cbbebf3c58c8c63f8" target="_blank">模板下载</a>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary" onclick="SelectFile()">选择上传文件</button></div>
+    <div class="Btn_Do"><a class="btn btn-primary" href="/DownLoad/Attachment/ArticleTemplate" target="_blank">模板下载</a>&nbsp;&nbsp;&nbsp;&nbsp;<button class="btn btn-primary" onclick="SelectFile()">选择上传文件</button></div>
         <div class="DetailsMsg">
             <div><span>说明：</span></div>
-            <div><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>1.导入的文档不支持 xlsx格式！</span></div>
+            <div><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>1.导入的文档仅支持 xlsx格式！</span></div>
             <div><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>2.按照模板的格式进行编辑。</span></div>
             <div><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>3.程序会对文档正文中的换行符替换成br标签处理。</span></div>
             <div><span>&nbsp;&nbsp;&nbsp;&nbsp;</span><span>4.导入后的文档是未发布状态，需要手动到个人中心的[未发布]分类去编辑微调格式后发布。</span></div>
@@ -55,7 +55,7 @@
     
 </div>
 <form id="AjaxUploadForm" enctype='multipart/form-data'>
-    <input type="file" style="visibility:hidden;height:0px;" accept=".xls" name="ArticleFile" id="input_SelectFile" onchange="UpLoadFileChange(this)" />
+    <input type="file" style="visibility:hidden;height:0px;" accept=".xlsx" name="ArticleFile" id="input_SelectFile" onchange="UpLoadFileChange(this)" />
 </form>
 @section Scripts{
     <script type="text/javascript" src="~/Content/Scripts/jquery.form.js"></script>
